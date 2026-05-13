@@ -31,6 +31,13 @@ The active research workflow is the simulation random walk setting suite. For Se
 
 For Setting II, Setting III, and supplementary no-shared work, read the matching `simulation_random_walk_*_workflow.md` and `simulation_random_walk_*_file_manifest.md` files.
 
+For per-setting file management, artifact layout, parameter choices, seeds, and result status, read the matching management file:
+
+- `docs/simulation_random_walk_setting1_management.md`
+- `docs/simulation_random_walk_setting2_management.md`
+- `docs/simulation_random_walk_setting3_management.md`
+- `docs/simulation_random_walk_supplsetting3_noshared_management.md`
+
 ## Document Naming
 
 All documents live directly under `docs/`. Source paths are encoded into lowercase, underscore-separated filenames to avoid collisions between settings.

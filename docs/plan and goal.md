@@ -4,7 +4,21 @@ This checklist records current milestones for repository document management and
 
 ## Active Goal
 
-Rebuild document management so all documents live in one top-level `docs/` folder, future agents know what to read and update, and Git commits/pushes happen after each milestone when the remote is reachable.
+Reconstruct per-setting file management for the random-walk simulation suite. Each setting should have documented code usage, simulation design, parameter choices, seeds, organized generated artifacts, and a `Summarize/` folder for current results and next actions.
+
+## Active Milestones
+
+- [~] RW-FM 1: Add per-setting management documents and update agent control docs.
+- [ ] RW-FM 2: Move local generated artifacts into per-setting folders and update scripts/PBS paths.
+- [ ] RW-FM 3: Generate per-setting `Summarize/` outputs for current results and todo status.
+- [ ] RW-FM 4: Run smoke tests and path validation after relocation.
+- [ ] RW-FM 5: Final validation, log update, commit, and push.
+
+## Artifact Versioning Policy
+
+- Large generated `.rds` files are local artifacts and should not be pushed to normal Git history.
+- Commit and push docs, scripts, folder placeholders, and summary outputs after each milestone.
+- If the project later needs binary result history, use Git LFS or an external artifact store.
 
 ## Milestones
 
