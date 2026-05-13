@@ -8,8 +8,8 @@ Reconstruct per-setting file management for the random-walk simulation suite. Ea
 
 ## Active Milestones
 
-- [~] RW-FM 1: Add per-setting management documents and update agent control docs.
-- [ ] RW-FM 2: Move local generated artifacts into per-setting folders and update scripts/PBS paths.
+- [x] RW-FM 1: Add per-setting management documents and update agent control docs.
+- [x] RW-FM 2: Move local generated artifacts into per-setting folders and update scripts/PBS paths.
 - [ ] RW-FM 3: Generate per-setting `Summarize/` outputs for current results and todo status.
 - [ ] RW-FM 4: Run smoke tests and path validation after relocation.
 - [ ] RW-FM 5: Final validation, log update, commit, and push.
@@ -19,6 +19,12 @@ Reconstruct per-setting file management for the random-walk simulation suite. Ea
 - Large generated `.rds` files are local artifacts and should not be pushed to normal Git history.
 - Commit and push docs, scripts, folder placeholders, and summary outputs after each milestone.
 - If the project later needs binary result history, use Git LFS or an external artifact store.
+
+## Current RW-FM Notes
+
+- Generated `.rds` and `.out` artifacts have been moved into setting-local `calibration/`, `simulation_results/`, `test_results/`, and `logs/` folders.
+- Scripts now use the categorized paths for calibration inputs, population datasets, simulation results, test outputs, and PBS logs.
+- Each setting has a `Summarize/` folder reserved for generated result summaries and next-step notes.
 
 ## Milestones
 

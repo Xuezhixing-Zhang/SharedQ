@@ -1,0 +1,18 @@
+# Local execution and Codex state
+.codex/
+
+# R session artifacts
+.RData
+.Rhistory
+*.RData
+*.Rhistory
+
+# Large/generated simulation artifacts kept outside normal Git history.
+Simulation_random_walk/**/calibration/*.rds
+Simulation_random_walk/**/simulation_results/*.rds
+Simulation_random_walk/**/test_results/*.rds
+Simulation_random_walk/**/logs/*.out
+Simulation_random_walk/**/*.rds
+Simulation_random_walk/**/*.out
+sim_rw_*.out
+

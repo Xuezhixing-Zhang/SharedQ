@@ -11,6 +11,11 @@ clean_name <- function(x) {
 }
 
 best_theta <- function(path) {
+  if (!file.exists(path)) {
+    setting_dir <- dirname(path)
+    candidate <- file.path(setting_dir, "calibration", basename(path))
+    if (file.exists(candidate)) path <- candidate
+  }
   x <- readRDS(path)
   best_idx <- which.min(x$values)
   theta <- x$all_theta[, best_idx]
@@ -21,7 +26,7 @@ best_theta <- function(path) {
 line <- function(...) paste(..., sep = " | ")
 
 setting1_rows <- function() {
-  specs <- readRDS(file.path(root_dir, "Setting1", "shared_parameter_spec_runs.rds"))
+  specs <- readRDS(file.path(root_dir, "Setting1", "calibration", "shared_parameter_spec_runs.rds"))
   rows <- c(
     line("Setting", "Spec", "Sigma", "Parameter group", "True estimates"),
     line("---", "---", "---", "---", "---")
@@ -58,7 +63,7 @@ setting1_rows <- function() {
 }
 
 setting2_rows <- function() {
-  specs <- readRDS(file.path(root_dir, "Setting2", "parameter_spec_runs.rds"))
+  specs <- readRDS(file.path(root_dir, "Setting2", "calibration", "parameter_spec_runs.rds"))
   rows <- c(
     line("Setting", "Spec", "Sigma", "Parameter group", "True estimates"),
     line("---", "---", "---", "---", "---")
@@ -77,7 +82,7 @@ setting2_rows <- function() {
 }
 
 setting3_rows <- function() {
-  specs <- readRDS(file.path(root_dir, "Setting3", "parameter_spec_runs.rds"))
+  specs <- readRDS(file.path(root_dir, "Setting3", "calibration", "parameter_spec_runs.rds"))
   rows <- c(
     line("Setting", "Spec", "Sigma", "Parameter group", "True estimates"),
     line("---", "---", "---", "---", "---")
@@ -97,7 +102,7 @@ setting3_rows <- function() {
 }
 
 supplement_rows <- function() {
-  paths <- file.path(root_dir, "SupplSetting3_NoShared", c(
+  paths <- file.path(root_dir, "SupplSetting3_NoShared", "calibration", c(
     "calibration_separated_moderate.rds",
     "calibration_separated_reversed.rds",
     "calibration_separated_large.rds"
@@ -105,7 +110,7 @@ supplement_rows <- function() {
   names(paths) <- c("separated_moderate", "separated_reversed", "separated_large")
   paths <- paths[file.exists(paths)]
   if (length(paths) == 0L) {
-    paths <- file.path(root_dir, "SupplSetting3_NoShared", "test_alternative_pars.rds")
+    paths <- file.path(root_dir, "SupplSetting3_NoShared", "calibration", "test_alternative_pars.rds")
     names(paths) <- "smoke_default"
   }
 

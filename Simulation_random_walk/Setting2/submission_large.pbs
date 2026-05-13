@@ -1,0 +1,15 @@
+#!/bin/bash
+#PBS -N sim_rw_s2_large
+#PBS -l nodes=1
+#PBS -l walltime=48:00:00
+#PBS -l mem=16gb
+#PBS -j oe
+#PBS -o logs/sim_rw_s2_large.out
+#PBS -q short
+
+module load cmake/3.21.4 r/4.4.0
+export R_LIBS_USER="$HOME/R/x86_64-pc-linux-gnu-library/4.4"
+
+cd /data/cheungyb/home/e1404425/SharedQ/Simulation_random_walk/Setting2
+
+Rscript -e 'source("Simulation_Setting2.R"); run_setting2_simulation(pars_path = file.path("calibration", "calibration_separated_moderate.rds"), mc_n = 1000000, n_reps = 200, nfolds = 5, metric = "MSE_Q")'

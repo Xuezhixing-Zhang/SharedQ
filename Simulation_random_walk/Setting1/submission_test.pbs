@@ -1,0 +1,15 @@
+#!/bin/bash
+#PBS -N sim_rw_s1_test
+#PBS -l nodes=1
+#PBS -l walltime=04:00:00
+#PBS -l mem=8gb
+#PBS -j oe
+#PBS -o /data/cheungyb/home/e1404425/SharedQ/Simulation_random_walk/Setting1/logs/sim_rw_s1_test.out
+#PBS -q short
+
+module load cmake/3.21.4 r/4.4.0
+export R_LIBS_USER="$HOME/R/x86_64-pc-linux-gnu-library/4.4"
+
+cd /data/cheungyb/home/e1404425/SharedQ
+
+SETTING1_TEST_MODE=full Rscript Simulation_random_walk/Setting1/test.R

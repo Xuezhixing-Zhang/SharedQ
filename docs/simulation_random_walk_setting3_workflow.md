@@ -14,7 +14,7 @@ Smoke-test calibration already verified:
 
 ```bash
 module load cmake/3.21.4 r/4.4.0
-Rscript -e 'source("Simulation_random_walk/Setting3/nloptr_Setting3.R"); run_setting3_parameter_search(output_path="Simulation_random_walk/Setting3/test_alternative_pars.rds", mc_n=2000, maxeval=10, local_maxeval=5, print_level=0)'
+Rscript -e 'source("Simulation_random_walk/Setting3/nloptr_Setting3.R"); run_setting3_parameter_search(output_path="Simulation_random_walk/Setting3/calibration/test_alternative_pars.rds", mc_n=2000, maxeval=10, local_maxeval=5, print_level=0)'
 ```
 
 For production, increase `mc_n`, `maxeval`, and `local_maxeval`, then save to `alternative_pars.rds`.
