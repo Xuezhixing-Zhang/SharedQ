@@ -37,12 +37,13 @@ Rebuild document management so all documents live in one top-level `docs/` folde
   - Search for stale document paths.
   - Check Git status.
   - Record final verification notes.
-  - Commit and push the milestone if possible. Local validation is complete; remote push is pending deploy-key write access.
+  - Commit and push the milestone if possible. Final local commits were pushed successfully after deploy-key access was enabled.
 
 ## Current Notes
 
 - Normal `git` commands do not work in this checkout because `.git` is an empty read-only directory.
 - Use `git --git-dir=/tmp/SharedQ.git --work-tree=/data/cheungyb/home/e1404425/SharedQ ...` for local Git operations in this session.
 - Do not move code, `.rds`, `.out`, images, or simulation data as part of this document-management task.
-- Shell push attempts failed because `github.com:22` timed out and `ssh.github.com:443` authenticated as a deploy key without write permission.
-- New deploy key generated at `/data/cheungyb/home/e1404425/.ssh/sharedq_deploy_key`; add its `.pub` value to GitHub with write access before retrying push.
+- Shell push on `github.com:22` timed out in this environment, so pushes use GitHub SSH over port 443.
+- New deploy key generated at `/data/cheungyb/home/e1404425/.ssh/sharedq_deploy_key`; it is now configured for this session's Git pushes.
+- Latest pushed branch: `main` to `ssh://git@ssh.github.com:443/Xuezhixing-Zhang/SharedQ.git`.
