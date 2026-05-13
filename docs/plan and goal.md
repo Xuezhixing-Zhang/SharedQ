@@ -20,13 +20,13 @@ Rebuild document management so all documents live in one top-level `docs/` folde
   - Create `docs/2026-05-13_log.md`.
   - Commit and push the milestone if possible. Local commit is ready; shell push depends on SSH connectivity.
 
-- [ ] Milestone 3: Move all document files into `docs/`.
+- [x] Milestone 3: Move all document files into `docs/`.
   - Move all markdown, text-like readme, working log, and `.docx` report files.
   - Use source-prefixed filenames to avoid collisions.
   - Update this checklist and today's log.
-  - Commit and push the milestone if possible.
+  - Commit and push the milestone if possible. Shell push is blocked until GitHub SSH credentials are fixed.
 
-- [ ] Milestone 4: Update stale references.
+- [~] Milestone 4: Update stale references.
   - Update markdown references to moved documents.
   - Update `Simulation_random_walk/summarize_true_estimates.R` to write the generated summary into `docs/`.
   - Update this checklist and today's log.
@@ -44,3 +44,4 @@ Rebuild document management so all documents live in one top-level `docs/` folde
 - Normal `git` commands do not work in this checkout because `.git` is an empty read-only directory.
 - Use `git --git-dir=/tmp/SharedQ.git --work-tree=/data/cheungyb/home/e1404425/SharedQ ...` for local Git operations in this session.
 - Do not move code, `.rds`, `.out`, images, or simulation data as part of this document-management task.
+- Shell push attempts failed because `github.com:22` timed out and `ssh.github.com:443` authenticated as a deploy key without write permission.

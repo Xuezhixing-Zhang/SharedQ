@@ -1,0 +1,22 @@
+# 2026-04-29 Working Log
+
+- Replaced stale continuous-covariate copied code with the tested binary-treatment Setting I framework.
+- Updated paths to `Simulation_random_walk/Setting2`.
+- Reworked `nloptr_Setting2.R` for no-sharing target groups:
+  - `separated_moderate`
+  - `separated_reversed`
+  - `separated_large`
+- Added `spec_calibration.R`, `Workflow.md`, and `File_Manifest.md`.
+- Ran bounded parameter-group calibration:
+  - `calibration_separated_moderate.rds`
+  - `calibration_separated_reversed.rds`
+  - `calibration_separated_large.rds`
+  - `parameter_spec_runs.rds`
+- Verified `Rscript Simulation_random_walk/Setting2/test.R`.
+- Updated `submission.pbs` for the Setting II random-walk folder.
+- Added explicit `max_iter`/`tol` controls to L1 and L2 SQ-learning fits and CV wrappers, matching the Setting I runtime guard.
+- Verified `Rscript Simulation_random_walk/Setting2/test.R` after the runtime-guard update.
+- Verified `SETTING2_TEST_MODE=full Rscript Simulation_random_walk/Setting2/test.R`.
+- Submitted production PBS job `470500.hn-10-03` with `Simulation_random_walk/Setting2/submission.pbs`.
+- Initial queue check: job `470500.hn-10-03` was running as `sim_rw_s2` in queue `short`.
+- Updated `submission.pbs` and the running job output target to the absolute path `Simulation_random_walk/Setting2/sim_rw_s2.out`.
