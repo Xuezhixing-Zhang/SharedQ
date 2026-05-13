@@ -8,6 +8,21 @@ source(file.path(setting3_dir, "nloptr_Setting3.R"))
 message("Setting III quick test")
 
 pars_path <- file.path(setting3_calibration_dir, "test_alternative_pars.rds")
+population_path <- file.path(setting3_calibration_dir, "data_original.rds")
+population_backup_path <- tempfile("setting3_data_original_", fileext = ".rds")
+had_population <- file.exists(population_path)
+if (had_population) {
+  file.copy(population_path, population_backup_path, overwrite = TRUE)
+}
+restore_population_file <- function() {
+  if (had_population && file.exists(population_backup_path)) {
+    file.copy(population_backup_path, population_path, overwrite = TRUE)
+    unlink(population_backup_path)
+  } else if (!had_population && file.exists(population_path)) {
+    unlink(population_path)
+  }
+}
+
 if (!file.exists(pars_path)) {
   run_setting3_parameter_search(
     output_path = pars_path,
@@ -23,7 +38,10 @@ best_idx <- which.min(pars$values)
 gamma_true <- pars$all_gamma[, best_idx]
 theta_true <- pars$all_theta[, best_idx]
 
-population_fit <- Q_learning_Setting_3(gamma_true, save = TRUE, mc_n = 2000)
+population_fit <- tryCatch(
+  Q_learning_Setting_3(gamma_true, save = TRUE, mc_n = 2000),
+  finally = restore_population_file()
+)
 stopifnot(length(population_fit$theta) == 25)
 
 set.seed(1)

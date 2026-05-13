@@ -38,6 +38,8 @@ For per-setting file management, artifact layout, parameter choices, seeds, and 
 - `docs/simulation_random_walk_setting3_management.md`
 - `docs/simulation_random_walk_supplsetting3_noshared_management.md`
 
+For current generated-result summaries and next actions, read each setting's `Summarize/current_results_summary.md` and `Summarize/todo.md`.
+
 ## Document Naming
 
 All documents live directly under `docs/`. Source paths are encoded into lowercase, underscore-separated filenames to avoid collisions between settings.

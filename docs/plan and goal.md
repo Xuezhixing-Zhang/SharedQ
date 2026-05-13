@@ -11,8 +11,8 @@ Reconstruct per-setting file management for the random-walk simulation suite. Ea
 - [x] RW-FM 1: Add per-setting management documents and update agent control docs.
 - [x] RW-FM 2: Move local generated artifacts into per-setting folders and update scripts/PBS paths.
 - [x] RW-FM 3: Generate per-setting `Summarize/` outputs for current results and todo status.
-- [ ] RW-FM 4: Run smoke tests and path validation after relocation.
-- [ ] RW-FM 5: Final validation, log update, commit, and push.
+- [x] RW-FM 4: Run smoke tests and path validation after relocation.
+- [x] RW-FM 5: Final validation, log update, commit, and push.
 
 ## Artifact Versioning Policy
 
@@ -26,6 +26,9 @@ Reconstruct per-setting file management for the random-walk simulation suite. Ea
 - Scripts now use the categorized paths for calibration inputs, population datasets, simulation results, test outputs, and PBS logs.
 - Each setting has a `Summarize/` folder reserved for generated result summaries and next-step notes.
 - `Simulation_random_walk/summarize_setting_results.R` now generates per-setting `current_results_summary.md`, `evaluation_summary.csv`, and `todo.md`.
+- Quick smoke tests pass for Setting I, Setting II, Setting III, and Supplementary Setting III No Shared after relocation.
+- Test scripts now restore pre-existing `calibration/data_original.rds` after bounded population-generation checks, preventing smoke tests from overwriting production Monte Carlo population files.
+- Path validation confirms no generated `.rds` or `.out` files remain in the old shallow setting folders.
 
 ## Milestones
 

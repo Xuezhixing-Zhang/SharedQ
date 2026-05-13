@@ -11,6 +11,21 @@ test_mode <- Sys.getenv("SETTING1_TEST_MODE", unset = "quick")
 message("Setting I test mode: ", test_mode)
 
 pars_path <- file.path(setting1_calibration_dir, "test_alternative_pars.rds")
+population_path <- file.path(setting1_calibration_dir, "data_original.rds")
+population_backup_path <- tempfile("setting1_data_original_", fileext = ".rds")
+had_population <- file.exists(population_path)
+if (had_population) {
+  file.copy(population_path, population_backup_path, overwrite = TRUE)
+}
+restore_population_file <- function() {
+  if (had_population && file.exists(population_backup_path)) {
+    file.copy(population_backup_path, population_path, overwrite = TRUE)
+    unlink(population_backup_path)
+  } else if (!had_population && file.exists(population_path)) {
+    unlink(population_path)
+  }
+}
+
 if (!file.exists(pars_path)) {
   message("Creating bounded test parameter search output: ", pars_path)
   run_setting1_parameter_search(
@@ -31,7 +46,10 @@ names(gamma_true) <- c("Intercept", "A1", "G1", "A2", "A1A2", "G2", "A3", "A1A3"
 theta_true <- pars$all_theta[, best_idx]
 
 message("Building bounded Monte Carlo population dataset")
-population_fit <- Q_learning_Setting_1(gamma_true, save = TRUE, mc_n = 5000, seed = 1)
+population_fit <- tryCatch(
+  Q_learning_Setting_1(gamma_true, save = TRUE, mc_n = 5000, seed = 1),
+  finally = restore_population_file()
+)
 stopifnot(length(population_fit$theta) == 14)
 
 message("Running direct method checks on one sampled dataset")
