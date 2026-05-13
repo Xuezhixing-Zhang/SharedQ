@@ -32,12 +32,12 @@ Rebuild document management so all documents live in one top-level `docs/` folde
   - Update this checklist and today's log.
   - Commit and push the milestone if possible. Push is ready to retry after the deploy key is added to GitHub with write access.
 
-- [~] Milestone 5: Validate final layout.
+- [x] Milestone 5: Validate final layout.
   - Confirm all documents are under `docs/`.
   - Search for stale document paths.
   - Check Git status.
   - Record final verification notes.
-  - Commit and push the milestone if possible.
+  - Commit and push the milestone if possible. Local validation is complete; remote push is pending deploy-key write access.
 
 ## Current Notes
 
