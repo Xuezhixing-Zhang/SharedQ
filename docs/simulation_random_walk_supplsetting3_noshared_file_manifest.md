@@ -34,5 +34,4 @@
 - `simulation_results/`: place production simulation outputs here if not using legacy root paths.
 - `evaluation_results/`: place summarized evaluation tables here.
 - `logs/`: place PBS stdout/stderr logs here.
-- `working_log/`: place handoff notes and agent progress logs here.
-- `docs/`: place design notes and checks.
+- `docs/`: place all documents, handoff notes, agent progress logs, and checks in the top-level repository document hub.

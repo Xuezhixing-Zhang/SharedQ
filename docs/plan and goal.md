@@ -26,13 +26,13 @@ Rebuild document management so all documents live in one top-level `docs/` folde
   - Update this checklist and today's log.
   - Commit and push the milestone if possible. Shell push is blocked until GitHub SSH credentials are fixed.
 
-- [~] Milestone 4: Update stale references.
+- [x] Milestone 4: Update stale references.
   - Update markdown references to moved documents.
   - Update `Simulation_random_walk/summarize_true_estimates.R` to write the generated summary into `docs/`.
   - Update this checklist and today's log.
-  - Commit and push the milestone if possible.
+  - Commit and push the milestone if possible. Push is ready to retry after the deploy key is added to GitHub with write access.
 
-- [ ] Milestone 5: Validate final layout.
+- [~] Milestone 5: Validate final layout.
   - Confirm all documents are under `docs/`.
   - Search for stale document paths.
   - Check Git status.
@@ -45,3 +45,4 @@ Rebuild document management so all documents live in one top-level `docs/` folde
 - Use `git --git-dir=/tmp/SharedQ.git --work-tree=/data/cheungyb/home/e1404425/SharedQ ...` for local Git operations in this session.
 - Do not move code, `.rds`, `.out`, images, or simulation data as part of this document-management task.
 - Shell push attempts failed because `github.com:22` timed out and `ssh.github.com:443` authenticated as a deploy key without write permission.
+- New deploy key generated at `/data/cheungyb/home/e1404425/.ssh/sharedq_deploy_key`; add its `.pub` value to GitHub with write access before retrying push.

@@ -2,8 +2,8 @@
 
 ## Files and Roles
 
-- `Setting I Design.md`: describes the scientific design for setting I, including the near-shared parameter structure for the last two stages.
-- `The Algorithm.md`: gives the iterative joint Q-learning idea behind the penalized estimators.
+- `docs/simulation_random_walk_setting1_setting_i_design.md`: describes the scientific design for setting I, including the near-shared parameter structure for the last two stages.
+- `docs/the_algorithm.md`: gives the iterative joint Q-learning idea behind the penalized estimators.
 - `nloptr_Setting1.R`: calibrates the primary-outcome data-generating coefficients `gamma` so that the population-projected Q parameters match the target setting I pattern.
 - `Q_datagenerating.R`: samples a simulation dataset from the large Monte Carlo population dataset and adds outcome noise.
 - `Q_Conventional.R`: fits standard backward-induction Q-learning.

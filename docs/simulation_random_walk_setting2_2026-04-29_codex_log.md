@@ -6,7 +6,7 @@
   - `separated_moderate`
   - `separated_reversed`
   - `separated_large`
-- Added `spec_calibration.R`, `Workflow.md`, and `File_Manifest.md`.
+- Added `spec_calibration.R`, `docs/simulation_random_walk_setting2_workflow.md`, and `docs/simulation_random_walk_setting2_file_manifest.md`.
 - Ran bounded parameter-group calibration:
   - `calibration_separated_moderate.rds`
   - `calibration_separated_reversed.rds`

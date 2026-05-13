@@ -7,7 +7,7 @@
 - Replaced unavailable `tidyverse` dependency with `dplyr`.
 - Created bounded smoke-test calibration artifact `test_alternative_pars.rds`.
 - Generated bounded `data_original.rds` for smoke testing.
-- Added `test.R`, `Workflow.md`, and `File_Manifest.md`.
+- Added `test.R`, `docs/simulation_random_walk_setting3_workflow.md`, and `docs/simulation_random_walk_setting3_file_manifest.md`.
 - Verified `Rscript Simulation_random_walk/Setting3/test.R`.
 - Submitted production PBS job `470501.hn-10-03` with `Simulation_random_walk/Setting3/submission.pbs`.
 - Initial queue check: job `470501.hn-10-03` was running as `sim_rw_s3` in queue `short`.
@@ -15,5 +15,5 @@
 
 Remaining production work:
 
-- Add a multi-spec Setting III calibration wrapper if the final study needs the `sigma = 0`, `0.1`, and `0.3` random-walk scenarios described in `Setting III.md`.
+- Add a multi-spec Setting III calibration wrapper if the final study needs the `sigma = 0`, `0.1`, and `0.3` random-walk scenarios described in `docs/simulation_random_walk_setting3_setting_iii.md`.
 - Monitor the submitted production simulation job and inspect `sim_rw_s3.out` plus `results_*.rds` after completion.

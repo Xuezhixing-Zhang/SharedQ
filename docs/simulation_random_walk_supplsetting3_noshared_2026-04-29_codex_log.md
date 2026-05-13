@@ -11,7 +11,7 @@
 - Added bounded iteration controls to `Q_SQlearning.R`, `Q_L2SQ.R`, `Q_functions.R`, and `Simulation_Setting3.R`.
 - Added quick and bounded full modes to `test.R`.
 - Replaced cloned workflow and manifest docs with supplementary-specific notes.
-- Added `Simulation_random_walk/Design_Check.md` documenting data-generating-mechanism checks for Settings I, II, III, and the supplementary no-shared setting.
+- Added `docs/simulation_random_walk_design_check.md` documenting data-generating-mechanism checks for Settings I, II, III, and the supplementary no-shared setting.
 - Verified `Rscript Simulation_random_walk/SupplSetting3_NoShared/test.R`.
 - Verified `SUPPL_SETTING3_TEST_MODE=full Rscript Simulation_random_walk/SupplSetting3_NoShared/test.R`.
 - Smoke-test artifacts created in this folder:
