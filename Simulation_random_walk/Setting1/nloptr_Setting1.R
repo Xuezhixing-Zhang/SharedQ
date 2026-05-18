@@ -4,6 +4,14 @@ setting1_dir <- "/data/cheungyb/home/e1404425/SharedQ/Simulation_random_walk/Set
 setting1_calibration_dir <- file.path(setting1_dir, "calibration")
 dir.create(setting1_calibration_dir, showWarnings = FALSE, recursive = TRUE)
 
+if (!exists("safe_extract_coef", mode = "function")) {
+  safe_extract_coef <- function(fit, coef_names) {
+    coefs <- coef(fit)[coef_names]
+    coefs[is.na(coefs)] <- 0
+    coefs
+  }
+}
+
 ################## Setting I: 3-stage random-walk sharing #################
 ## Parameter order:
 ## Q3: intercept, A1, A2, A1A2, G1, A3, A1A3, A2A3
@@ -181,27 +189,70 @@ eval_g_eq <- function(x) {
   numeric(0)
 }
 
-eval_g_ineq <- function(x, mc_n = 1000000, seed = 1234) {
+candidate_target_tolerance <- 0.03
+candidate_constraint_tolerance <- 1e-4
+
+setting1_candidate_indices <- c(2, 10, 6, 11, 7, 12)
+setting1_candidate_groups <- list(
+  psi1 = c(Q3_A1 = 2, Q2_A1 = 10),
+  psi2 = c(Q3_A3 = 6, Q2_A2 = 11),
+  psi3 = c(Q3_A1A3 = 7, Q2_A1A2 = 12)
+)
+
+target_window_constraints <- function(theta, theta_target, indices, tolerance) {
+  c(
+    theta[indices] - (theta_target[indices] + tolerance),
+    (theta_target[indices] - tolerance) - theta[indices]
+  )
+}
+
+target_difference_constraints <- function(theta, theta_target, groups, tolerance) {
+  constraints <- numeric(0)
+  for (group in groups) {
+    if (length(group) < 2) next
+    pairs <- utils::combn(unname(group), 2)
+    for (j in seq_len(ncol(pairs))) {
+      pair <- pairs[, j]
+      actual_diff <- theta[pair[1]] - theta[pair[2]]
+      target_diff <- theta_target[pair[1]] - theta_target[pair[2]]
+      constraints <- c(
+        constraints,
+        actual_diff - (target_diff + tolerance),
+        (target_diff - tolerance) - actual_diff
+      )
+    }
+  }
+  constraints
+}
+
+setting1_candidate_constraint_count <- function() {
+  2 * length(setting1_candidate_indices) +
+    sum(vapply(setting1_candidate_groups, function(group) {
+      if (length(group) < 2) 0 else 2 * choose(length(group), 2)
+    }, numeric(1)))
+}
+
+eval_g_ineq <- function(
+  x,
+  theta_target_override = theta_target,
+  target_tolerance = candidate_target_tolerance,
+  mc_n = 1000000,
+  seed = 1234
+) {
   theta <- Q_learning_Setting_1(x, mc_n = mc_n, seed = seed)$theta
   c(
-    theta[2] - 0.32,
-    -theta[2] + 0.08,
-    theta[10] - 0.32,
-    -theta[10] + 0.08,
-    theta[14] + 0.10,
-    -theta[14] - 0.30,
-    theta[4] - 0.55,
-    -theta[4] + 0.25,
-    theta[3] - 0.35,
-    -theta[3] + 0.05,
-    theta[6] + 0.45,
-    -theta[6] - 0.75,
-    theta[11] + 0.45,
-    -theta[11] - 0.75,
-    theta[7] - 1.00,
-    -theta[7] + 0.60,
-    theta[12] - 1.00,
-    -theta[12] + 0.60
+    target_window_constraints(
+      theta,
+      theta_target_override,
+      setting1_candidate_indices,
+      target_tolerance
+    ),
+    target_difference_constraints(
+      theta,
+      theta_target_override,
+      setting1_candidate_groups,
+      target_tolerance
+    )
   )
 }
 
@@ -216,6 +267,8 @@ run_setting1_parameter_search <- function(
   maxeval = 100000,
   local_maxeval = 20000,
   xtol_rel = 1e-6,
+  target_tolerance = candidate_target_tolerance,
+  constraint_tolerance = candidate_constraint_tolerance,
   print_level = 1
 ) {
   if (!requireNamespace("nloptr", quietly = TRUE)) {
@@ -236,7 +289,13 @@ run_setting1_parameter_search <- function(
       x0 = gamma_opt,
       eval_f = function(x) eval_f(x, theta_target = theta_target_override, mc_n = mc_n, seed = seed),
       eval_g_eq = eval_g_eq,
-      eval_g_ineq = function(x) eval_g_ineq(x, mc_n = mc_n, seed = seed),
+      eval_g_ineq = function(x) eval_g_ineq(
+        x,
+        theta_target_override = theta_target_override,
+        target_tolerance = target_tolerance,
+        mc_n = mc_n,
+        seed = seed
+      ),
       lb = lb,
       ub = ub,
       opts = list(
@@ -248,6 +307,10 @@ run_setting1_parameter_search <- function(
         ),
         xtol_rel = xtol_rel,
         maxeval = maxeval,
+        tol_constraints_ineq = rep(
+          constraint_tolerance,
+          setting1_candidate_constraint_count()
+        ),
         print_level = print_level
       )
     )
@@ -268,6 +331,8 @@ run_setting1_parameter_search <- function(
     maxeval = maxeval,
     local_maxeval = local_maxeval,
     xtol_rel = xtol_rel,
+    target_tolerance = target_tolerance,
+    constraint_tolerance = constraint_tolerance,
     print_level = print_level,
     all_gamma = all_gamma,
     all_theta = all_theta,
@@ -284,6 +349,8 @@ run_setting1_shared_parameter_specs <- function(
   maxeval = 50,
   local_maxeval = 20,
   xtol_rel = 1e-6,
+  target_tolerance = candidate_target_tolerance,
+  constraint_tolerance = candidate_constraint_tolerance,
   n_starts = 1,
   print_level = 0
 ) {
@@ -307,6 +374,8 @@ run_setting1_shared_parameter_specs <- function(
       maxeval = maxeval,
       local_maxeval = local_maxeval,
       xtol_rel = xtol_rel,
+      target_tolerance = target_tolerance,
+      constraint_tolerance = constraint_tolerance,
       print_level = print_level
     )
 
@@ -319,6 +388,8 @@ run_setting1_shared_parameter_specs <- function(
       maxeval = maxeval,
       local_maxeval = local_maxeval,
       xtol_rel = xtol_rel,
+      target_tolerance = target_tolerance,
+      constraint_tolerance = constraint_tolerance,
       n_starts = n_starts,
       shared_mu = spec$shared_mu,
       shared_sigma = spec$shared_sigma,

@@ -1,0 +1,20 @@
+"setting","spec","check_type","group","item","target","calibrated","error","pass"
+"Supplementary Setting III No Shared","separated_moderate","artifact","","calibration_separated_moderate.rds",NA,NA,NA,FALSE
+"Supplementary Setting III No Shared","separated_reversed","artifact","","calibration_separated_reversed.rds",NA,NA,NA,FALSE
+"Supplementary Setting III No Shared","separated_large","artifact","","calibration_separated_large.rds",NA,NA,NA,FALSE
+"Supplementary Setting III No Shared","smoke_default","coefficient","psi0","Q3_A3",-0.75,-0.0249401400797069,0.725059859920293,FALSE
+"Supplementary Setting III No Shared","smoke_default","coefficient","psi0","Q2_A2",0.35,0.59891414708425,0.24891414708425,FALSE
+"Supplementary Setting III No Shared","smoke_default","coefficient","psi0","Q1_A1",0.9,0.200570770597019,-0.699429229402981,FALSE
+"Supplementary Setting III No Shared","smoke_default","difference","psi0","Q3_A3 - Q2_A2",-1.1,-0.623854287163957,0.476145712836043,FALSE
+"Supplementary Setting III No Shared","smoke_default","difference","psi0","Q3_A3 - Q1_A1",-1.65,-0.225510910676726,1.42448908932327,FALSE
+"Supplementary Setting III No Shared","smoke_default","difference","psi0","Q2_A2 - Q1_A1",-0.55,0.398343376487231,0.948343376487231,FALSE
+"Supplementary Setting III No Shared","smoke_default","coefficient","psi1","Q3_O3A3",0.7,0.892459566704929,0.192459566704929,FALSE
+"Supplementary Setting III No Shared","smoke_default","coefficient","psi1","Q2_O2A2",-0.35,-0.173735135286248,0.176264864713752,FALSE
+"Supplementary Setting III No Shared","smoke_default","coefficient","psi1","Q1_O1A1",0.15,0.0039782762529339,-0.146021723747066,FALSE
+"Supplementary Setting III No Shared","smoke_default","difference","psi1","Q3_O3A3 - Q2_O2A2",1.05,1.06619470199118,0.0161947019911777,TRUE
+"Supplementary Setting III No Shared","smoke_default","difference","psi1","Q3_O3A3 - Q1_O1A1",0.55,0.888481290451995,0.338481290451995,FALSE
+"Supplementary Setting III No Shared","smoke_default","difference","psi1","Q2_O2A2 - Q1_O1A1",-0.5,-0.177713411539182,0.322286588460818,FALSE
+"Supplementary Setting III No Shared","smoke_default","coefficient","psi2","Q3_A2A3",-0.6,-0.787729716859758,-0.187729716859758,FALSE
+"Supplementary Setting III No Shared","smoke_default","coefficient","psi2","Q2_A1A2",0.55,0.582193656947111,0.0321936569471114,FALSE
+"Supplementary Setting III No Shared","smoke_default","difference","psi2","Q3_A2A3 - Q2_A1A2",-1.15,-1.36992337380687,-0.21992337380687,FALSE
+"Supplementary Setting III No Shared","smoke_default","coefficient","psi3","Q3_A1A2A3",0.45,-0.233661330770701,-0.683661330770701,FALSE

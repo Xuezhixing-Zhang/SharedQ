@@ -1,0 +1,49 @@
+"setting","spec","check_type","group","item","target","calibrated","error","pass"
+"Setting III","rw_sigma_moderate","coefficient","psi0","Q3_A3",-0.22,-0.545571440320396,-0.325571440320396,FALSE
+"Setting III","rw_sigma_moderate","coefficient","psi0","Q2_A2",-0.3,-0.387472312033997,-0.0874723120339967,FALSE
+"Setting III","rw_sigma_moderate","coefficient","psi0","Q1_A1",-0.38,0.205433810446118,0.585433810446118,FALSE
+"Setting III","rw_sigma_moderate","difference","psi0","Q3_A3 - Q2_A2",0.08,-0.1580991282864,-0.2380991282864,FALSE
+"Setting III","rw_sigma_moderate","difference","psi0","Q3_A3 - Q1_A1",0.16,-0.751005250766514,-0.911005250766514,FALSE
+"Setting III","rw_sigma_moderate","difference","psi0","Q2_A2 - Q1_A1",0.08,-0.592906122480115,-0.672906122480115,FALSE
+"Setting III","rw_sigma_moderate","coefficient","psi1","Q3_O3A3",0.58,0.502691513089553,-0.0773084869104469,FALSE
+"Setting III","rw_sigma_moderate","coefficient","psi1","Q2_O2A2",0.5,0.305190952949932,-0.194809047050068,FALSE
+"Setting III","rw_sigma_moderate","coefficient","psi1","Q1_O1A1",0.42,0.518145037560076,0.0981450375600764,FALSE
+"Setting III","rw_sigma_moderate","difference","psi1","Q3_O3A3 - Q2_O2A2",0.08,0.197500560139621,0.117500560139621,FALSE
+"Setting III","rw_sigma_moderate","difference","psi1","Q3_O3A3 - Q1_O1A1",0.16,-0.0154535244705233,-0.175453524470523,FALSE
+"Setting III","rw_sigma_moderate","difference","psi1","Q2_O2A2 - Q1_O1A1",0.08,-0.212954084610145,-0.292954084610145,FALSE
+"Setting III","rw_sigma_moderate","coefficient","psi2","Q3_A2A3",0.41,0.290384655115583,-0.119615344884417,FALSE
+"Setting III","rw_sigma_moderate","coefficient","psi2","Q2_A1A2",0.29,-0.0602463246195101,-0.35024632461951,FALSE
+"Setting III","rw_sigma_moderate","difference","psi2","Q3_A2A3 - Q2_A1A2",0.12,0.350630979735093,0.230630979735093,FALSE
+"Setting III","rw_sigma_moderate","coefficient","psi3","Q3_A1A2A3",-0.28,-0.0603671585201695,0.219632841479831,FALSE
+"Setting III","rw_sigma_tight","coefficient","psi0","Q3_A3",-0.26,-0.741251745122105,-0.481251745122105,FALSE
+"Setting III","rw_sigma_tight","coefficient","psi0","Q2_A2",-0.3,-0.358284846912078,-0.0582848469120777,FALSE
+"Setting III","rw_sigma_tight","coefficient","psi0","Q1_A1",-0.34,0.00639917418206208,0.346399174182062,FALSE
+"Setting III","rw_sigma_tight","difference","psi0","Q3_A3 - Q2_A2",0.04,-0.382966898210027,-0.422966898210027,FALSE
+"Setting III","rw_sigma_tight","difference","psi0","Q3_A3 - Q1_A1",0.08,-0.747650919304167,-0.827650919304167,FALSE
+"Setting III","rw_sigma_tight","difference","psi0","Q2_A2 - Q1_A1",0.04,-0.36468402109414,-0.40468402109414,FALSE
+"Setting III","rw_sigma_tight","coefficient","psi1","Q3_O3A3",0.54,0.500773637779909,-0.0392263622200906,FALSE
+"Setting III","rw_sigma_tight","coefficient","psi1","Q2_O2A2",0.5,0.624786250518243,0.124786250518243,FALSE
+"Setting III","rw_sigma_tight","coefficient","psi1","Q1_O1A1",0.46,0.559608956902156,0.0996089569021559,FALSE
+"Setting III","rw_sigma_tight","difference","psi1","Q3_O3A3 - Q2_O2A2",0.04,-0.124012612738334,-0.164012612738334,FALSE
+"Setting III","rw_sigma_tight","difference","psi1","Q3_O3A3 - Q1_O1A1",0.08,-0.0588353191222465,-0.138835319122247,FALSE
+"Setting III","rw_sigma_tight","difference","psi1","Q2_O2A2 - Q1_O1A1",0.04,0.0651772936160874,0.0251772936160874,TRUE
+"Setting III","rw_sigma_tight","coefficient","psi2","Q3_A2A3",0.38,0.589079970811321,0.209079970811321,FALSE
+"Setting III","rw_sigma_tight","coefficient","psi2","Q2_A1A2",0.32,0.240779481103422,-0.0792205188965779,FALSE
+"Setting III","rw_sigma_tight","difference","psi2","Q3_A2A3 - Q2_A1A2",0.0600000000000001,0.348300489707899,0.288300489707899,FALSE
+"Setting III","rw_sigma_tight","coefficient","psi3","Q3_A1A2A3",-0.28,-0.0609257954779203,0.21907420452208,FALSE
+"Setting III","rw_sigma_wide","coefficient","psi0","Q3_A3",-0.15,-0.55,-0.4,FALSE
+"Setting III","rw_sigma_wide","coefficient","psi0","Q2_A2",-0.3,-0.200991991241264,0.0990080087587362,FALSE
+"Setting III","rw_sigma_wide","coefficient","psi0","Q1_A1",-0.45,0.0231558040072541,0.473155804007254,FALSE
+"Setting III","rw_sigma_wide","difference","psi0","Q3_A3 - Q2_A2",0.15,-0.349008008758736,-0.499008008758736,FALSE
+"Setting III","rw_sigma_wide","difference","psi0","Q3_A3 - Q1_A1",0.3,-0.573155804007254,-0.873155804007254,FALSE
+"Setting III","rw_sigma_wide","difference","psi0","Q2_A2 - Q1_A1",0.15,-0.224147795248518,-0.374147795248518,FALSE
+"Setting III","rw_sigma_wide","coefficient","psi1","Q3_O3A3",0.65,0.5,-0.15,FALSE
+"Setting III","rw_sigma_wide","coefficient","psi1","Q2_O2A2",0.5,0.35085455890583,-0.14914544109417,FALSE
+"Setting III","rw_sigma_wide","coefficient","psi1","Q1_O1A1",0.35,0.497760614791556,0.147760614791556,FALSE
+"Setting III","rw_sigma_wide","difference","psi1","Q3_O3A3 - Q2_O2A2",0.15,0.14914544109417,-0.00085455890582975,TRUE
+"Setting III","rw_sigma_wide","difference","psi1","Q3_O3A3 - Q1_O1A1",0.3,0.00223938520844374,-0.297760614791556,FALSE
+"Setting III","rw_sigma_wide","difference","psi1","Q2_O2A2 - Q1_O1A1",0.15,-0.146906055885727,-0.296906055885727,FALSE
+"Setting III","rw_sigma_wide","coefficient","psi2","Q3_A2A3",0.45,0.0897722845762893,-0.360227715423711,FALSE
+"Setting III","rw_sigma_wide","coefficient","psi2","Q2_A1A2",0.25,0.245429868554232,-0.00457013144576796,TRUE
+"Setting III","rw_sigma_wide","difference","psi2","Q3_A2A3 - Q2_A1A2",0.2,-0.155657583977943,-0.355657583977943,FALSE
+"Setting III","rw_sigma_wide","coefficient","psi3","Q3_A1A2A3",-0.28,-0.0873873342411541,0.192612665758846,FALSE

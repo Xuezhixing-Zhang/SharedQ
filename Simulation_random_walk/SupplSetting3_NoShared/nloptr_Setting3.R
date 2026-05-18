@@ -268,9 +268,71 @@ eval_g_eq <- function(x) {
   numeric(0)
 }
 
+candidate_target_tolerance <- 0.03
+candidate_constraint_tolerance <- 1e-4
 
-eval_g_ineq <- function(x, mc_n = 1000000) {
-  numeric(0)
+setting3_candidate_indices <- c(10, 19, 24, 11, 20, 25, 12, 21, 13)
+setting3_candidate_groups <- list(
+  psi0 = c(Q3_A3 = 10, Q2_A2 = 19, Q1_A1 = 24),
+  psi1 = c(Q3_O3A3 = 11, Q2_O2A2 = 20, Q1_O1A1 = 25),
+  psi2 = c(Q3_A2A3 = 12, Q2_A1A2 = 21),
+  psi3 = c(Q3_A1A2A3 = 13)
+)
+
+target_window_constraints <- function(theta, theta_target, indices, tolerance) {
+  c(
+    theta[indices] - (theta_target[indices] + tolerance),
+    (theta_target[indices] - tolerance) - theta[indices]
+  )
+}
+
+target_difference_constraints <- function(theta, theta_target, groups, tolerance) {
+  constraints <- numeric(0)
+  for (group in groups) {
+    if (length(group) < 2) next
+    pairs <- utils::combn(unname(group), 2)
+    for (j in seq_len(ncol(pairs))) {
+      pair <- pairs[, j]
+      actual_diff <- theta[pair[1]] - theta[pair[2]]
+      target_diff <- theta_target[pair[1]] - theta_target[pair[2]]
+      constraints <- c(
+        constraints,
+        actual_diff - (target_diff + tolerance),
+        (target_diff - tolerance) - actual_diff
+      )
+    }
+  }
+  constraints
+}
+
+setting3_candidate_constraint_count <- function() {
+  2 * length(setting3_candidate_indices) +
+    sum(vapply(setting3_candidate_groups, function(group) {
+      if (length(group) < 2) 0 else 2 * choose(length(group), 2)
+    }, numeric(1)))
+}
+
+eval_g_ineq <- function(
+  x,
+  theta_target_override = theta_target,
+  target_tolerance = candidate_target_tolerance,
+  mc_n = 1000000
+) {
+  theta <- theta_Setting_3(x, mc_n = mc_n)
+  c(
+    target_window_constraints(
+      theta,
+      theta_target_override,
+      setting3_candidate_indices,
+      target_tolerance
+    ),
+    target_difference_constraints(
+      theta,
+      theta_target_override,
+      setting3_candidate_groups,
+      target_tolerance
+    )
+  )
 }
 
 
@@ -282,7 +344,7 @@ eval_jac_g_eq <- function(x) {
 
 eval_jac_g_ineq <- function(x){
   
-  m <- 8
+  m <- setting3_candidate_constraint_count()
   n <- length(x)
   matrix(0, nrow = m, ncol = n)
   
@@ -299,6 +361,8 @@ run_setting3_parameter_search <- function(
   local_maxeval = 8000,
   xtol_rel = 1e-4,
   ftol_rel = 1e-4,
+  target_tolerance = candidate_target_tolerance,
+  constraint_tolerance = candidate_constraint_tolerance,
   print_level = 1
 ) {
   all_theta <- NULL
@@ -314,7 +378,12 @@ run_setting3_parameter_search <- function(
     res <- nloptr(
       x0 = gamma_opt,
       eval_f = function(x) eval_f(x, theta_target = theta_target_override, mc_n = mc_n),
-      eval_g_ineq = function(x) eval_g_ineq(x, mc_n = mc_n),
+      eval_g_ineq = function(x) eval_g_ineq(
+        x,
+        theta_target_override = theta_target_override,
+        target_tolerance = target_tolerance,
+        mc_n = mc_n
+      ),
       lb = lb,
       ub = ub,
       opts = list(
@@ -328,7 +397,10 @@ run_setting3_parameter_search <- function(
         xtol_rel = xtol_rel,
         ftol_rel = ftol_rel,
         maxeval = maxeval,
-        tol_constraints_ineq = numeric(0),
+        tol_constraints_ineq = rep(
+          constraint_tolerance,
+          setting3_candidate_constraint_count()
+        ),
         print_level = print_level
       )
     )
@@ -346,6 +418,8 @@ run_setting3_parameter_search <- function(
     n_starts = n_starts,
     maxeval = maxeval,
     local_maxeval = local_maxeval,
+    target_tolerance = target_tolerance,
+    constraint_tolerance = constraint_tolerance,
     all_gamma = all_gamma,
     all_theta = all_theta,
     values = values
@@ -360,6 +434,8 @@ run_setting3_parameter_specs <- function(
   mc_n = 5000,
   maxeval = 50,
   local_maxeval = 20,
+  target_tolerance = candidate_target_tolerance,
+  constraint_tolerance = candidate_constraint_tolerance,
   n_starts = 1,
   print_level = 0
 ) {
@@ -391,6 +467,8 @@ run_setting3_parameter_specs <- function(
       mc_n = mc_n,
       maxeval = maxeval,
       local_maxeval = local_maxeval,
+      target_tolerance = target_tolerance,
+      constraint_tolerance = constraint_tolerance,
       print_level = print_level
     )
 
@@ -402,6 +480,8 @@ run_setting3_parameter_specs <- function(
       mc_n = mc_n,
       maxeval = maxeval,
       local_maxeval = local_maxeval,
+      target_tolerance = target_tolerance,
+      constraint_tolerance = constraint_tolerance,
       n_starts = n_starts,
       separated_effects = c(
         q3_a3 = spec$q3_a3,

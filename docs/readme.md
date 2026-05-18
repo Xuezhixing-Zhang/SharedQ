@@ -10,11 +10,13 @@ This folder is the single document hub for the SharedQ workspace. Future agents 
 4. Read `RANDOM_WALK_SETTING_DESIGN_SUMMARY.md` for the consolidated random-walk setting designs, sample sizes, target parameters, and calibrated true values.
 5. Read the setting-specific workflow, manifest, management, and handoff documents listed in the relevant milestone.
 6. Update `docs/plan and goal.md` and today's log before making code or document changes.
+7. For any random-walk calibration or production-simulation work, run candidate-parameter validation before accepting calibration artifacts or launching production simulations.
 
 ## Required Updates During Work
 
 - Update `docs/plan and goal.md` when starting a milestone, completing a milestone, or changing the planned milestone order.
 - Update today's log every time a meaningful decision, blocker, command result, or verification outcome occurs.
+- Run `Rscript Simulation_random_walk/validate_candidate_calibration.R` after calibration artifacts are generated or changed; do not treat production simulation outputs as final until candidate coefficients and implied differences pass the documented tolerance.
 - After each milestone is complete, commit the relevant changes and push them to the configured Git remote.
 - If push fails, record the exact blocker in today's log before moving to the next milestone.
 
@@ -39,6 +41,8 @@ For per-setting file management, artifact layout, parameter choices, seeds, and 
 - `docs/simulation_random_walk_supplsetting3_noshared_management.md`
 
 For current generated-result summaries and next actions, read each setting's `Summarize/current_results_summary.md` and `Summarize/todo.md`.
+
+For candidate-parameter calibration status, read each setting's `Summarize/candidate_calibration_report.md` after running `Simulation_random_walk/validate_candidate_calibration.R`.
 
 ## Document Naming
 
