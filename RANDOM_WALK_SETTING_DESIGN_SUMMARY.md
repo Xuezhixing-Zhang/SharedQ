@@ -4,6 +4,8 @@ This file is the consolidated design reference for the active random-walk simula
 
 Values listed as "calibrated true values" are population-projected Q-parameter estimates saved in the calibration `.rds` artifacts and used as `theta_true` by the simulation wrappers. They are not always identical to the hand-specified target values because the outcome-generating `gamma` is found by numerical calibration.
 
+Current status: the calibrated true values summarized below are the best available pre-recalibration artifacts. They fail the newer candidate coefficient and implied-difference validation gate in `Simulation_random_walk/validate_candidate_calibration.R`, so they should not be treated as accepted final true values for new production simulations.
+
 ## Common Simulation Plan
 
 | Setting | Design goal | Sample sizes | Production replicates | Production/default spec |

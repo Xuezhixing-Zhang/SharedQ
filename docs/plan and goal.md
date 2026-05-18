@@ -21,6 +21,15 @@ Recalibrate the random-walk simulation suite so candidate shared parameters and 
 - [ ] RW-CAL 5: Rerun production simulations only after default production calibration specs pass validation.
 - [ ] RW-CAL 6: Regenerate summaries, update logs/docs, commit, and push accepted scripts and summary outputs.
 
+## Current Progress Summary
+
+- Completed document consolidation: `RANDOM_WALK_SETTING_DESIGN_SUMMARY.md` is the root reference for setting design, sample sizes, target parameters, true-sharing relationships, primary outcome models, and current calibrated true-value summaries.
+- Completed calibration tooling: all four random-walk calibration scripts now impose target-centered candidate coefficient windows and implied-difference constraints with tolerance `0.03`.
+- Completed validation tooling: `Simulation_random_walk/validate_candidate_calibration.R` checks production calibration artifacts and writes candidate coefficient/difference reports; `Simulation_random_walk/run_candidate_calibration_smoke.R` runs bounded calibration smoke checks into ignored local artifact folders and writes smoke reports.
+- Current production calibration status: not accepted. Existing production `.rds` artifacts predate the new constraints and fail `Simulation_random_walk/validate_candidate_calibration.R`.
+- Current bounded smoke status: not accepted. Setting II `separated_moderate` passes all smoke candidate checks, Setting III and supplementary moderate specs are partly close, but Setting I specs, Setting II reversed/large, and supplementary reversed/large still miss the `0.03` gate.
+- Next real work: rerun bounded constrained calibration with larger optimizer budgets and multiple starts for default specs first, then decide whether the remaining sensitivity/stress specs need higher budgets, revised implied targets, or revised constraint tolerances before production calibration.
+
 ## Artifact Versioning Policy
 
 - Large generated `.rds` files are local artifacts and should not be pushed to normal Git history.

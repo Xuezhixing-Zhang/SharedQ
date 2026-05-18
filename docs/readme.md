@@ -47,6 +47,8 @@ For candidate-parameter calibration status, read each setting's `Summarize/candi
 
 For bounded candidate-calibration smoke status, read each setting's `Summarize/candidate_calibration_smoke_report.md` after running `Simulation_random_walk/run_candidate_calibration_smoke.R`.
 
+For the current project state and next real work, read the `Current Progress Summary` and active `RW-CAL` milestones in `docs/plan and goal.md`.
+
 ## Document Naming
 
 All documents live directly under `docs/`. Source paths are encoded into lowercase, underscore-separated filenames to avoid collisions between settings.
