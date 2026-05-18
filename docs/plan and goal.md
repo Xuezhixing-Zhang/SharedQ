@@ -13,6 +13,7 @@ Reconstruct per-setting file management for the random-walk simulation suite. Ea
 - [x] RW-FM 3: Generate per-setting `Summarize/` outputs for current results and todo status.
 - [x] RW-FM 4: Run smoke tests and path validation after relocation.
 - [x] RW-FM 5: Final validation, log update, commit, and push.
+- [x] RW-DOC 1: Consolidate random-walk setting design, sample sizes, parameter targets, and calibrated true values into a root markdown reference; remove redundant design-only markdown files.
 
 ## Artifact Versioning Policy
 
@@ -29,6 +30,7 @@ Reconstruct per-setting file management for the random-walk simulation suite. Ea
 - Quick smoke tests pass for Setting I, Setting II, Setting III, and Supplementary Setting III No Shared after relocation.
 - Test scripts now restore pre-existing `calibration/data_original.rds` after bounded population-generation checks, preventing smoke tests from overwriting production Monte Carlo population files.
 - Path validation confirms no generated `.rds` or `.out` files remain in the old shallow setting folders.
+- `RANDOM_WALK_SETTING_DESIGN_SUMMARY.md` is now the single root-level reference for random-walk setting designs, sample sizes, parameter targets, and calibrated true-value summaries.
 
 ## Milestones
 

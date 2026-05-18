@@ -19,7 +19,7 @@
 
 - `test_alternative_pars.rds`: bounded parameter-search artifact for smoke tests.
 - `spec_calibration.R`: runs several bounded shared-parameter calibration specifications.
-- `docs/simulation_random_walk_setting1_shared_parameter_specifications.md`: records shared-parameter scenarios, seeds, and output files.
+- `RANDOM_WALK_SETTING_DESIGN_SUMMARY.md`: records shared-parameter scenarios, seeds, sample sizes, and calibrated true-value summaries.
 - `submission_test.pbs`: one-replicate node-side validation job.
 - `submission_specs.pbs`: shared-parameter calibration node-side job.
 

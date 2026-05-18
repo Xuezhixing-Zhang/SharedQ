@@ -40,6 +40,6 @@ The quick test verifies that bounded calibration artifacts can be read, a bounde
 
 ## Notes For Next Agent
 
-- `docs/simulation_random_walk_setting3_setting_iii.md` suggests trying multiple `sigma` values. That specification still needs a full multi-spec calibration wrapper analogous to Setting I/II if those scenarios are required for production.
+- `RANDOM_WALK_SETTING_DESIGN_SUMMARY.md` records the Setting III random-walk sigma scenarios. A full multi-spec calibration wrapper analogous to Setting I/II is still needed if additional sigma scenarios are required for production beyond the current saved artifacts.
 - The current quick-test artifact is intentionally small and should not be used as a final population truth.
 - The production scripts are path-corrected for `Simulation_random_walk/Setting3`.

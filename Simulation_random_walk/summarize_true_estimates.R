@@ -154,4 +154,9 @@ out <- c(
   ""
 )
 
-writeLines(out, file.path(docs_dir, "simulation_random_walk_true_estimates_sigma_summary.md"))
+message(
+  "Deprecated standalone true-estimate markdown generation. ",
+  "True-estimate tables are now consolidated in ",
+  file.path(dirname(root_dir), "RANDOM_WALK_SETTING_DESIGN_SUMMARY.md"),
+  "."
+)

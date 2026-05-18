@@ -1,0 +1,143 @@
+# Random Walk Setting Design Summary
+
+This file is the consolidated design reference for the active random-walk simulation suite. It replaces the older per-setting design notes and the separate true-estimate markdown summary.
+
+Values listed as "calibrated true values" are population-projected Q-parameter estimates saved in the calibration `.rds` artifacts and used as `theta_true` by the simulation wrappers. They are not always identical to the hand-specified target values because the outcome-generating `gamma` is found by numerical calibration.
+
+## Common Simulation Plan
+
+| Setting | Design goal | Sample sizes | Production replicates | Production/default spec |
+| --- | --- | --- | ---: | --- |
+| Setting I | Binary-treatment real-data mimic with near-shared candidate effects. | `100`, `300`, `500`, `1000` | 200 per size | `balanced_small` |
+| Setting II | Binary-treatment real-data mimic with no shared effects. | `100`, `300`, `500`, `1000` | 200 per size | `separated_moderate` |
+| Setting III | Continuous-covariate random-walk shared-effect design. | `100`, `300`, `500`, `1000` | 200 per size | `rw_sigma_moderate` |
+| Supplementary Setting III No Shared | Continuous-covariate Setting III mechanism with separated decision effects. | `100`, `300`, `500`, `1000` | 200 per size | `separated_moderate`; production outputs not yet present |
+
+All settings compare conventional Q-learning, fused lasso SQ-learning, fused ridge SQ-learning, and strict SharedQ variants where applicable. Setting II and the supplementary no-shared setting retain shared-pattern estimators as intentionally misspecified comparisons.
+
+## Setting I
+
+Setting I is a three-stage binary-treatment design that mimics the real-data workflow. It simulates the final primary outcome only:
+
+```text
+Y = gamma1 + gamma2 A1
+  + (1 - R1) gamma3 + gamma4 A2 + gamma5 A1 A2
+  + (1 - R2) gamma6 + gamma7 A3 + gamma8 A1 A3 + gamma9 A2 A3
+  + error
+```
+
+Treatments are randomized in `{-1, 1}` for active participants. Responders remain in the data but are not randomized at the next decision; follow-up treatment is encoded as `-1`. The executable responder probabilities are `P(R1 = 1) = 0.59`, `P(R2 = 1 | A1 = 1) = 0.23`, and `P(R2 = 1 | A1 = -1) = 0.13`.
+
+The Q-model uses stage-3 terms `intercept, A1, A2, A1A2, G1, A3, A1A3, A2A3`, stage-2 terms `intercept, A1, A2, A1A2`, and stage-1 terms `intercept, A1`, where `G1 = 1 - R1`. Candidate near-shared pairs are `Q3_A1 / Q2_A1`, `Q3_A3 / Q2_A2`, and `Q3_A1A3 / Q2_A1A2`.
+
+| Spec | Seed | Shared means | Shared sigmas | Implied target shared coefficients |
+| --- | ---: | --- | --- | --- |
+| `balanced_small` | 101 | `psi1=0.20`, `psi2=-0.60`, `psi3=0.80` | `0.03`, `0.03`, `0.03` | `Q3_A1=0.23`, `Q2_A1=0.17`; `Q3_A3=-0.57`, `Q2_A2=-0.63`; `Q3_A1A3=0.83`, `Q2_A1A2=0.77` |
+| `tighter_small` | 202 | `psi1=0.16`, `psi2=-0.52`, `psi3=0.68` | `0.015`, `0.02`, `0.02` | `Q3_A1=0.175`, `Q2_A1=0.145`; `Q3_A3=-0.50`, `Q2_A2=-0.54`; `Q3_A1A3=0.70`, `Q2_A1A2=0.66` |
+| `wider_small` | 303 | `psi1=0.24`, `psi2=-0.68`, `psi3=0.92` | `0.05`, `0.05`, `0.05` | `Q3_A1=0.29`, `Q2_A1=0.19`; `Q3_A3=-0.63`, `Q2_A2=-0.73`; `Q3_A1A3=0.97`, `Q2_A1A2=0.87` |
+
+Calibrated true values for candidate shared groups:
+
+| Spec | Parameter group | Calibrated true values |
+| --- | --- | --- |
+| `balanced_small` | `Q3_A1 / Q2_A1` | `Q3_A1=0.3351`; `Q2_A1=0.2530` |
+| `balanced_small` | `Q3_A3 / Q2_A2` | `Q3_A3=-0.4366`; `Q2_A2=-0.4323` |
+| `balanced_small` | `Q3_A1A3 / Q2_A1A2` | `Q3_A1A3=0.5849`; `Q2_A1A2=0.6973` |
+| `tighter_small` | `Q3_A1 / Q2_A1` | `Q3_A1=0.3200`; `Q2_A1=0.3088` |
+| `tighter_small` | `Q3_A3 / Q2_A2` | `Q3_A3=-0.4500`; `Q2_A2=-0.4485` |
+| `tighter_small` | `Q3_A1A3 / Q2_A1A2` | `Q3_A1A3=0.6000`; `Q2_A1A2=0.7342` |
+| `wider_small` | `Q3_A1 / Q2_A1` | `Q3_A1=0.3609`; `Q2_A1=0.1934` |
+| `wider_small` | `Q3_A3 / Q2_A2` | `Q3_A3=-0.4091`; `Q2_A2=-0.4091` |
+| `wider_small` | `Q3_A1A3 / Q2_A1A2` | `Q3_A1A3=0.5591`; `Q2_A1A2=0.6219` |
+
+## Setting II
+
+Setting II uses the same binary-treatment, responder, primary-outcome, and Q-model structure as Setting I, but the candidate shared pairs are deliberately separated. SharedQ and fused shared-pattern methods are misspecified by design.
+
+| Spec | Seed | Target decision effects |
+| --- | ---: | --- |
+| `separated_moderate` | 101 | `Q3_A1=0.55`, `Q3_A3=-0.70`, `Q3_A1A3=0.95`; `Q2_A1=-0.15`, `Q2_A2=0.45`, `Q2_A1A2=-0.35`; `Q1_A1=0.20` |
+| `separated_reversed` | 202 | `Q3_A1=-0.50`, `Q3_A3=0.65`, `Q3_A1A3=-0.85`; `Q2_A1=0.30`, `Q2_A2=-0.45`, `Q2_A1A2=0.45`; `Q1_A1=-0.10` |
+| `separated_large` | 303 | `Q3_A1=0.75`, `Q3_A3=-0.90`, `Q3_A1A3=1.15`; `Q2_A1=-0.35`, `Q2_A2=0.65`, `Q2_A1A2=-0.55`; `Q1_A1=0.30` |
+
+Calibrated true values for candidate shared groups:
+
+| Spec | Parameter group | Calibrated true values |
+| --- | --- | --- |
+| `separated_moderate` | `Q3_A1 / Q2_A1` | `Q3_A1=0.3236`; `Q2_A1=0.1284` |
+| `separated_moderate` | `Q3_A3 / Q2_A2` | `Q3_A3=-0.1438`; `Q2_A2=0.3220` |
+| `separated_moderate` | `Q3_A1A3 / Q2_A1A2` | `Q3_A1A3=0.4569`; `Q2_A1A2=0.1071` |
+| `separated_reversed` | `Q3_A1 / Q2_A1` | `Q3_A1=-0.0802`; `Q2_A1=-0.1307` |
+| `separated_reversed` | `Q3_A3 / Q2_A2` | `Q3_A3=0.1122`; `Q2_A2=-0.0435` |
+| `separated_reversed` | `Q3_A1A3 / Q2_A1A2` | `Q3_A1A3=-0.5458`; `Q2_A1A2=0.0383` |
+| `separated_large` | `Q3_A1 / Q2_A1` | `Q3_A1=0.3070`; `Q2_A1=0.2834` |
+| `separated_large` | `Q3_A3 / Q2_A2` | `Q3_A3=-0.0068`; `Q2_A2=0.3078` |
+| `separated_large` | `Q3_A1A3 / Q2_A1A2` | `Q3_A1A3=0.0976`; `Q2_A1A2=0.0188` |
+
+## Setting III
+
+Setting III is a three-stage continuous-covariate design with staged outcomes. The executable covariate mechanism is:
+
+```text
+O1 ~ N(0, 1)
+O2 = 0.60 O1 + 0.80 A1 + error
+O3 = 0.50 O2 + 0.40 A2 + 0.60 A1 A2 + error
+```
+
+The executable responder mechanism is `R1 ~ Bernoulli(0.38)` and `R2 = 1` for stage-1 responders; otherwise `R2 ~ Bernoulli(0.19)`. Treatments are randomized in `{-1, 1}` while active. Inactive responder treatments are encoded as `0`.
+
+The Q-model has 25 coefficients. Candidate shared-effect analogues are main decision effects (`Q3_A3`, `Q2_A2`, `Q1_A1`), observation-by-decision effects (`Q3_O3:A3`, `Q2_O2:A2`, `Q1_O1:A1`), and previous-treatment-by-decision effects (`Q3_A2:A3`, `Q2_A1:A2`). The unpaired stage-3 term is `Q3_A1:A2:A3`.
+
+| Spec | Seed | Means | Sigmas | Target decision-effect analogues |
+| --- | ---: | --- | --- | --- |
+| `rw_sigma_moderate` | 401 | `psi0=-0.30`, `psi1=0.50`, `psi2=0.35` | `0.08`, `0.08`, `0.06` | `Q3_A3=-0.22`, `Q2_A2=-0.30`, `Q1_A1=-0.38`; `Q3_O3:A3=0.58`, `Q2_O2:A2=0.50`, `Q1_O1:A1=0.42`; `Q3_A2:A3=0.41`, `Q2_A1:A2=0.29`; `Q3_A1:A2:A3=-0.28` |
+| `rw_sigma_tight` | 402 | `psi0=-0.30`, `psi1=0.50`, `psi2=0.35` | `0.04`, `0.04`, `0.03` | `Q3_A3=-0.26`, `Q2_A2=-0.30`, `Q1_A1=-0.34`; `Q3_O3:A3=0.54`, `Q2_O2:A2=0.50`, `Q1_O1:A1=0.46`; `Q3_A2:A3=0.38`, `Q2_A1:A2=0.32`; `Q3_A1:A2:A3=-0.28` |
+| `rw_sigma_wide` | 403 | `psi0=-0.30`, `psi1=0.50`, `psi2=0.35` | `0.15`, `0.15`, `0.10` | `Q3_A3=-0.15`, `Q2_A2=-0.30`, `Q1_A1=-0.45`; `Q3_O3:A3=0.65`, `Q2_O2:A2=0.50`, `Q1_O1:A1=0.35`; `Q3_A2:A3=0.45`, `Q2_A1:A2=0.25`; `Q3_A1:A2:A3=-0.28` |
+
+Calibrated true values for candidate shared groups:
+
+| Spec | Parameter group | Calibrated true values |
+| --- | --- | --- |
+| `rw_sigma_moderate` | `Q3_A3 / Q2_A2 / Q1_A1` | `Q3_A3=-0.5456`; `Q2_A2=-0.3875`; `Q1_A1=0.2054` |
+| `rw_sigma_moderate` | `Q3_O3:A3 / Q2_O2:A2 / Q1_O1:A1` | `Q3_O3:A3=0.5027`; `Q2_O2:A2=0.3052`; `Q1_O1:A1=0.5181` |
+| `rw_sigma_moderate` | `Q3_A2:A3 / Q2_A1:A2` | `Q3_A2:A3=0.2904`; `Q2_A1:A2=-0.0602` |
+| `rw_sigma_moderate` | `Q3_A1:A2:A3` | `Q3_A1:A2:A3=-0.0604` |
+| `rw_sigma_tight` | `Q3_A3 / Q2_A2 / Q1_A1` | `Q3_A3=-0.7413`; `Q2_A2=-0.3583`; `Q1_A1=0.0064` |
+| `rw_sigma_tight` | `Q3_O3:A3 / Q2_O2:A2 / Q1_O1:A1` | `Q3_O3:A3=0.5008`; `Q2_O2:A2=0.6248`; `Q1_O1:A1=0.5596` |
+| `rw_sigma_tight` | `Q3_A2:A3 / Q2_A1:A2` | `Q3_A2:A3=0.5891`; `Q2_A1:A2=0.2408` |
+| `rw_sigma_tight` | `Q3_A1:A2:A3` | `Q3_A1:A2:A3=-0.0609` |
+| `rw_sigma_wide` | `Q3_A3 / Q2_A2 / Q1_A1` | `Q3_A3=-0.5500`; `Q2_A2=-0.2010`; `Q1_A1=0.0232` |
+| `rw_sigma_wide` | `Q3_O3:A3 / Q2_O2:A2 / Q1_O1:A1` | `Q3_O3:A3=0.5000`; `Q2_O2:A2=0.3509`; `Q1_O1:A1=0.4978` |
+| `rw_sigma_wide` | `Q3_A2:A3 / Q2_A1:A2` | `Q3_A2:A3=0.0898`; `Q2_A1:A2=0.2454` |
+| `rw_sigma_wide` | `Q3_A1:A2:A3` | `Q3_A1:A2:A3=-0.0874` |
+
+## Supplementary Setting III No Shared
+
+The supplementary no-shared setting uses the executable Setting III continuous-covariate mechanism, responder mechanism, inactive-treatment encoding, and 25-coefficient Q-model. It changes the population Q-parameter target so that candidate shared-effect analogues are separated rather than random-walk shared.
+
+| Spec | Seed | Target separated decision effects |
+| --- | ---: | --- |
+| `separated_moderate` | 501 | `Q3_A3=-0.75`, `Q2_A2=0.35`, `Q1_A1=0.90`; `Q3_O3:A3=0.70`, `Q2_O2:A2=-0.35`, `Q1_O1:A1=0.15`; `Q3_A2:A3=-0.60`, `Q2_A1:A2=0.55`; `Q3_A1:A2:A3=0.45` |
+| `separated_reversed` | 502 | `Q3_A3=0.80`, `Q2_A2=-0.45`, `Q1_A1=0.20`; `Q3_O3:A3=-0.65`, `Q2_O2:A2=0.40`, `Q1_O1:A1=-0.10`; `Q3_A2:A3=0.55`, `Q2_A1:A2=-0.50`; `Q3_A1:A2:A3=0.35` |
+| `separated_large` | 503 | `Q3_A3=-1.00`, `Q2_A2=0.55`, `Q1_A1=1.20`; `Q3_O3:A3=0.90`, `Q2_O2:A2=-0.55`, `Q1_O1:A1=0.05`; `Q3_A2:A3=-0.85`, `Q2_A1:A2=0.75`; `Q3_A1:A2:A3=0.60` |
+
+Production calibration artifacts for the three supplementary no-shared specs are not currently present. The available calibrated true values are from the smoke-test artifact `test_alternative_pars.rds` with `mc_n = 2000`:
+
+| Spec | Parameter group | Calibrated true values |
+| --- | --- | --- |
+| `smoke_default` | `Q3_A3 / Q2_A2 / Q1_A1` | `Q3_A3=-0.0249`; `Q2_A2=0.5989`; `Q1_A1=0.2006` |
+| `smoke_default` | `Q3_O3:A3 / Q2_O2:A2 / Q1_O1:A1` | `Q3_O3:A3=0.8925`; `Q2_O2:A2=-0.1737`; `Q1_O1:A1=0.0040` |
+| `smoke_default` | `Q3_A2:A3 / Q2_A1:A2` | `Q3_A2:A3=-0.7877`; `Q2_A1:A2=0.5822` |
+| `smoke_default` | `Q3_A1:A2:A3` | `Q3_A1:A2:A3=-0.2337` |
+
+## Superseded Files
+
+This consolidated file supersedes and replaces the deleted design-only summaries:
+
+- `docs/simulation_random_walk_setting1_setting_i_design.md`
+- `docs/simulation_random_walk_setting1_shared_parameter_specifications.md`
+- `docs/simulation_random_walk_setting2_setting_ii.md`
+- `docs/simulation_random_walk_setting3_setting_iii.md`
+- `docs/simulation_random_walk_supplsetting3_noshared_setting_supplementary_iii_no_shared.md`
+- `docs/simulation_random_walk_design_check.md`
+- `docs/simulation_random_walk_true_estimates_sigma_summary.md`

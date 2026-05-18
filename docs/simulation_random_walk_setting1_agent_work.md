@@ -9,7 +9,7 @@
   - `Evaluation.R`: The functions used to evaluate the model performance after simulation. Four scenarios are considered, corresponding to four methods listed above. For shared parameter patterns, we also consider mis-specified scenarios.
   - `Q_functions.R`: The final wrapper function for the simulation. Do check the dependency between it and other functions, and try to check if all other functions are correctly specified.
   - `Simulation_Setting1.R`: The codes for running simulations.
-  - `nloptr_Setting1.R`: The data generating framework for parameters for exact-same effect sizes. You need to re-define the shared parameter values based on the strategy mentioned in `docs/simulation_random_walk_setting1_setting_i_design.md`. Consider a small $\sigma$ for new parameters. For the whole data generating framework, we calibrate the primary outcome model until the projected Q-parameters have the desired pattern, where we choose primary outcome and transition parameters, then compute the population-projected Q-parameters by large Monte Carlo. you can check `docs/simulation_random_walk_setting1_setting_i_design.md`.
+  - `nloptr_Setting1.R`: The data generating framework for near-shared random-walk effect sizes. Define shared parameter values using the consolidated strategy in `RANDOM_WALK_SETTING_DESIGN_SUMMARY.md`. For the whole data generating framework, calibrate the primary outcome model until the projected Q-parameters have the desired pattern, where we choose primary outcome and transition parameters, then compute the population-projected Q-parameters by large Monte Carlo.
   - `Q_datagenerating.R`: Sample a small subset from the population dataset.
   - `submission.pbs`: The submission file to submit simulations to nodes.
 
