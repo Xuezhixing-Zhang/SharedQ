@@ -8,12 +8,23 @@ Values listed as "calibrated true values" are population-projected Q-parameter e
 
 | Setting | Design goal | Sample sizes | Production replicates | Production/default spec |
 | --- | --- | --- | ---: | --- |
-| Setting I | Binary-treatment real-data mimic with near-shared candidate effects. | `100`, `300`, `500`, `1000` | 200 per size | `balanced_small` |
-| Setting II | Binary-treatment real-data mimic with no shared effects. | `100`, `300`, `500`, `1000` | 200 per size | `separated_moderate` |
+| Setting I | Binary-treatment real-data mimic with truly near-shared effects. | `100`, `300`, `500`, `1000` | 200 per size | `balanced_small` |
+| Setting II | Binary-treatment real-data mimic with candidate shared effects intentionally separated. | `100`, `300`, `500`, `1000` | 200 per size | `separated_moderate` |
 | Setting III | Continuous-covariate random-walk shared-effect design. | `100`, `300`, `500`, `1000` | 200 per size | `rw_sigma_moderate` |
-| Supplementary Setting III No Shared | Continuous-covariate Setting III mechanism with separated decision effects. | `100`, `300`, `500`, `1000` | 200 per size | `separated_moderate`; production outputs not yet present |
+| Supplementary Setting III No Shared | Continuous-covariate Setting III mechanism with candidate shared effects intentionally separated. | `100`, `300`, `500`, `1000` | 200 per size | `separated_moderate`; production outputs not yet present |
 
 All settings compare conventional Q-learning, fused lasso SQ-learning, fused ridge SQ-learning, and strict SharedQ variants where applicable. Setting II and the supplementary no-shared setting retain shared-pattern estimators as intentionally misspecified comparisons.
+
+## Sharing Relationship Summary
+
+The word "shared" has two different roles in this simulation suite. In Settings I and III, selected Q-parameters are truly intended to be shared or near-shared by design through a `mu` and `sigma` relationship. In Setting II and Supplementary Setting III No Shared, the same kinds of terms are only candidate shared groups used by the estimators; the data-generating target deliberately does not share them.
+
+| Setting | Truly shared or near-shared by design | Sigma relationship |
+| --- | --- | --- |
+| Setting I | Near-shared pairs: `psi1 = Q3_A1 / Q2_A1`, `psi2 = Q3_A3 / Q2_A2`, `psi3 = Q3_A1A3 / Q2_A1A2`. `Q1_A1` is not shared with these groups. | For each pair, stage-3 coefficient is `mu + sigma` and stage-2 coefficient is `mu - sigma`, so the within-pair target difference is `2 * sigma`. Current specs use nonzero `sigma`, so these are approximately shared, not exactly equal. |
+| Setting II | None. The Setting I candidate pairs are intentionally separated. | No `sigma` relationship is used. Shared-pattern estimators are misspecified comparisons. |
+| Setting III | Near-shared random-walk groups: `psi0 = Q3_A3 / Q2_A2 / Q1_A1`, `psi1 = Q3_O3:A3 / Q2_O2:A2 / Q1_O1:A1`, and `psi2 = Q3_A2:A3 / Q2_A1:A2`. `Q3_A1:A2:A3` is unpaired. | For `psi0` and `psi1`, stage-3 coefficient is `mu + sigma`, stage-2 coefficient is `mu`, and stage-1 coefficient is `mu - sigma`. For `psi2`, stage-3 coefficient is `mu + sigma` and stage-2 coefficient is `mu - sigma`. Current specs use nonzero `sigma`, so they are random-walk near-shared rather than exactly shared. |
+| Supplementary Setting III No Shared | None. The Setting III analogue groups are intentionally separated. | No `sigma` relationship is used. Shared-pattern estimators are misspecified comparisons. |
 
 ## Setting I
 
@@ -28,7 +39,7 @@ Y = gamma1 + gamma2 A1
 
 Treatments are randomized in `{-1, 1}` for active participants. Responders remain in the data but are not randomized at the next decision; follow-up treatment is encoded as `-1`. The executable responder probabilities are `P(R1 = 1) = 0.59`, `P(R2 = 1 | A1 = 1) = 0.23`, and `P(R2 = 1 | A1 = -1) = 0.13`.
 
-The Q-model uses stage-3 terms `intercept, A1, A2, A1A2, G1, A3, A1A3, A2A3`, stage-2 terms `intercept, A1, A2, A1A2`, and stage-1 terms `intercept, A1`, where `G1 = 1 - R1`. Candidate near-shared pairs are `Q3_A1 / Q2_A1`, `Q3_A3 / Q2_A2`, and `Q3_A1A3 / Q2_A1A2`.
+The Q-model uses stage-3 terms `intercept, A1, A2, A1A2, G1, A3, A1A3, A2A3`, stage-2 terms `intercept, A1, A2, A1A2`, and stage-1 terms `intercept, A1`, where `G1 = 1 - R1`. The true intended near-shared pairs are `Q3_A1 / Q2_A1`, `Q3_A3 / Q2_A2`, and `Q3_A1A3 / Q2_A1A2`, with stage-3 target `mu + sigma` and stage-2 target `mu - sigma`.
 
 | Spec | Seed | Shared means | Shared sigmas | Implied target shared coefficients |
 | --- | ---: | --- | --- | --- |
@@ -36,7 +47,7 @@ The Q-model uses stage-3 terms `intercept, A1, A2, A1A2, G1, A3, A1A3, A2A3`, st
 | `tighter_small` | 202 | `psi1=0.16`, `psi2=-0.52`, `psi3=0.68` | `0.015`, `0.02`, `0.02` | `Q3_A1=0.175`, `Q2_A1=0.145`; `Q3_A3=-0.50`, `Q2_A2=-0.54`; `Q3_A1A3=0.70`, `Q2_A1A2=0.66` |
 | `wider_small` | 303 | `psi1=0.24`, `psi2=-0.68`, `psi3=0.92` | `0.05`, `0.05`, `0.05` | `Q3_A1=0.29`, `Q2_A1=0.19`; `Q3_A3=-0.63`, `Q2_A2=-0.73`; `Q3_A1A3=0.97`, `Q2_A1A2=0.87` |
 
-Calibrated true values for candidate shared groups:
+Calibrated true values for the intended near-shared groups:
 
 | Spec | Parameter group | Calibrated true values |
 | --- | --- | --- |
@@ -52,7 +63,7 @@ Calibrated true values for candidate shared groups:
 
 ## Setting II
 
-Setting II uses the same binary-treatment, responder, primary-outcome, and Q-model structure as Setting I, but the candidate shared pairs are deliberately separated. SharedQ and fused shared-pattern methods are misspecified by design.
+Setting II uses the same binary-treatment, responder, primary-outcome, and Q-model structure as Setting I, but no parameters are truly shared. The Setting I candidate pairs are deliberately separated. SharedQ and fused shared-pattern methods are misspecified by design.
 
 | Spec | Seed | Target decision effects |
 | --- | ---: | --- |
@@ -60,7 +71,7 @@ Setting II uses the same binary-treatment, responder, primary-outcome, and Q-mod
 | `separated_reversed` | 202 | `Q3_A1=-0.50`, `Q3_A3=0.65`, `Q3_A1A3=-0.85`; `Q2_A1=0.30`, `Q2_A2=-0.45`, `Q2_A1A2=0.45`; `Q1_A1=-0.10` |
 | `separated_large` | 303 | `Q3_A1=0.75`, `Q3_A3=-0.90`, `Q3_A1A3=1.15`; `Q2_A1=-0.35`, `Q2_A2=0.65`, `Q2_A1A2=-0.55`; `Q1_A1=0.30` |
 
-Calibrated true values for candidate shared groups:
+Calibrated true values for the candidate-only shared groups:
 
 | Spec | Parameter group | Calibrated true values |
 | --- | --- | --- |
@@ -86,7 +97,7 @@ O3 = 0.50 O2 + 0.40 A2 + 0.60 A1 A2 + error
 
 The executable responder mechanism is `R1 ~ Bernoulli(0.38)` and `R2 = 1` for stage-1 responders; otherwise `R2 ~ Bernoulli(0.19)`. Treatments are randomized in `{-1, 1}` while active. Inactive responder treatments are encoded as `0`.
 
-The Q-model has 25 coefficients. Candidate shared-effect analogues are main decision effects (`Q3_A3`, `Q2_A2`, `Q1_A1`), observation-by-decision effects (`Q3_O3:A3`, `Q2_O2:A2`, `Q1_O1:A1`), and previous-treatment-by-decision effects (`Q3_A2:A3`, `Q2_A1:A2`). The unpaired stage-3 term is `Q3_A1:A2:A3`.
+The Q-model has 25 coefficients. The true intended random-walk near-shared groups are main decision effects (`Q3_A3`, `Q2_A2`, `Q1_A1`), observation-by-decision effects (`Q3_O3:A3`, `Q2_O2:A2`, `Q1_O1:A1`), and previous-treatment-by-decision effects (`Q3_A2:A3`, `Q2_A1:A2`). The unpaired stage-3 term is `Q3_A1:A2:A3`.
 
 | Spec | Seed | Means | Sigmas | Target decision-effect analogues |
 | --- | ---: | --- | --- | --- |
@@ -94,7 +105,7 @@ The Q-model has 25 coefficients. Candidate shared-effect analogues are main deci
 | `rw_sigma_tight` | 402 | `psi0=-0.30`, `psi1=0.50`, `psi2=0.35` | `0.04`, `0.04`, `0.03` | `Q3_A3=-0.26`, `Q2_A2=-0.30`, `Q1_A1=-0.34`; `Q3_O3:A3=0.54`, `Q2_O2:A2=0.50`, `Q1_O1:A1=0.46`; `Q3_A2:A3=0.38`, `Q2_A1:A2=0.32`; `Q3_A1:A2:A3=-0.28` |
 | `rw_sigma_wide` | 403 | `psi0=-0.30`, `psi1=0.50`, `psi2=0.35` | `0.15`, `0.15`, `0.10` | `Q3_A3=-0.15`, `Q2_A2=-0.30`, `Q1_A1=-0.45`; `Q3_O3:A3=0.65`, `Q2_O2:A2=0.50`, `Q1_O1:A1=0.35`; `Q3_A2:A3=0.45`, `Q2_A1:A2=0.25`; `Q3_A1:A2:A3=-0.28` |
 
-Calibrated true values for candidate shared groups:
+Calibrated true values for the intended random-walk near-shared groups:
 
 | Spec | Parameter group | Calibrated true values |
 | --- | --- | --- |
@@ -113,7 +124,7 @@ Calibrated true values for candidate shared groups:
 
 ## Supplementary Setting III No Shared
 
-The supplementary no-shared setting uses the executable Setting III continuous-covariate mechanism, responder mechanism, inactive-treatment encoding, and 25-coefficient Q-model. It changes the population Q-parameter target so that candidate shared-effect analogues are separated rather than random-walk shared.
+The supplementary no-shared setting uses the executable Setting III continuous-covariate mechanism, responder mechanism, inactive-treatment encoding, and 25-coefficient Q-model. No parameters are truly shared. It changes the population Q-parameter target so that the Setting III analogue groups are separated rather than random-walk shared.
 
 | Spec | Seed | Target separated decision effects |
 | --- | ---: | --- |
