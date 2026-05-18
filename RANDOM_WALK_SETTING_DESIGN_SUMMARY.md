@@ -97,6 +97,23 @@ O3 = 0.50 O2 + 0.40 A2 + 0.60 A1 A2 + error
 
 The executable responder mechanism is `R1 ~ Bernoulli(0.38)` and `R2 = 1` for stage-1 responders; otherwise `R2 ~ Bernoulli(0.19)`. Treatments are randomized in `{-1, 1}` while active. Inactive responder treatments are encoded as `0`.
 
+The primary-outcome model is staged:
+
+```text
+Y1 = gamma1 + gamma2 O1 + gamma3 A1 + gamma4 O1 A1
+
+Y2 = Y1 + (3 / 2) * (gamma5 O1 + gamma6 A2 + gamma7 O2 A2 + gamma8 A1 A2)
+
+Y3 = Y2 + 3 * (gamma9 O1 + gamma10 A3 + gamma11 O3 A3
+                + gamma12 A2 A3 + gamma13 A1 A2 A3)
+
+Y_primary = R1 Y1
+          + (1 - R1) R2 * (Y1 + Y2) / 2
+          + (1 - R1) (1 - R2) * (Y1 + Y2 + Y3) / 3
+```
+
+The executable calibration code omits random outcome errors when generating the population projection; simulation sampling later adds noise through `Q_datagenerating.R`.
+
 The Q-model has 25 coefficients. The true intended random-walk near-shared groups are main decision effects (`Q3_A3`, `Q2_A2`, `Q1_A1`), observation-by-decision effects (`Q3_O3:A3`, `Q2_O2:A2`, `Q1_O1:A1`), and previous-treatment-by-decision effects (`Q3_A2:A3`, `Q2_A1:A2`). The unpaired stage-3 term is `Q3_A1:A2:A3`.
 
 | Spec | Seed | Means | Sigmas | Target decision-effect analogues |
@@ -124,7 +141,7 @@ Calibrated true values for the intended random-walk near-shared groups:
 
 ## Supplementary Setting III No Shared
 
-The supplementary no-shared setting uses the executable Setting III continuous-covariate mechanism, responder mechanism, inactive-treatment encoding, and 25-coefficient Q-model. No parameters are truly shared. It changes the population Q-parameter target so that the Setting III analogue groups are separated rather than random-walk shared.
+The supplementary no-shared setting uses the executable Setting III continuous-covariate mechanism, staged primary-outcome model, responder mechanism, inactive-treatment encoding, and 25-coefficient Q-model. No parameters are truly shared. It changes the population Q-parameter target so that the Setting III analogue groups are separated rather than random-walk shared.
 
 | Spec | Seed | Target separated decision effects |
 | --- | ---: | --- |
