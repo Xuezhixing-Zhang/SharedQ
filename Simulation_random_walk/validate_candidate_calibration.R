@@ -108,17 +108,23 @@ candidate_rows <- function(setting, spec, path, groups) {
   do.call(rbind, rows)
 }
 
-write_report <- function(setting_dir, setting_name, rows) {
+write_report <- function(
+  setting_dir,
+  setting_name,
+  rows,
+  report_stem = "candidate_calibration_report",
+  report_title_suffix = "Candidate Calibration Report"
+) {
   summarize_dir <- file.path(root_dir, setting_dir, "Summarize")
   dir.create(summarize_dir, recursive = TRUE, showWarnings = FALSE)
 
-  csv_path <- file.path(summarize_dir, "candidate_calibration_report.csv")
-  md_path <- file.path(summarize_dir, "candidate_calibration_report.md")
+  csv_path <- file.path(summarize_dir, paste0(report_stem, ".csv"))
+  md_path <- file.path(summarize_dir, paste0(report_stem, ".md"))
   write.csv(rows, csv_path, row.names = FALSE)
 
   status <- if (all(rows$pass)) "PASS" else "FAIL"
   lines <- c(
-    paste0("# ", setting_name, " Candidate Calibration Report"),
+    paste0("# ", setting_name, " ", report_title_suffix),
     "",
     paste0("- Tolerance: `", candidate_tolerance, "`"),
     paste0("- Overall status: `", status, "`"),
@@ -204,15 +210,31 @@ configs <- list(
   )
 )
 
-statuses <- character(0)
-for (config in configs) {
-  rows <- do.call(rbind, lapply(names(config$artifacts), function(spec) {
-    artifact_path <- file.path(root_dir, config$dir, config$artifacts[[spec]])
-    candidate_rows(config$setting, spec, artifact_path, config$groups)
-  }))
-  statuses <- c(statuses, write_report(config$dir, config$setting, rows))
+run_candidate_calibration_validation <- function(
+  validation_configs = configs,
+  report_stem = "candidate_calibration_report",
+  report_title_suffix = "Candidate Calibration Report"
+) {
+  statuses <- character(0)
+  for (config in validation_configs) {
+    rows <- do.call(rbind, lapply(names(config$artifacts), function(spec) {
+      artifact_path <- file.path(root_dir, config$dir, config$artifacts[[spec]])
+      candidate_rows(config$setting, spec, artifact_path, config$groups)
+    }))
+    statuses <- c(statuses, write_report(
+      config$dir,
+      config$setting,
+      rows,
+      report_stem = report_stem,
+      report_title_suffix = report_title_suffix
+    ))
+  }
+  statuses
 }
 
-if (!all(statuses == "PASS")) {
-  quit(status = 1)
+if (sys.nframe() == 0) {
+  statuses <- run_candidate_calibration_validation()
+  if (!all(statuses == "PASS")) {
+    quit(status = 1)
+  }
 }

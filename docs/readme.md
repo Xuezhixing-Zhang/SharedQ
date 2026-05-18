@@ -16,6 +16,7 @@ This folder is the single document hub for the SharedQ workspace. Future agents 
 
 - Update `docs/plan and goal.md` when starting a milestone, completing a milestone, or changing the planned milestone order.
 - Update today's log every time a meaningful decision, blocker, command result, or verification outcome occurs.
+- Use `Rscript Simulation_random_walk/run_candidate_calibration_smoke.R` for bounded constrained calibration checks; it writes ignored `.rds` artifacts under each setting's `calibration/candidate_constraint_smoke/` folder and text reports under `Summarize/`.
 - Run `Rscript Simulation_random_walk/validate_candidate_calibration.R` after calibration artifacts are generated or changed; do not treat production simulation outputs as final until candidate coefficients and implied differences pass the documented tolerance.
 - After each milestone is complete, commit the relevant changes and push them to the configured Git remote.
 - If push fails, record the exact blocker in today's log before moving to the next milestone.
@@ -43,6 +44,8 @@ For per-setting file management, artifact layout, parameter choices, seeds, and 
 For current generated-result summaries and next actions, read each setting's `Summarize/current_results_summary.md` and `Summarize/todo.md`.
 
 For candidate-parameter calibration status, read each setting's `Summarize/candidate_calibration_report.md` after running `Simulation_random_walk/validate_candidate_calibration.R`.
+
+For bounded candidate-calibration smoke status, read each setting's `Summarize/candidate_calibration_smoke_report.md` after running `Simulation_random_walk/run_candidate_calibration_smoke.R`.
 
 ## Document Naming
 
