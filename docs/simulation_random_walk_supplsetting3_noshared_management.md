@@ -10,7 +10,7 @@ This supplementary setting reuses the continuous-covariate Setting III mechanism
 - Sample sizes: `100`, `300`, `500`, `1000`.
 - Production replicates: `200` per sample size.
 - Candidate shared-effect analogues are intentionally separated: main decision effects, observation-by-decision effects, and previous-treatment-by-decision effects.
-- Production defaults: simulation seed `12345`, population generator seed `4321`, `mc_n = 1000000`, `search_maxeval = 8000`, `search_local_maxeval = 8000`.
+- Production defaults: simulation seed `12345`, population generator seed `4321`, `mc_n = 1000000`, `search_maxeval = 8000`, `search_local_maxeval = 8000`, candidate target tolerance `0.03`.
 - Smoke-test defaults: seed `1`, `mc_n = 2000`, `search_maxeval = 10`, `search_local_maxeval = 5`.
 
 ## Parameter Choices
@@ -26,7 +26,7 @@ This supplementary setting reuses the continuous-covariate Setting III mechanism
 | File | Usage and objective |
 | --- | --- |
 | `nloptr_Setting3.R` | Defines no-shared continuous-covariate targets and calibration search. |
-| `spec_calibration.R` | Runs bounded calibration across supplementary no-shared specs. |
+| `spec_calibration.R` | Runs bounded calibration across supplementary no-shared specs; supports `CALIBRATION_*` env controls for spec subsets and optimizer budgets. |
 | `Q_datagenerating.R` | Samples from this setting's `data_original.rds` and adds outcome noise. |
 | `Q_learning.R` | Conventional Q-learning implementation. |
 | `Q_SQlearning.R` | Fits fused lasso SQ-learning with bounded iteration controls. |

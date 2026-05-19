@@ -16,7 +16,7 @@ Recalibrate the random-walk simulation suite so candidate shared parameters and 
 - [x] RW-DOC 1: Consolidate random-walk setting design, sample sizes, parameter targets, and calibrated true values into a root markdown reference; remove redundant design-only markdown files.
 - [x] RW-CAL 1: Add target-centered candidate constraints and validation tooling for all random-walk settings.
 - [x] RW-CAL 2: Run bounded constrained calibration smoke checks for Setting I, Setting II, Setting III, and Supplementary Setting III No Shared.
-- [ ] RW-CAL 3: Review bounded smoke failures and decide whether to increase optimizer budget/starts, relax or revise infeasible implied targets, or split default versus stress-test acceptance criteria.
+- [x] RW-CAL 3: Review bounded smoke failures and decide whether to increase optimizer budget/starts, relax or revise infeasible implied targets, or split default versus stress-test acceptance criteria.
 - [ ] RW-CAL 4: Run production constrained calibration for all accepted default and sensitivity specs; regenerate candidate calibration reports.
 - [ ] RW-CAL 5: Rerun production simulations only after default production calibration specs pass validation.
 - [ ] RW-CAL 6: Regenerate summaries, update logs/docs, commit, and push accepted scripts and summary outputs.
@@ -24,11 +24,13 @@ Recalibrate the random-walk simulation suite so candidate shared parameters and 
 ## Current Progress Summary
 
 - Completed document consolidation: `RANDOM_WALK_SETTING_DESIGN_SUMMARY.md` is the root reference for setting design, sample sizes, target parameters, true-sharing relationships, primary outcome models, and current calibrated true-value summaries.
-- Completed calibration tooling: all four random-walk calibration scripts now impose target-centered candidate coefficient windows and implied-difference constraints with tolerance `0.03`.
-- Completed validation tooling: `Simulation_random_walk/validate_candidate_calibration.R` checks production calibration artifacts and writes candidate coefficient/difference reports; `Simulation_random_walk/run_candidate_calibration_smoke.R` runs bounded calibration smoke checks into ignored local artifact folders and writes smoke reports.
+- Completed calibration tooling: all four random-walk calibration scripts now impose target-centered candidate coefficient windows and implied-difference constraints. Setting I and Setting III use strict `0.01` windows; Setting II and Supplementary Setting III No Shared retain `0.03` windows around their intentionally separated targets.
+- Completed validation tooling: `Simulation_random_walk/validate_candidate_calibration.R` checks production calibration artifacts with per-setting tolerances and writes candidate coefficient/difference reports; `Simulation_random_walk/run_candidate_calibration_smoke.R` runs bounded calibration smoke checks into ignored local artifact folders and writes smoke reports.
+- Completed RW-CAL 3 decision: rerun default-spec calibration first with larger optimizer budgets and multiple starts; keep no-shared settings centered on separated targets; do not force exact equality or zero differences.
 - Current production calibration status: not accepted. Existing production `.rds` artifacts predate the new constraints and fail `Simulation_random_walk/validate_candidate_calibration.R`.
-- Current bounded smoke status: not accepted. Setting II `separated_moderate` passes all smoke candidate checks, Setting III and supplementary moderate specs are partly close, but Setting I specs, Setting II reversed/large, and supplementary reversed/large still miss the `0.03` gate.
-- Next real work: rerun bounded constrained calibration with larger optimizer budgets and multiple starts for default specs first, then decide whether the remaining sensitivity/stress specs need higher budgets, revised implied targets, or revised constraint tolerances before production calibration.
+- Current bounded smoke status: partly accepted for default specs only. Setting II `separated_moderate`, Setting III `rw_sigma_moderate`, and Supplementary Setting III No Shared `separated_moderate` pass their per-setting smoke gates after larger-budget default calibration. Setting I `balanced_small` still fails the stricter `0.01` gate after a higher-budget retry.
+- Current production calibration status: running for accepted default smoke specs only. PBS jobs `504736.hn-10-03`, `504737.hn-10-03`, and `504738.hn-10-03` were submitted for Setting II, Setting III, and Supplementary Setting III No Shared default production calibration, respectively.
+- Next real work: monitor the three submitted calibration jobs, run `Rscript Simulation_random_walk/validate_candidate_calibration.R` after they finish, and resolve the Setting I default calibration miss before any Setting I production simulation rerun.
 
 ## Artifact Versioning Policy
 
@@ -46,9 +48,9 @@ Recalibrate the random-walk simulation suite so candidate shared parameters and 
 - Test scripts now restore pre-existing `calibration/data_original.rds` after bounded population-generation checks, preventing smoke tests from overwriting production Monte Carlo population files.
 - Path validation confirms no generated `.rds` or `.out` files remain in the old shallow setting folders.
 - `RANDOM_WALK_SETTING_DESIGN_SUMMARY.md` is now the single root-level reference for random-walk setting designs, sample sizes, parameter targets, and calibrated true-value summaries.
-- Candidate-parameter recalibration now uses target-centered constraints with tolerance `0.03` for both individual coefficients and implied pair/group differences.
-- `Simulation_random_walk/validate_candidate_calibration.R` writes `candidate_calibration_report.md` and `.csv` into each setting's `Summarize/` folder; a passing report is required before production simulations are accepted.
-- `Simulation_random_walk/run_candidate_calibration_smoke.R` writes bounded smoke artifacts under ignored `calibration/candidate_constraint_smoke/` folders and `candidate_calibration_smoke_report.md`/`.csv` summaries. The current smoke reports fail the `0.03` gate: Setting II `separated_moderate` mostly passes, Setting III and supplementary moderate are close on several terms, but Setting I sensitivity specs, Setting II reversed/large, and supplementary large have larger misses that need review before production calibration.
+- Candidate-parameter recalibration now uses target-centered constraints for both individual coefficients and implied pair/group differences, with `0.01` tolerance for true near-shared random-walk settings and `0.03` tolerance for no-shared settings.
+- `Simulation_random_walk/validate_candidate_calibration.R` writes `candidate_calibration_report.md` and `.csv` into each setting's `Summarize/` folder using per-setting tolerances; a passing report is required before production simulations are accepted.
+- `Simulation_random_walk/run_candidate_calibration_smoke.R` writes bounded smoke artifacts under ignored `calibration/candidate_constraint_smoke/` folders and `candidate_calibration_smoke_report.md`/`.csv` summaries. The runner supports `CALIBRATION_SPEC_MODE`, `CALIBRATION_SPECS`, `CALIBRATION_MC_N`, `CALIBRATION_MAXEVAL`, `CALIBRATION_LOCAL_MAXEVAL`, `CALIBRATION_N_STARTS`, and `CALIBRATION_PRINT_LEVEL`.
 
 ## Milestones
 

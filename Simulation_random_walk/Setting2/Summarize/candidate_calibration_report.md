@@ -1,6 +1,7 @@
 # Setting II Candidate Calibration Report
 
 - Tolerance: `0.03`
+- Numerical slack: `1.49011611938477e-08`
 - Overall status: `FAIL`
 
 | Spec | Check | Group | Item | Target | Calibrated | Error | Pass |

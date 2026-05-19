@@ -3,6 +3,8 @@
 ## Core Scripts
 
 - `nloptr_Setting3.R`: nloptr calibration and bounded population data generator for the continuous-covariate setting.
+- `spec_calibration.R`: bounded multi-spec calibration runner.
+- `../calibration_runner_utils.R`: shared env-var parsing and spec selection helpers for calibration runners.
 - `Q_datagenerating.R`: samples from `data_original.rds` and adds outcome noise.
 - `Q_learning.R`: conventional Q-learning implementation used by simulation replicates.
 - `Q_SQlearning.R`: fused lasso SQ-learning.
@@ -13,6 +15,7 @@
 - `Evaluation.R`: post-run summary helpers.
 - `test.R`: bounded smoke test.
 - `submission.pbs`: PBS production submission script.
+- `submission_specs.pbs`: PBS calibration submission script with `CALIBRATION_*` controls.
 
 ## Generated Artifacts
 

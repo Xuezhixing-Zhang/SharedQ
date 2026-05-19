@@ -29,12 +29,12 @@ The saved post-search score is `sum(abs(theta(gamma) - theta_target))`. The opti
 
 | Setting | Calibration constraints used |
 | --- | --- |
-| Setting I | Constrain `Q3_A1`, `Q2_A1`, `Q3_A3`, `Q2_A2`, `Q3_A1A3`, and `Q2_A1A2` to their current targets within `0.03`; also constrain each intended pair difference to its implied target difference within `0.03`. |
+| Setting I | Constrain `Q3_A1`, `Q2_A1`, `Q3_A3`, `Q2_A2`, `Q3_A1A3`, and `Q2_A1A2` to their current targets within `0.01`; also constrain each intended pair difference to its implied target difference within `0.01`. |
 | Setting II | Constrain the same candidate-only shared terms as Setting I to their separated targets within `0.03`; also constrain each candidate pair difference to its implied separated target difference within `0.03`. |
-| Setting III | Constrain `Q3_A3`, `Q2_A2`, `Q1_A1`, `Q3_O3:A3`, `Q2_O2:A2`, `Q1_O1:A1`, `Q3_A2:A3`, `Q2_A1:A2`, and `Q3_A1:A2:A3` to their current targets within `0.03`; also constrain all pairwise differences within the `psi0`, `psi1`, and `psi2` groups to their implied target differences within `0.03`. |
-| Supplementary Setting III No Shared | Use the same candidate analogue constraints as Setting III, but centered on the separated no-shared targets rather than the random-walk targets. |
+| Setting III | Constrain `Q3_A3`, `Q2_A2`, `Q1_A1`, `Q3_O3:A3`, `Q2_O2:A2`, `Q1_O1:A1`, `Q3_A2:A3`, `Q2_A1:A2`, and `Q3_A1:A2:A3` to their current targets within `0.01`; also constrain all pairwise differences within the `psi0`, `psi1`, and `psi2` groups to their implied target differences within `0.01`. |
+| Supplementary Setting III No Shared | Use the same candidate analogue constraints as Setting III, but centered on the separated no-shared targets within `0.03` rather than the random-walk targets. |
 
-Accepted calibration artifacts must pass `Rscript Simulation_random_walk/validate_candidate_calibration.R`, which writes `candidate_calibration_report.md` and `.csv` files into each setting's `Summarize/` folder.
+Accepted calibration artifacts must pass `Rscript Simulation_random_walk/validate_candidate_calibration.R`, which writes `candidate_calibration_report.md` and `.csv` files into each setting's `Summarize/` folder using these per-setting tolerances.
 
 ## Sharing Relationship Summary
 

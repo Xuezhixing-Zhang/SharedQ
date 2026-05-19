@@ -8,9 +8,31 @@ if (length(file_arg) > 0) {
   root_dir <- getwd()
 }
 
-candidate_tolerance <- as.numeric(
-  Sys.getenv("CANDIDATE_TARGET_TOLERANCE", unset = "0.03")
+numeric_env <- function(name, default) {
+  value <- Sys.getenv(name, unset = "")
+  if (!nzchar(value)) return(default)
+  numeric_value <- suppressWarnings(as.numeric(value))
+  if (is.na(numeric_value)) {
+    stop(name, " must be numeric; got `", value, "`.")
+  }
+  numeric_value
+}
+
+candidate_tolerance <- numeric_env("CANDIDATE_TARGET_TOLERANCE", NA_real_)
+shared_candidate_tolerance <- numeric_env("SHARED_CANDIDATE_TARGET_TOLERANCE", 0.01)
+no_shared_candidate_tolerance <- numeric_env("NO_SHARED_CANDIDATE_TARGET_TOLERANCE", 0.03)
+candidate_tolerance_slack <- numeric_env(
+  "CANDIDATE_TARGET_TOLERANCE_SLACK",
+  sqrt(.Machine$double.eps)
 )
+
+setting_candidate_tolerance <- function(default_tolerance) {
+  if (!is.na(candidate_tolerance)) candidate_tolerance else default_tolerance
+}
+
+within_candidate_tolerance <- function(error, tolerance) {
+  abs(error) <= tolerance + candidate_tolerance_slack
+}
 
 fmt <- function(x) {
   if (is.na(x)) return("")
@@ -37,7 +59,7 @@ best_theta <- function(path) {
   )
 }
 
-candidate_rows <- function(setting, spec, path, groups) {
+candidate_rows <- function(setting, spec, path, groups, tolerance) {
   if (!file.exists(path)) {
     return(data.frame(
       setting = setting,
@@ -73,7 +95,7 @@ candidate_rows <- function(setting, spec, path, groups) {
         target = target,
         calibrated = calibrated,
         error = error,
-        pass = abs(error) <= candidate_tolerance,
+        pass = within_candidate_tolerance(error, tolerance),
         stringsAsFactors = FALSE
       )
       row_i <- row_i + 1
@@ -97,7 +119,7 @@ candidate_rows <- function(setting, spec, path, groups) {
           target = target_diff,
           calibrated = calibrated_diff,
           error = error,
-          pass = abs(error) <= candidate_tolerance,
+          pass = within_candidate_tolerance(error, tolerance),
           stringsAsFactors = FALSE
         )
         row_i <- row_i + 1
@@ -112,6 +134,7 @@ write_report <- function(
   setting_dir,
   setting_name,
   rows,
+  tolerance,
   report_stem = "candidate_calibration_report",
   report_title_suffix = "Candidate Calibration Report"
 ) {
@@ -126,7 +149,8 @@ write_report <- function(
   lines <- c(
     paste0("# ", setting_name, " ", report_title_suffix),
     "",
-    paste0("- Tolerance: `", candidate_tolerance, "`"),
+    paste0("- Tolerance: `", tolerance, "`"),
+    paste0("- Numerical slack: `", candidate_tolerance_slack, "`"),
     paste0("- Overall status: `", status, "`"),
     "",
     "| Spec | Check | Group | Item | Target | Calibrated | Error | Pass |",
@@ -170,6 +194,8 @@ configs <- list(
   list(
     setting = "Setting I",
     dir = "Setting1",
+    candidate_tolerance = setting_candidate_tolerance(shared_candidate_tolerance),
+    default_spec = "balanced_small",
     groups = binary_groups,
     artifacts = c(
       balanced_small = "calibration/calibration_balanced_small.rds",
@@ -180,6 +206,8 @@ configs <- list(
   list(
     setting = "Setting II",
     dir = "Setting2",
+    candidate_tolerance = setting_candidate_tolerance(no_shared_candidate_tolerance),
+    default_spec = "separated_moderate",
     groups = binary_groups,
     artifacts = c(
       separated_moderate = "calibration/calibration_separated_moderate.rds",
@@ -190,6 +218,8 @@ configs <- list(
   list(
     setting = "Setting III",
     dir = "Setting3",
+    candidate_tolerance = setting_candidate_tolerance(shared_candidate_tolerance),
+    default_spec = "rw_sigma_moderate",
     groups = continuous_groups,
     artifacts = c(
       rw_sigma_moderate = "calibration/calibration_rw_sigma_moderate.rds",
@@ -200,6 +230,8 @@ configs <- list(
   list(
     setting = "Supplementary Setting III No Shared",
     dir = "SupplSetting3_NoShared",
+    candidate_tolerance = setting_candidate_tolerance(no_shared_candidate_tolerance),
+    default_spec = "separated_moderate",
     groups = continuous_groups,
     artifacts = c(
       separated_moderate = "calibration/calibration_separated_moderate.rds",
@@ -219,12 +251,19 @@ run_candidate_calibration_validation <- function(
   for (config in validation_configs) {
     rows <- do.call(rbind, lapply(names(config$artifacts), function(spec) {
       artifact_path <- file.path(root_dir, config$dir, config$artifacts[[spec]])
-      candidate_rows(config$setting, spec, artifact_path, config$groups)
+      candidate_rows(
+        config$setting,
+        spec,
+        artifact_path,
+        config$groups,
+        config$candidate_tolerance
+      )
     }))
     statuses <- c(statuses, write_report(
       config$dir,
       config$setting,
       rows,
+      config$candidate_tolerance,
       report_stem = report_stem,
       report_title_suffix = report_title_suffix
     ))

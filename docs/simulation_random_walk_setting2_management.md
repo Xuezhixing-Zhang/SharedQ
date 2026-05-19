@@ -11,7 +11,7 @@ Setting II keeps the binary-treatment real-data-mimic framework but deliberately
 - Production replicates: `200` per sample size.
 - Response mechanism matches Setting I.
 - Candidate sharing pairs are intentionally separated: `Q3_A1 / Q2_A1`, `Q3_A3 / Q2_A2`, `Q3_A1A3 / Q2_A1A2`.
-- Production defaults: simulation seed `12345`, population/calibration default seed `1234`, `mc_n = 1000000`, `search_maxeval = 100000`, `search_local_maxeval = 20000`.
+- Production defaults: simulation seed `12345`, population/calibration default seed `1234`, `mc_n = 1000000`, `search_maxeval = 100000`, `search_local_maxeval = 20000`, candidate target tolerance `0.03`.
 - Smoke-test defaults: seed `1`, `mc_n = 5000`, `search_maxeval = 50`, `search_local_maxeval = 20`.
 
 ## Parameter Choices
@@ -27,7 +27,7 @@ Setting II keeps the binary-treatment real-data-mimic framework but deliberately
 | File | Usage and objective |
 | --- | --- |
 | `nloptr_Setting2.R` | Defines no-sharing targets and calibrates data-generating `gamma`. |
-| `spec_calibration.R` | Runs bounded calibration for all Setting II target groups. |
+| `spec_calibration.R` | Runs bounded calibration for all Setting II target groups; supports `CALIBRATION_*` env controls for spec subsets and optimizer budgets. |
 | `Q_datagenerating.R` | Samples from `data_original.rds` and adds outcome noise. |
 | `Q_Conventional.R` | Fits conventional Q-learning. |
 | `Q_SQlearning.R` | Fits fused lasso SQ-learning and misspecified variants. |

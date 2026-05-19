@@ -1,6 +1,7 @@
 # Setting III Candidate Calibration Report
 
-- Tolerance: `0.03`
+- Tolerance: `0.01`
+- Numerical slack: `1.49011611938477e-08`
 - Overall status: `FAIL`
 
 | Spec | Check | Group | Item | Target | Calibrated | Error | Pass |
@@ -32,7 +33,7 @@
 | rw_sigma_tight | coefficient | psi1 | Q1_O1A1 | 0.4600 | 0.5596 | 0.0996 | FAIL |
 | rw_sigma_tight | difference | psi1 | Q3_O3A3 - Q2_O2A2 | 0.0400 | -0.1240 | -0.1640 | FAIL |
 | rw_sigma_tight | difference | psi1 | Q3_O3A3 - Q1_O1A1 | 0.0800 | -0.0588 | -0.1388 | FAIL |
-| rw_sigma_tight | difference | psi1 | Q2_O2A2 - Q1_O1A1 | 0.0400 | 0.0652 | 0.0252 | PASS |
+| rw_sigma_tight | difference | psi1 | Q2_O2A2 - Q1_O1A1 | 0.0400 | 0.0652 | 0.0252 | FAIL |
 | rw_sigma_tight | coefficient | psi2 | Q3_A2A3 | 0.3800 | 0.5891 | 0.2091 | FAIL |
 | rw_sigma_tight | coefficient | psi2 | Q2_A1A2 | 0.3200 | 0.2408 | -0.0792 | FAIL |
 | rw_sigma_tight | difference | psi2 | Q3_A2A3 - Q2_A1A2 | 0.0600 | 0.3483 | 0.2883 | FAIL |

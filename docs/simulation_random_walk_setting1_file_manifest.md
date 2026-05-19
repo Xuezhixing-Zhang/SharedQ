@@ -4,6 +4,7 @@
 
 - `nloptr_Setting1.R`: random-walk near-sharing calibration.
 - `spec_calibration.R`: runs the bounded Setting I parameter groups.
+- `../calibration_runner_utils.R`: shared env-var parsing and spec selection helpers for calibration runners.
 - `Q_datagenerating.R`: samples from `data_original.rds` and adds outcome noise.
 - `Q_Conventional.R`: conventional backward-induction Q-learning.
 - `Q_SQlearning.R`: fused lasso SQ-learning.
@@ -14,6 +15,7 @@
 - `Evaluation.R`: post-run summary helpers.
 - `test.R`: bounded smoke test.
 - `submission.pbs`: PBS production submission script.
+- `submission_specs.pbs`: PBS calibration submission script with `CALIBRATION_*` controls.
 
 ## Generated Artifacts
 

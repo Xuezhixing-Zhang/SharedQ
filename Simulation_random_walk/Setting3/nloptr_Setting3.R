@@ -256,7 +256,7 @@ eval_g_eq <- function(x) {
   numeric(0)
 }
 
-candidate_target_tolerance <- 0.03
+candidate_target_tolerance <- 0.01
 candidate_constraint_tolerance <- 1e-4
 
 setting3_candidate_indices <- c(10, 19, 24, 11, 20, 25, 12, 21, 13)

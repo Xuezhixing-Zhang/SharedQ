@@ -1,10 +1,10 @@
 #!/bin/bash
-#PBS -N sim_rw_s3_specs
+#PBS -N sim_rw_s2_specs
 #PBS -l nodes=1
 #PBS -l walltime=12:00:00
 #PBS -l mem=16gb
 #PBS -j oe
-#PBS -o logs/sim_rw_s3_specs.out
+#PBS -o /data/cheungyb/home/e1404425/SharedQ/Simulation_random_walk/Setting2/logs/sim_rw_s2_specs.out
 #PBS -q short
 
 module load cmake/3.21.4 r/4.4.0
@@ -16,6 +16,6 @@ export CALIBRATION_LOCAL_MAXEVAL="${CALIBRATION_LOCAL_MAXEVAL:-500}"
 export CALIBRATION_N_STARTS="${CALIBRATION_N_STARTS:-5}"
 export CALIBRATION_PRINT_LEVEL="${CALIBRATION_PRINT_LEVEL:-0}"
 
-cd /data/cheungyb/home/e1404425/SharedQ/Simulation_random_walk/Setting3
+cd /data/cheungyb/home/e1404425/SharedQ
 
-Rscript spec_calibration.R
+Rscript Simulation_random_walk/Setting2/spec_calibration.R

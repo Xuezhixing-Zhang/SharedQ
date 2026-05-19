@@ -26,7 +26,7 @@
 "Setting III","rw_sigma_tight","coefficient","psi1","Q1_O1A1",0.46,0.559608956902156,0.0996089569021559,FALSE
 "Setting III","rw_sigma_tight","difference","psi1","Q3_O3A3 - Q2_O2A2",0.04,-0.124012612738334,-0.164012612738334,FALSE
 "Setting III","rw_sigma_tight","difference","psi1","Q3_O3A3 - Q1_O1A1",0.08,-0.0588353191222465,-0.138835319122247,FALSE
-"Setting III","rw_sigma_tight","difference","psi1","Q2_O2A2 - Q1_O1A1",0.04,0.0651772936160874,0.0251772936160874,TRUE
+"Setting III","rw_sigma_tight","difference","psi1","Q2_O2A2 - Q1_O1A1",0.04,0.0651772936160874,0.0251772936160874,FALSE
 "Setting III","rw_sigma_tight","coefficient","psi2","Q3_A2A3",0.38,0.589079970811321,0.209079970811321,FALSE
 "Setting III","rw_sigma_tight","coefficient","psi2","Q2_A1A2",0.32,0.240779481103422,-0.0792205188965779,FALSE
 "Setting III","rw_sigma_tight","difference","psi2","Q3_A2A3 - Q2_A1A2",0.0600000000000001,0.348300489707899,0.288300489707899,FALSE

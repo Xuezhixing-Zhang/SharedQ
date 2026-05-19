@@ -1,14 +1,20 @@
 #!/bin/bash
 #PBS -N sim_rw_s1_specs
 #PBS -l nodes=1
-#PBS -l walltime=04:00:00
-#PBS -l mem=8gb
+#PBS -l walltime=12:00:00
+#PBS -l mem=16gb
 #PBS -j oe
 #PBS -o /data/cheungyb/home/e1404425/SharedQ/Simulation_random_walk/Setting1/logs/sim_rw_s1_specs.out
 #PBS -q short
 
 module load cmake/3.21.4 r/4.4.0
 export R_LIBS_USER="$HOME/R/x86_64-pc-linux-gnu-library/4.4"
+export CALIBRATION_SPEC_MODE="${CALIBRATION_SPEC_MODE:-default}"
+export CALIBRATION_MC_N="${CALIBRATION_MC_N:-5000}"
+export CALIBRATION_MAXEVAL="${CALIBRATION_MAXEVAL:-1000}"
+export CALIBRATION_LOCAL_MAXEVAL="${CALIBRATION_LOCAL_MAXEVAL:-500}"
+export CALIBRATION_N_STARTS="${CALIBRATION_N_STARTS:-5}"
+export CALIBRATION_PRINT_LEVEL="${CALIBRATION_PRINT_LEVEL:-0}"
 
 cd /data/cheungyb/home/e1404425/SharedQ
 

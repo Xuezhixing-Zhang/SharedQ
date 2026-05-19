@@ -9,6 +9,12 @@
 
 module load cmake/3.21.4 r/4.4.0
 export R_LIBS_USER="$HOME/R/x86_64-pc-linux-gnu-library/4.4"
+export CALIBRATION_SPEC_MODE="${CALIBRATION_SPEC_MODE:-default}"
+export CALIBRATION_MC_N="${CALIBRATION_MC_N:-5000}"
+export CALIBRATION_MAXEVAL="${CALIBRATION_MAXEVAL:-1000}"
+export CALIBRATION_LOCAL_MAXEVAL="${CALIBRATION_LOCAL_MAXEVAL:-500}"
+export CALIBRATION_N_STARTS="${CALIBRATION_N_STARTS:-5}"
+export CALIBRATION_PRINT_LEVEL="${CALIBRATION_PRINT_LEVEL:-0}"
 
 cd /data/cheungyb/home/e1404425/SharedQ/Simulation_random_walk/SupplSetting3_NoShared
 

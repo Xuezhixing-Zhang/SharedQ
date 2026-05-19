@@ -10,7 +10,7 @@ Setting III uses a continuous-covariate three-stage design with random-walk shar
 - Sample sizes: `100`, `300`, `500`, `1000`.
 - Production replicates: `200` per sample size.
 - Candidate shared-effect groups: main decision effects, observation-by-decision effects, and previous-treatment-by-decision effects.
-- Production defaults: simulation seed `12345`, population generator seed `4321`, `mc_n = 1000000`, `search_maxeval = 8000`, `search_local_maxeval = 8000`.
+- Production defaults: simulation seed `12345`, population generator seed `4321`, `mc_n = 1000000`, `search_maxeval = 8000`, `search_local_maxeval = 8000`, candidate target tolerance `0.01`.
 - Smoke-test defaults: seed `1`, `mc_n = 2000`, `search_maxeval = 10`, `search_local_maxeval = 5`.
 
 ## Parameter Choices
@@ -26,7 +26,7 @@ Setting III uses a continuous-covariate three-stage design with random-walk shar
 | File | Usage and objective |
 | --- | --- |
 | `nloptr_Setting3.R` | Defines continuous-covariate targets, cached covariate draws, and calibration search. |
-| `spec_calibration.R` | Runs bounded calibration across Setting III random-walk specs. |
+| `spec_calibration.R` | Runs bounded calibration across Setting III random-walk specs; supports `CALIBRATION_*` env controls for spec subsets and optimizer budgets. |
 | `Q_datagenerating.R` | Samples from `data_original.rds` and adds outcome noise. |
 | `Q_learning.R` | Conventional Q-learning implementation used by replicates. |
 | `Q_SQlearning.R` | Fits fused lasso SQ-learning. |

@@ -11,7 +11,7 @@ Setting I mimics the real-data binary-treatment design and targets near-shared e
 - Production replicates: `200` per sample size.
 - Response mechanism: `P(R1 = 1) = 0.59`; `P(R2 = 1 | A1 = 1) = 0.23`; `P(R2 = 1 | A1 = -1) = 0.13`.
 - Candidate near-shared pairs: `Q3_A1 / Q2_A1`, `Q3_A3 / Q2_A2`, `Q3_A1A3 / Q2_A1A2`.
-- Production defaults: simulation seed `12345`, population/calibration default seed `1234`, `mc_n = 1000000`, `search_maxeval = 100000`, `search_local_maxeval = 20000`.
+- Production defaults: simulation seed `12345`, population/calibration default seed `1234`, `mc_n = 1000000`, `search_maxeval = 100000`, `search_local_maxeval = 20000`, candidate target tolerance `0.01`.
 - Smoke-test defaults: seed `1`, `mc_n = 5000`, `search_maxeval = 50`, `search_local_maxeval = 20`.
 
 ## Parameter Choices
@@ -27,7 +27,7 @@ Setting I mimics the real-data binary-treatment design and targets near-shared e
 | File | Usage and objective |
 | --- | --- |
 | `nloptr_Setting1.R` | Defines near-shared targets, population projection, and `nloptr` calibration. |
-| `spec_calibration.R` | Runs bounded multi-spec calibration for the three parameter choices. |
+| `spec_calibration.R` | Runs bounded multi-spec calibration for the three parameter choices; supports `CALIBRATION_*` env controls for spec subsets and optimizer budgets. |
 | `Q_datagenerating.R` | Samples simulation data from `data_original.rds` and adds outcome noise. |
 | `Q_Conventional.R` | Fits conventional backward-induction Q-learning. |
 | `Q_SQlearning.R` | Fits fused lasso SQ-learning for true and misspecified sharing patterns. |
