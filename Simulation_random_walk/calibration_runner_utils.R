@@ -33,15 +33,24 @@ calibration_runner_args <- function(
   default_maxeval = 50,
   default_local_maxeval = 20,
   default_n_starts = 1,
-  default_print_level = 0
+  default_print_level = 0,
+  default_target_tolerance = NA_real_
 ) {
-  list(
+  args <- list(
     mc_n = calibration_integer_env("CALIBRATION_MC_N", default_mc_n),
     maxeval = calibration_integer_env("CALIBRATION_MAXEVAL", default_maxeval),
     local_maxeval = calibration_integer_env("CALIBRATION_LOCAL_MAXEVAL", default_local_maxeval),
     n_starts = calibration_integer_env("CALIBRATION_N_STARTS", default_n_starts),
     print_level = calibration_integer_env("CALIBRATION_PRINT_LEVEL", default_print_level)
   )
+  if (nzchar(calibration_env("CALIBRATION_TARGET_TOLERANCE")) ||
+      !is.na(default_target_tolerance)) {
+    args$target_tolerance <- calibration_numeric_env(
+      "CALIBRATION_TARGET_TOLERANCE",
+      default_target_tolerance
+    )
+  }
+  args
 }
 
 calibration_runner_args_summary <- function(args) {

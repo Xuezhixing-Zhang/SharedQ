@@ -29,8 +29,10 @@ Recalibrate the random-walk simulation suite so candidate shared parameters and 
 - Completed RW-CAL 3 decision: rerun default-spec calibration first with larger optimizer budgets and multiple starts; keep no-shared settings centered on separated targets; do not force exact equality or zero differences.
 - Current production calibration status: not accepted. Existing production `.rds` artifacts predate the new constraints and fail `Simulation_random_walk/validate_candidate_calibration.R`.
 - Current bounded smoke status: partly accepted for default specs only. Setting II `separated_moderate`, Setting III `rw_sigma_moderate`, and Supplementary Setting III No Shared `separated_moderate` pass their per-setting smoke gates after larger-budget default calibration. Setting I `balanced_small` still fails the stricter `0.01` gate after a higher-budget retry.
-- Current production calibration status: running for accepted default smoke specs only. PBS jobs `504736.hn-10-03`, `504737.hn-10-03`, and `504738.hn-10-03` were submitted for Setting II, Setting III, and Supplementary Setting III No Shared default production calibration, respectively.
-- Next real work: monitor the three submitted calibration jobs, run `Rscript Simulation_random_walk/validate_candidate_calibration.R` after they finish, and resolve the Setting I default calibration miss before any Setting I production simulation rerun.
+- Current production calibration status: not accepted. The previously submitted jobs are no longer active; Setting II hit the 12-hour walltime without updating its production artifact, Setting I still misses the strict default gate, and Setting III plus Supplementary Setting III No Shared need a stricter internal optimizer window to clear boundary-level default validation misses.
+- Current checkpoint: a default production calibration retry was submitted on 2026-05-21 and then stopped at user request before writing new calibration `.rds` artifacts. There are currently no active jobs for `e1404425`.
+- Current implementation status: production simulation scripts now default to their setting-specific default calibration artifacts, and validation supports a default-only production gate via `VALIDATION_SPEC_MODE=default`.
+- Next real work: rerun default constrained calibration with stricter internal optimizer windows, validate all four default artifacts, and only then submit full production simulations/evaluations.
 
 ## Artifact Versioning Policy
 
@@ -50,7 +52,7 @@ Recalibrate the random-walk simulation suite so candidate shared parameters and 
 - `RANDOM_WALK_SETTING_DESIGN_SUMMARY.md` is now the single root-level reference for random-walk setting designs, sample sizes, parameter targets, and calibrated true-value summaries.
 - Candidate-parameter recalibration now uses target-centered constraints for both individual coefficients and implied pair/group differences, with `0.01` tolerance for true near-shared random-walk settings and `0.03` tolerance for no-shared settings.
 - `Simulation_random_walk/validate_candidate_calibration.R` writes `candidate_calibration_report.md` and `.csv` into each setting's `Summarize/` folder using per-setting tolerances; a passing report is required before production simulations are accepted.
-- `Simulation_random_walk/run_candidate_calibration_smoke.R` writes bounded smoke artifacts under ignored `calibration/candidate_constraint_smoke/` folders and `candidate_calibration_smoke_report.md`/`.csv` summaries. The runner supports `CALIBRATION_SPEC_MODE`, `CALIBRATION_SPECS`, `CALIBRATION_MC_N`, `CALIBRATION_MAXEVAL`, `CALIBRATION_LOCAL_MAXEVAL`, `CALIBRATION_N_STARTS`, and `CALIBRATION_PRINT_LEVEL`.
+- `Simulation_random_walk/run_candidate_calibration_smoke.R` writes bounded smoke artifacts under ignored `calibration/candidate_constraint_smoke/` folders and `candidate_calibration_smoke_report.md`/`.csv` summaries. The runner supports `CALIBRATION_SPEC_MODE`, `CALIBRATION_SPECS`, `CALIBRATION_MC_N`, `CALIBRATION_MAXEVAL`, `CALIBRATION_LOCAL_MAXEVAL`, `CALIBRATION_N_STARTS`, `CALIBRATION_PRINT_LEVEL`, and `CALIBRATION_TARGET_TOLERANCE`.
 
 ## Milestones
 

@@ -18,13 +18,13 @@
 ## Current Execution Flow
 
 1. Run `nloptr_Setting1.R`.
-   It searches for a `gamma_true` vector so that the induced population Q-model coefficients are close to the target setting I pattern. It saves the result as `alternative_pars.rds`.
+   It searches for a `gamma_true` vector so that the induced population Q-model coefficients are close to the target setting I pattern. Default production calibration is saved as `calibration_balanced_small.rds`.
 
 2. Build the population dataset.
    `Q_learning_Setting_1(gamma_true, save = TRUE)` generates a large Monte Carlo population dataset under the chosen `gamma_true` and saves it as `data_original.rds`.
 
 3. Start simulation replications with `Simulation_Setting1.R`.
-   The script reads `alternative_pars.rds`, extracts the best `gamma_true` and `theta_true`, ensures `data_original.rds` exists, and then loops over the requested sample sizes and replicates.
+   The script reads `calibration_balanced_small.rds`, extracts the best `gamma_true` and `theta_true`, ensures `data_original.rds` exists, and then loops over the requested sample sizes and replicates.
 
 4. Inside each replicate, `Simu_I()` in `Q_functions.R` runs the full pipeline.
    It samples `n` rows from `data_original.rds`, adds Gaussian noise to `Y`, fits conventional Q-learning, then fits the three comparison methods:

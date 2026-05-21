@@ -20,7 +20,8 @@
 ## Generated Artifacts
 
 - `test_alternative_pars.rds`: bounded nloptr artifact for smoke tests.
-- `calibration_*.rds`: bounded parameter-group calibration outputs.
+- `calibration_balanced_small.rds`: default production calibration artifact.
+- `calibration_*.rds`: bounded or sensitivity parameter-group calibration outputs.
 - `shared_parameter_spec_runs.rds`: summary of bounded calibration specs.
 - `data_original.rds`: population dataset used by `Generate_data()`.
 - `results_*.rds`: simulation outputs written by `Simulation_Setting1.R`.

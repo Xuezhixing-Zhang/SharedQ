@@ -22,7 +22,7 @@
 - `test_alternative_pars.rds`: bounded smoke-test calibration artifact.
 - `data_X_*.rds`: cached covariate/treatment/responder draws for a given Monte Carlo size.
 - `data_original.rds`: population dataset used by `Generate_data()`.
-- `alternative_pars.rds`: intended production calibration artifact.
+- `calibration_separated_moderate.rds`: default production calibration artifact.
 - `calibration_separated_*.rds`: optional multi-spec calibration artifacts.
 - `parameter_spec_runs.rds`: summary of multi-spec calibration runs.
 - `results_*.rds`: simulation outputs written by `Simulation_Setting3.R`.

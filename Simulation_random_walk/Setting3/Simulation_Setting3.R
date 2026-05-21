@@ -16,7 +16,7 @@ run_setting3_simulation <- function(
   nfolds = 5,
   metric = "MSE_Q",
   seed = 12345,
-  pars_path = file.path(setting3_calibration_dir, "alternative_pars.rds"),
+  pars_path = file.path(setting3_calibration_dir, "calibration_rw_sigma_moderate.rds"),
   mc_n = 1000000,
   search_maxeval = 8000,
   search_local_maxeval = 8000,

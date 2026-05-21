@@ -16,8 +16,8 @@ This folder is the single document hub for the SharedQ workspace. Future agents 
 
 - Update `docs/plan and goal.md` when starting a milestone, completing a milestone, or changing the planned milestone order.
 - Update today's log every time a meaningful decision, blocker, command result, or verification outcome occurs.
-- Use `Rscript Simulation_random_walk/run_candidate_calibration_smoke.R` for bounded constrained calibration checks; it writes ignored `.rds` artifacts under each setting's `calibration/candidate_constraint_smoke/` folder and text reports under `Summarize/`. Set `CALIBRATION_SPEC_MODE=default` to run only the production/default spec, `CALIBRATION_SPECS` for a comma-separated subset, or `CALIBRATION_REPORT_ONLY=1` to regenerate reports from existing smoke artifacts.
-- Run `Rscript Simulation_random_walk/validate_candidate_calibration.R` after calibration artifacts are generated or changed; do not treat production simulation outputs as final until candidate coefficients and implied differences pass the documented per-setting tolerance (`0.01` for Setting I/III, `0.03` for no-shared settings).
+- Use `Rscript Simulation_random_walk/run_candidate_calibration_smoke.R` for bounded constrained calibration checks; it writes ignored `.rds` artifacts under each setting's `calibration/candidate_constraint_smoke/` folder and text reports under `Summarize/`. Set `CALIBRATION_SPEC_MODE=default` to run only the production/default spec, `CALIBRATION_SPECS` for a comma-separated subset, `CALIBRATION_TARGET_TOLERANCE` for a stricter internal optimizer window, or `CALIBRATION_REPORT_ONLY=1` to regenerate reports from existing smoke artifacts.
+- Run `Rscript Simulation_random_walk/validate_candidate_calibration.R` after calibration artifacts are generated or changed; do not treat production simulation outputs as final until candidate coefficients and implied differences pass the documented per-setting tolerance (`0.01` for Setting I/III, `0.03` for no-shared settings). Use `VALIDATION_SPEC_MODE=default` for the production-simulation gate, `VALIDATION_SPECS` for a comma-separated subset, and `VALIDATION_REPORT_STEM` if the report should not overwrite the all-spec report.
 - After each milestone is complete, commit the relevant changes and push them to the configured Git remote.
 - If push fails, record the exact blocker in today's log before moving to the next milestone.
 
@@ -46,6 +46,8 @@ For current generated-result summaries and next actions, read each setting's `Su
 For candidate-parameter calibration status, read each setting's `Summarize/candidate_calibration_report.md` after running `Simulation_random_walk/validate_candidate_calibration.R`.
 
 For bounded candidate-calibration smoke status, read each setting's `Summarize/candidate_calibration_smoke_report.md` after running `Simulation_random_walk/run_candidate_calibration_smoke.R`.
+
+Production simulations read the accepted default calibration artifacts directly: `calibration_balanced_small.rds`, `calibration_separated_moderate.rds`, `calibration_rw_sigma_moderate.rds`, and supplementary `calibration_separated_moderate.rds`. Do not launch production simulation jobs until those default artifacts pass candidate validation.
 
 For the current project state and next real work, read the `Current Progress Summary` and active `RW-CAL` milestones in `docs/plan and goal.md`.
 

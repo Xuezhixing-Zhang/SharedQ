@@ -28,11 +28,11 @@ Current bounded calibration artifacts:
 - `calibration_separated_large.rds`
 - `parameter_spec_runs.rds`
 
-These are smoke-test calibration runs using `mc_n = 5000`, `maxeval = 50`, and `local_maxeval = 20`. Increase these before production calibration.
+The default production calibration artifact is `calibration_separated_moderate.rds`; rerun it with production `mc_n`, optimizer budget, and a passing candidate-validation report before production simulations.
 
 ## Execution Flow
 
-1. Run `nloptr_Setting2.R` or `spec_calibration.R` to obtain `gamma_true` and population-projected `theta_true`.
+1. Run `spec_calibration.R` to obtain `gamma_true` and population-projected `theta_true` for `calibration_separated_moderate.rds`.
 2. Generate the population dataset with `Q_learning_Setting_2(gamma_true, save = TRUE)`.
 3. Run `Simulation_Setting2.R`, which loops over the requested sample sizes and calls `Simu_II()`.
 4. `Simu_II()` fits conventional Q-learning, fused lasso SQ-learning, strict SharedQ, fused ridge SQ-learning, and the misspecified shared-pattern variants.

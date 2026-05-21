@@ -1,0 +1,17 @@
+"setting","spec","check_type","group","item","target","calibrated","error","pass"
+"Setting III","rw_sigma_moderate","coefficient","psi0","Q3_A3",-0.22,-0.219999999999998,1.63757896132211e-15,TRUE
+"Setting III","rw_sigma_moderate","coefficient","psi0","Q2_A2",-0.3,-0.289999998781378,0.0100000012186218,TRUE
+"Setting III","rw_sigma_moderate","coefficient","psi0","Q1_A1",-0.38,-0.369999884975019,0.0100001150249812,FALSE
+"Setting III","rw_sigma_moderate","difference","psi0","Q3_A3 - Q2_A2",0.08,0.0699999987813799,-0.0100000012186201,TRUE
+"Setting III","rw_sigma_moderate","difference","psi0","Q3_A3 - Q1_A1",0.16,0.14999988497502,-0.0100001150249796,FALSE
+"Setting III","rw_sigma_moderate","difference","psi0","Q2_A2 - Q1_A1",0.08,0.0799998861936406,-1.13806359447466e-07,TRUE
+"Setting III","rw_sigma_moderate","coefficient","psi1","Q3_O3A3",0.58,0.57,-0.00999999999999956,TRUE
+"Setting III","rw_sigma_moderate","coefficient","psi1","Q2_O2A2",0.5,0.489999993836319,-0.0100000061636812,TRUE
+"Setting III","rw_sigma_moderate","coefficient","psi1","Q1_O1A1",0.42,0.409999894882277,-0.0100001051177234,FALSE
+"Setting III","rw_sigma_moderate","difference","psi1","Q3_O3A3 - Q2_O2A2",0.08,0.0800000061636816,6.16368167616343e-09,TRUE
+"Setting III","rw_sigma_moderate","difference","psi1","Q3_O3A3 - Q1_O1A1",0.16,0.160000105117724,1.05117723858683e-07,TRUE
+"Setting III","rw_sigma_moderate","difference","psi1","Q2_O2A2 - Q1_O1A1",0.08,0.0800000989540422,9.89540421825197e-08,TRUE
+"Setting III","rw_sigma_moderate","coefficient","psi2","Q3_A2A3",0.41,0.410000000000001,1.0547118733939e-15,TRUE
+"Setting III","rw_sigma_moderate","coefficient","psi2","Q2_A1A2",0.29,0.299999986229956,0.00999998622995624,TRUE
+"Setting III","rw_sigma_moderate","difference","psi2","Q3_A2A3 - Q2_A1A2",0.12,0.110000013770045,-0.00999998622995518,TRUE
+"Setting III","rw_sigma_moderate","coefficient","psi3","Q3_A1A2A3",-0.28,-0.290000000000001,-0.0100000000000006,TRUE

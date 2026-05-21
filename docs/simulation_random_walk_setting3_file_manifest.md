@@ -22,7 +22,7 @@
 - `test_alternative_pars.rds`: bounded calibration artifact generated for smoke testing.
 - `data_X.rds`: cached covariate/treatment/responder draws for bounded nloptr tests.
 - `data_original.rds`: population dataset used by `Generate_data()`.
-- `alternative_pars.rds`: intended production calibration artifact.
+- `calibration_rw_sigma_moderate.rds`: default production calibration artifact.
 - `results_*.rds`: simulation outputs written by `Simulation_Setting3.R`.
 
 ## Folder Layout

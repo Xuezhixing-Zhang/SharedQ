@@ -20,7 +20,8 @@
 ## Generated Artifacts
 
 - `test_alternative_pars.rds`: bounded nloptr artifact created by `test.R`.
-- `calibration_*.rds`: bounded calibration artifacts created by `spec_calibration.R`.
+- `calibration_separated_moderate.rds`: default production calibration artifact created by `spec_calibration.R`.
+- `calibration_*.rds`: bounded or sensitivity calibration artifacts created by `spec_calibration.R`.
 - `parameter_spec_runs.rds`: summary of bounded calibration specs.
 - `data_original.rds`: population dataset used by `Generate_data()`.
 - `results_*.rds`: simulation outputs written by `Simulation_Setting2.R`.

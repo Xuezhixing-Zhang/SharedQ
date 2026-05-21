@@ -18,6 +18,11 @@ numeric_env <- function(name, default) {
   numeric_value
 }
 
+character_env <- function(name, default) {
+  value <- Sys.getenv(name, unset = "")
+  if (!nzchar(value)) default else value
+}
+
 candidate_tolerance <- numeric_env("CANDIDATE_TARGET_TOLERANCE", NA_real_)
 shared_candidate_tolerance <- numeric_env("SHARED_CANDIDATE_TARGET_TOLERANCE", 0.01)
 no_shared_candidate_tolerance <- numeric_env("NO_SHARED_CANDIDATE_TARGET_TOLERANCE", 0.03)
@@ -28,6 +33,58 @@ candidate_tolerance_slack <- numeric_env(
 
 setting_candidate_tolerance <- function(default_tolerance) {
   if (!is.na(candidate_tolerance)) candidate_tolerance else default_tolerance
+}
+
+validation_requested_specs <- function() {
+  requested <- character_env("VALIDATION_SPECS", "")
+  if (!nzchar(requested)) return(character(0))
+  trimws(strsplit(requested, ",", fixed = TRUE)[[1]])
+}
+
+validation_spec_mode <- function() {
+  mode <- tolower(character_env("VALIDATION_SPEC_MODE", "all"))
+  if (!mode %in% c("default", "all")) {
+    stop("VALIDATION_SPEC_MODE must be `default` or `all`; got `", mode, "`.")
+  }
+  mode
+}
+
+select_validation_artifacts <- function(config) {
+  requested <- validation_requested_specs()
+  if (length(requested) > 0) {
+    selected <- requested[nzchar(requested)]
+  } else if (identical(validation_spec_mode(), "default")) {
+    selected <- config$default_spec
+  } else {
+    selected <- names(config$artifacts)
+  }
+
+  missing <- setdiff(selected, names(config$artifacts))
+  if (length(missing) > 0) {
+    stop(
+      config$setting,
+      " has no validation artifact for spec(s): ",
+      paste(missing, collapse = ", ")
+    )
+  }
+
+  config$artifacts[selected]
+}
+
+validation_report_stem <- function() {
+  explicit <- character_env("VALIDATION_REPORT_STEM", "")
+  if (nzchar(explicit)) return(explicit)
+  if (length(validation_requested_specs()) > 0) return("candidate_calibration_selected_report")
+  if (identical(validation_spec_mode(), "default")) return("candidate_calibration_default_report")
+  "candidate_calibration_report"
+}
+
+validation_report_title_suffix <- function() {
+  explicit <- character_env("VALIDATION_REPORT_TITLE_SUFFIX", "")
+  if (nzchar(explicit)) return(explicit)
+  if (length(validation_requested_specs()) > 0) return("Candidate Calibration Selected Report")
+  if (identical(validation_spec_mode(), "default")) return("Candidate Calibration Default Report")
+  "Candidate Calibration Report"
 }
 
 within_candidate_tolerance <- function(error, tolerance) {
@@ -244,13 +301,14 @@ configs <- list(
 
 run_candidate_calibration_validation <- function(
   validation_configs = configs,
-  report_stem = "candidate_calibration_report",
-  report_title_suffix = "Candidate Calibration Report"
+  report_stem = validation_report_stem(),
+  report_title_suffix = validation_report_title_suffix()
 ) {
   statuses <- character(0)
   for (config in validation_configs) {
-    rows <- do.call(rbind, lapply(names(config$artifacts), function(spec) {
-      artifact_path <- file.path(root_dir, config$dir, config$artifacts[[spec]])
+    artifacts <- select_validation_artifacts(config)
+    rows <- do.call(rbind, lapply(names(artifacts), function(spec) {
+      artifact_path <- file.path(root_dir, config$dir, artifacts[[spec]])
       candidate_rows(
         config$setting,
         spec,

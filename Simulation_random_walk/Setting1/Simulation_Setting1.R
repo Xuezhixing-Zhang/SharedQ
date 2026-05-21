@@ -15,7 +15,7 @@ run_setting1_simulation <- function(
   nfolds = 5,
   metric = "MSE_Q",
   seed = 12345,
-  pars_path = file.path(setting1_calibration_dir, "alternative_pars.rds"),
+  pars_path = file.path(setting1_calibration_dir, "calibration_balanced_small.rds"),
   mc_n = 1000000,
   search_maxeval = 100000,
   search_local_maxeval = 20000,

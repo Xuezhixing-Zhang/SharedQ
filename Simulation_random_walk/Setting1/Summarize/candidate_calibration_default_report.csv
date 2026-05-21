@@ -1,0 +1,10 @@
+"setting","spec","check_type","group","item","target","calibrated","error","pass"
+"Setting I","balanced_small","coefficient","psi1","Q3_A1",0.23,0.335073169811089,0.105073169811089,FALSE
+"Setting I","balanced_small","coefficient","psi1","Q2_A1",0.17,0.252965701078144,0.0829657010781437,FALSE
+"Setting I","balanced_small","difference","psi1","Q3_A1 - Q2_A1",0.06,0.0821074687329452,0.0221074687329452,FALSE
+"Setting I","balanced_small","coefficient","psi2","Q3_A3",-0.57,-0.436610495777437,0.133389504222563,FALSE
+"Setting I","balanced_small","coefficient","psi2","Q2_A2",-0.63,-0.432254551237101,0.197745448762899,FALSE
+"Setting I","balanced_small","difference","psi2","Q3_A3 - Q2_A2",0.0600000000000001,-0.00435594454033622,-0.0643559445403363,FALSE
+"Setting I","balanced_small","coefficient","psi3","Q3_A1A3",0.83,0.584926830188911,-0.24507316981109,FALSE
+"Setting I","balanced_small","coefficient","psi3","Q2_A1A2",0.77,0.697265435408871,-0.0727345645911291,FALSE
+"Setting I","balanced_small","difference","psi3","Q3_A1A3 - Q2_A1A2",0.0600000000000001,-0.11233860521996,-0.17233860521996,FALSE

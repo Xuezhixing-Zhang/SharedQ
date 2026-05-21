@@ -4,7 +4,7 @@
 #PBS -l walltime=12:00:00
 #PBS -l mem=16gb
 #PBS -j oe
-#PBS -o logs/sim_rw_suppl_s3_noshared_specs.out
+#PBS -o /data/cheungyb/home/e1404425/SharedQ/Simulation_random_walk/SupplSetting3_NoShared/logs/sim_rw_suppl_s3_noshared_specs.out
 #PBS -q short
 
 module load cmake/3.21.4 r/4.4.0

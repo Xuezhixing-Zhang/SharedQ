@@ -22,7 +22,7 @@ The candidate shared-effect analogues intentionally differ across stages:
 
 ## Execution Flow
 
-1. Run `spec_calibration.R` for bounded multi-spec calibration, or run `run_setting3_parameter_search()` directly to create `alternative_pars.rds`.
+1. Run `spec_calibration.R` for bounded multi-spec calibration. Default production calibration is saved as `calibration_separated_moderate.rds`.
 2. Generate the population dataset with `Q_learning_Setting_3(gamma_true, save = TRUE)`.
 3. Run `Simulation_Setting3.R`, which calls `Simu_III()` over the requested sample sizes.
 4. `Simu_III()` fits conventional Q-learning, fused lasso SQ-learning, strict SharedQ, and fused ridge SQ-learning. SharedQ and fused methods use the same candidate shared pattern as Setting III, so they are intentionally misspecified under this supplementary setting.
