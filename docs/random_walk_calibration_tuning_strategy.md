@@ -65,6 +65,18 @@ Classify each failed setting before changing anything:
    - Setting II and Supplementary No Shared: keep the no-shared sign/separation pattern; shrink separated target magnitudes gradually before changing signs.
    - Any changed scientific target must be documented in `RANDOM_WALK_SETTING_DESIGN_SUMMARY.md` before production simulation.
 
+## Parallel Gate Candidate Strategy
+
+- When launching a production-scale calibration retry, prefer submitting multiple isolated internal gate candidates at the same time instead of serially trying one `CALIBRATION_TARGET_TOLERANCE`.
+- Keep the acceptance gate fixed: `0.01` for Setting I/III and `0.03` for Setting II/Supplementary No Shared. Only vary the optimizer's internal target window and search budget unless the failure is classified as apparent infeasibility.
+- Candidate artifacts must write to `calibration/gate_candidates/<profile>/` via `CALIBRATION_OUTPUT_DIR`; do not let parallel jobs overwrite the production artifact names directly.
+- Default internal gate grids:
+  - Setting I and Setting III: run or compare `CALIBRATION_TARGET_TOLERANCE` values `0.006`, `0.008`, and `0.009`.
+  - Setting II and Supplementary Setting III No Shared: run or compare `CALIBRATION_TARGET_TOLERANCE` values `0.024`, `0.027`, and `0.029`.
+- The current production artifact may count as one candidate if it was generated with a documented gate value.
+- After candidate jobs finish, run `Rscript Simulation_random_walk/select_calibration_gate_candidate.R`. Select the passing candidate with the smallest max absolute candidate-validation error, using mean absolute error and optimizer `best_value` as tie-breakers.
+- Promote a selected gate candidate to the production artifact path only after the selector report shows `PASS`. Use `CALIBRATION_GATE_PROMOTE=1 Rscript Simulation_random_walk/select_calibration_gate_candidate.R` when promotion is intended.
+
 ## Reporting Rule
 
 For each tuning attempt, record:

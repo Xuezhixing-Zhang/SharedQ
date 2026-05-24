@@ -57,6 +57,13 @@ calibration_runner_args_summary <- function(args) {
   paste(sprintf("%s=%s", names(args), unlist(args, use.names = FALSE)), collapse = ", ")
 }
 
+calibration_output_dir <- function(default_dir) {
+  output_dir <- calibration_env("CALIBRATION_OUTPUT_DIR")
+  if (!nzchar(output_dir)) output_dir <- default_dir
+  dir.create(output_dir, recursive = TRUE, showWarnings = FALSE)
+  output_dir
+}
+
 calibration_requested_specs <- function() {
   requested <- calibration_env("CALIBRATION_SPECS")
   if (!nzchar(requested)) return(character(0))

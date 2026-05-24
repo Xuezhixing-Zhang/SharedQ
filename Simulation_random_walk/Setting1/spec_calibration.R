@@ -15,12 +15,14 @@ selected_specs <- select_calibration_specs(
   setting1_shared_parameter_specs,
   default_spec = "balanced_small"
 )
+output_dir <- calibration_output_dir(setting1_calibration_dir)
 
 message("Selected specs: ", calibration_selected_names(selected_specs))
 message("Calibration controls: ", calibration_runner_args_summary(runner_args))
+message("Calibration output dir: ", output_dir)
 
 spec_results <- do.call(run_setting1_shared_parameter_specs, c(
-  list(specs = selected_specs),
+  list(specs = selected_specs, output_dir = output_dir),
   runner_args
 ))
 
