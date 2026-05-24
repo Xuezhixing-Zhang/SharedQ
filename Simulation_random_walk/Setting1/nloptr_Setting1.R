@@ -23,8 +23,8 @@ if (!exists("safe_extract_coef", mode = "function")) {
 ## beta35 and beta22 are near-shared around mu2
 ## beta37 and beta23 are near-shared around mu3
 
-shared_sigma <- c(psi1 = 0.03, psi2 = 0.03, psi3 = 0.03)
-shared_mu <- c(psi1 = 0.20, psi2 = -0.60, psi3 = 0.80)
+shared_sigma <- c(psi1 = 0.03, psi2 = 0.00, psi3 = 0.01)
+shared_mu <- c(psi1 = 0.12, psi2 = -0.35, psi3 = 0.61)
 
 build_theta_target <- function(
   shared_mu,
@@ -62,10 +62,10 @@ theta_target <- build_theta_target(shared_mu = shared_mu, shared_sigma = shared_
 
 setting1_shared_parameter_specs <- list(
   balanced_small = list(
-    description = "Baseline near-shared specification with symmetric small deviations around the three shared means.",
+    description = "Baseline feasible near-shared specification tuned after constrained calibration probes.",
     seed = 101,
-    shared_mu = c(psi1 = 0.20, psi2 = -0.60, psi3 = 0.80),
-    shared_sigma = c(psi1 = 0.03, psi2 = 0.03, psi3 = 0.03)
+    shared_mu = c(psi1 = 0.12, psi2 = -0.35, psi3 = 0.61),
+    shared_sigma = c(psi1 = 0.03, psi2 = 0.00, psi3 = 0.01)
   ),
   tighter_small = list(
     description = "Smaller deviations and slightly weaker shared means to test a closer-to-exact sharing scenario.",

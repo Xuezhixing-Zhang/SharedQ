@@ -42,7 +42,7 @@ The word "shared" has two different roles in this simulation suite. In Settings 
 
 | Setting | Truly shared or near-shared by design | Sigma relationship |
 | --- | --- | --- |
-| Setting I | Near-shared pairs: `psi1 = Q3_A1 / Q2_A1`, `psi2 = Q3_A3 / Q2_A2`, `psi3 = Q3_A1A3 / Q2_A1A2`. `Q1_A1` is not shared with these groups. | For each pair, stage-3 coefficient is `mu + sigma` and stage-2 coefficient is `mu - sigma`, so the within-pair target difference is `2 * sigma`. Current specs use nonzero `sigma`, so these are approximately shared, not exactly equal. |
+| Setting I | Near-shared pairs: `psi1 = Q3_A1 / Q2_A1`, `psi2 = Q3_A3 / Q2_A2`, `psi3 = Q3_A1A3 / Q2_A1A2`. `Q1_A1` is not shared with these groups. | For each pair, stage-3 coefficient is `mu + sigma` and stage-2 coefficient is `mu - sigma`, so the within-pair target difference is `2 * sigma`. Feasible specs may use zero or very small `sigma` for individual pairs when constrained calibration shows the original target is not attainable. |
 | Setting II | None. The Setting I candidate pairs are intentionally separated. | No `sigma` relationship is used. Shared-pattern estimators are misspecified comparisons. |
 | Setting III | Near-shared random-walk groups: `psi0 = Q3_A3 / Q2_A2 / Q1_A1`, `psi1 = Q3_O3:A3 / Q2_O2:A2 / Q1_O1:A1`, and `psi2 = Q3_A2:A3 / Q2_A1:A2`. `Q3_A1:A2:A3` is unpaired. | For `psi0` and `psi1`, stage-3 coefficient is `mu + sigma`, stage-2 coefficient is `mu`, and stage-1 coefficient is `mu - sigma`. For `psi2`, stage-3 coefficient is `mu + sigma` and stage-2 coefficient is `mu - sigma`. Current specs use nonzero `sigma`, so they are random-walk near-shared rather than exactly shared. |
 | Supplementary Setting III No Shared | None. The Setting III analogue groups are intentionally separated. | No `sigma` relationship is used. Shared-pattern estimators are misspecified comparisons. |
@@ -64,7 +64,7 @@ The Q-model uses stage-3 terms `intercept, A1, A2, A1A2, G1, A3, A1A3, A2A3`, st
 
 | Spec | Seed | Shared means | Shared sigmas | Implied target shared coefficients |
 | --- | ---: | --- | --- | --- |
-| `balanced_small` | 101 | `psi1=0.20`, `psi2=-0.60`, `psi3=0.80` | `0.03`, `0.03`, `0.03` | `Q3_A1=0.23`, `Q2_A1=0.17`; `Q3_A3=-0.57`, `Q2_A2=-0.63`; `Q3_A1A3=0.83`, `Q2_A1A2=0.77` |
+| `balanced_small` | 101 | `psi1=0.12`, `psi2=-0.35`, `psi3=0.61` | `0.03`, `0.00`, `0.01` | `Q3_A1=0.15`, `Q2_A1=0.09`; `Q3_A3=-0.35`, `Q2_A2=-0.35`; `Q3_A1A3=0.62`, `Q2_A1A2=0.60` |
 | `tighter_small` | 202 | `psi1=0.16`, `psi2=-0.52`, `psi3=0.68` | `0.015`, `0.02`, `0.02` | `Q3_A1=0.175`, `Q2_A1=0.145`; `Q3_A3=-0.50`, `Q2_A2=-0.54`; `Q3_A1A3=0.70`, `Q2_A1A2=0.66` |
 | `wider_small` | 303 | `psi1=0.24`, `psi2=-0.68`, `psi3=0.92` | `0.05`, `0.05`, `0.05` | `Q3_A1=0.29`, `Q2_A1=0.19`; `Q3_A3=-0.63`, `Q2_A2=-0.73`; `Q3_A1A3=0.97`, `Q2_A1A2=0.87` |
 
