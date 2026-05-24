@@ -29,6 +29,18 @@ Classify each failed setting before changing anything:
 - Material target failure: candidate coefficients or implied differences miss by much more than the tolerance.
 - Apparent infeasibility: repeated high-budget retries fail with similar material misses.
 
+## Monitoring Cadence
+
+- Check active calibration jobs with `qstat -u e1404425`.
+- For production-scale default calibration jobs, wait at least `3-4` hours before the first non-urgent follow-up unless the log shows an immediate runtime error.
+- Expected runtime ranges:
+  - Setting I default calibration: usually under `4` hours; higher-effort retries may take longer.
+  - Setting III default calibration: usually `1-4` hours.
+  - Supplementary Setting III No Shared default calibration: usually `1-4` hours.
+  - Setting II default calibration: high variance; expect `12-24` hours and allow up to the submitted walltime unless logs show a failure.
+- If any job reaches `24` hours, inspect the matching log and artifact timestamp before deciding whether to keep waiting, stop, or retune.
+- If a job reaches walltime or exits without updating its artifact, classify it as a runtime failure and follow the tuning ladder.
+
 ## Tuning Ladder
 
 1. Runtime failure:
