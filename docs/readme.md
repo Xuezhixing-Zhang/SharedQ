@@ -49,6 +49,8 @@ For bounded candidate-calibration smoke status, read each setting's `Summarize/c
 
 Production simulations read the accepted default calibration artifacts directly: `calibration_balanced_small.rds`, `calibration_separated_moderate.rds`, `calibration_rw_sigma_moderate.rds`, and supplementary `calibration_separated_moderate.rds`. Do not launch production simulation jobs until those default artifacts pass candidate validation.
 
+If any calibration job or default validation report fails, follow `docs/random_walk_calibration_tuning_strategy.md` before changing parameter targets, constraints, or launching another production attempt.
+
 For the current project state and next real work, read the `Current Progress Summary` and active `RW-CAL` milestones in `docs/plan and goal.md`.
 
 ## Document Naming

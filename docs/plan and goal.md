@@ -32,6 +32,7 @@ Recalibrate the random-walk simulation suite so candidate shared parameters and 
 - Current production calibration status: not accepted. The previously submitted jobs are no longer active; Setting II hit the 12-hour walltime without updating its production artifact, Setting I still misses the strict default gate, and Setting III plus Supplementary Setting III No Shared need a stricter internal optimizer window to clear boundary-level default validation misses.
 - Current checkpoint: the 2026-05-21 retry was stopped at user request before writing new calibration `.rds` artifacts. On 2026-05-24, default production calibration retries were resubmitted on queue `long`: Setting I `509056.hn-10-03`, Setting II `509057.hn-10-03`, Setting III `509058.hn-10-03`, and Supplementary Setting III No Shared `509059.hn-10-03`.
 - Current implementation status: production simulation scripts now default to their setting-specific default calibration artifacts, and validation supports a default-only production gate via `VALIDATION_SPEC_MODE=default`.
+- Current tuning policy: if any calibration job or default validation report fails, follow `docs/random_walk_calibration_tuning_strategy.md`; adjust optimizer constraints first, and only adjust scientific parameter targets after repeated material failures are documented.
 - Next real work: monitor the four default calibration jobs, validate all four default artifacts after they finish, and only then submit full production simulations/evaluations.
 
 ## Artifact Versioning Policy
