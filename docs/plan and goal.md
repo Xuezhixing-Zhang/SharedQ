@@ -30,9 +30,9 @@ Recalibrate the random-walk simulation suite so candidate shared parameters and 
 - Current production calibration status: not accepted. Existing production `.rds` artifacts predate the new constraints and fail `Simulation_random_walk/validate_candidate_calibration.R`.
 - Current bounded smoke status: partly accepted for default specs only. Setting II `separated_moderate`, Setting III `rw_sigma_moderate`, and Supplementary Setting III No Shared `separated_moderate` pass their per-setting smoke gates after larger-budget default calibration. Setting I `balanced_small` still fails the stricter `0.01` gate after a higher-budget retry.
 - Current production calibration status: not accepted. The previously submitted jobs are no longer active; Setting II hit the 12-hour walltime without updating its production artifact, Setting I still misses the strict default gate, and Setting III plus Supplementary Setting III No Shared need a stricter internal optimizer window to clear boundary-level default validation misses.
-- Current checkpoint: a default production calibration retry was submitted on 2026-05-21 and then stopped at user request before writing new calibration `.rds` artifacts. There are currently no active jobs for `e1404425`.
+- Current checkpoint: the 2026-05-21 retry was stopped at user request before writing new calibration `.rds` artifacts. On 2026-05-24, default production calibration retries were resubmitted on queue `long`: Setting I `509056.hn-10-03`, Setting II `509057.hn-10-03`, Setting III `509058.hn-10-03`, and Supplementary Setting III No Shared `509059.hn-10-03`.
 - Current implementation status: production simulation scripts now default to their setting-specific default calibration artifacts, and validation supports a default-only production gate via `VALIDATION_SPEC_MODE=default`.
-- Next real work: rerun default constrained calibration with stricter internal optimizer windows, validate all four default artifacts, and only then submit full production simulations/evaluations.
+- Next real work: monitor the four default calibration jobs, validate all four default artifacts after they finish, and only then submit full production simulations/evaluations.
 
 ## Artifact Versioning Policy
 
