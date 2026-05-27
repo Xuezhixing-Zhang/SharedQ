@@ -41,6 +41,8 @@ The active research workflow is the simulation random walk setting suite. For Se
 
 For Setting II, Setting III, and supplementary no-shared work, read `RANDOM_WALK_SETTING_DESIGN_SUMMARY.md` plus the matching `simulation_random_walk_*_workflow.md` and `simulation_random_walk_*_file_manifest.md` files.
 
+For Project Quit / Forever Free Setting IV work, read `PROJECT_QUIT_FOREVER_FREE_SETTING_IV_DESIGN.md` first, then use `Simulation_random_walk/Setting4/` and `Simulation_random_walk/SupplSetting4_NoShared/` as the implementation folders. Setting IV shared true parameters must also follow the random shared rule in this README.
+
 For per-setting file management, artifact layout, parameter choices, seeds, and result status, read the matching management file:
 
 - `docs/simulation_random_walk_setting1_management.md`
