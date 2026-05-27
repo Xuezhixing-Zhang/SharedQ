@@ -1,17 +1,17 @@
 "setting","spec","check_type","group","item","target","calibrated","error","pass"
-"Supplementary Setting III No Shared","separated_moderate","coefficient","psi0","Q3_A3",-0.75,-0.719999999999995,0.0300000000000047,TRUE
-"Supplementary Setting III No Shared","separated_moderate","coefficient","psi0","Q2_A2",0.35,0.379999696417562,0.0299996964175621,TRUE
-"Supplementary Setting III No Shared","separated_moderate","coefficient","psi0","Q1_A1",0.9,0.900000173304388,1.73304387729445e-07,TRUE
-"Supplementary Setting III No Shared","separated_moderate","difference","psi0","Q3_A3 - Q2_A2",-1.1,-1.09999969641756,3.0358244273998e-07,TRUE
-"Supplementary Setting III No Shared","separated_moderate","difference","psi0","Q3_A3 - Q1_A1",-1.65,-1.62000017330438,0.029999826695617,TRUE
-"Supplementary Setting III No Shared","separated_moderate","difference","psi0","Q2_A2 - Q1_A1",-0.55,-0.520000476886826,0.0299995231131743,TRUE
-"Supplementary Setting III No Shared","separated_moderate","coefficient","psi1","Q3_O3A3",0.7,0.700000000000004,4.21884749357559e-15,TRUE
-"Supplementary Setting III No Shared","separated_moderate","coefficient","psi1","Q2_O2A2",-0.35,-0.319999972816408,0.0300000271835924,FALSE
-"Supplementary Setting III No Shared","separated_moderate","coefficient","psi1","Q1_O1A1",0.15,0.150000005851492,5.85149237397609e-09,TRUE
-"Supplementary Setting III No Shared","separated_moderate","difference","psi1","Q3_O3A3 - Q2_O2A2",1.05,1.01999997281641,-0.0300000271835881,FALSE
-"Supplementary Setting III No Shared","separated_moderate","difference","psi1","Q3_O3A3 - Q1_O1A1",0.55,0.549999994148512,-5.85148807186187e-09,TRUE
-"Supplementary Setting III No Shared","separated_moderate","difference","psi1","Q2_O2A2 - Q1_O1A1",-0.5,-0.4699999786679,0.0300000213321001,FALSE
-"Supplementary Setting III No Shared","separated_moderate","coefficient","psi2","Q3_A2A3",-0.6,-0.600705506307265,-0.000705506307265513,TRUE
-"Supplementary Setting III No Shared","separated_moderate","coefficient","psi2","Q2_A1A2",0.55,0.52000012053994,-0.0299998794600599,TRUE
-"Supplementary Setting III No Shared","separated_moderate","difference","psi2","Q3_A2A3 - Q2_A1A2",-1.15,-1.12070562684721,0.0292943731527942,TRUE
-"Supplementary Setting III No Shared","separated_moderate","coefficient","psi3","Q3_A1A2A3",0.45,0.42,-0.0300000000000004,TRUE
+"Supplementary Setting III No Shared","separated_moderate","coefficient","psi0","Q3_A3",-0.75,-0.726000000000004,0.0239999999999965,TRUE
+"Supplementary Setting III No Shared","separated_moderate","coefficient","psi0","Q2_A2",0.35,0.373999999993423,0.0239999999934227,TRUE
+"Supplementary Setting III No Shared","separated_moderate","coefficient","psi0","Q1_A1",0.9,0.899999999963594,-3.64058783119958e-11,TRUE
+"Supplementary Setting III No Shared","separated_moderate","difference","psi0","Q3_A3 - Q2_A2",-1.1,-1.09999999999343,6.57385257341048e-12,TRUE
+"Supplementary Setting III No Shared","separated_moderate","difference","psi0","Q3_A3 - Q1_A1",-1.65,-1.6259999999636,0.0240000000364022,TRUE
+"Supplementary Setting III No Shared","separated_moderate","difference","psi0","Q2_A2 - Q1_A1",-0.55,-0.525999999970171,0.0240000000298286,TRUE
+"Supplementary Setting III No Shared","separated_moderate","coefficient","psi1","Q3_O3A3",0.7,0.7,0,TRUE
+"Supplementary Setting III No Shared","separated_moderate","coefficient","psi1","Q2_O2A2",-0.35,-0.325999999997651,0.0240000000023493,TRUE
+"Supplementary Setting III No Shared","separated_moderate","coefficient","psi1","Q1_O1A1",0.15,0.150000000000559,5.59330359806154e-13,TRUE
+"Supplementary Setting III No Shared","separated_moderate","difference","psi1","Q3_O3A3 - Q2_O2A2",1.05,1.02599999999765,-0.0240000000023493,TRUE
+"Supplementary Setting III No Shared","separated_moderate","difference","psi1","Q3_O3A3 - Q1_O1A1",0.55,0.549999999999441,-5.59330359806154e-13,TRUE
+"Supplementary Setting III No Shared","separated_moderate","difference","psi1","Q2_O2A2 - Q1_O1A1",-0.5,-0.47599999999821,0.02400000000179,TRUE
+"Supplementary Setting III No Shared","separated_moderate","coefficient","psi2","Q3_A2A3",-0.6,-0.599999999999999,7.7715611723761e-16,TRUE
+"Supplementary Setting III No Shared","separated_moderate","coefficient","psi2","Q2_A1A2",0.55,0.525999999972101,-0.0240000000278993,TRUE
+"Supplementary Setting III No Shared","separated_moderate","difference","psi2","Q3_A2A3 - Q2_A1A2",-1.15,-1.1259999999721,0.0240000000278999,TRUE
+"Supplementary Setting III No Shared","separated_moderate","coefficient","psi3","Q3_A1A2A3",0.45,0.426,-0.0240000000000005,TRUE

@@ -1,0 +1,17 @@
+"setting","n","result_file","result_mtime","calibration_mtime","non_null_reps","expected_reps","current_result","complete"
+"Setting I",100,"/data/cheungyb/home/e1404425/SharedQ/Simulation_random_walk/Setting1/simulation_results/results_100.rds","2026-05-27 15:15:58.101626","2026-05-27 14:06:54.548264",54,200,TRUE,FALSE
+"Setting I",300,"/data/cheungyb/home/e1404425/SharedQ/Simulation_random_walk/Setting1/simulation_results/results_300.rds","2026-04-30 04:53:20.352279","2026-05-27 14:06:54.548264",200,200,FALSE,FALSE
+"Setting I",500,"/data/cheungyb/home/e1404425/SharedQ/Simulation_random_walk/Setting1/simulation_results/results_500.rds","2026-04-30 10:50:27.546178","2026-05-27 14:06:54.548264",200,200,FALSE,FALSE
+"Setting I",1000,"/data/cheungyb/home/e1404425/SharedQ/Simulation_random_walk/Setting1/simulation_results/results_1000.rds","2026-04-30 22:11:53.850907","2026-05-27 14:06:54.548264",200,200,FALSE,FALSE
+"Setting II",100,"/data/cheungyb/home/e1404425/SharedQ/Simulation_random_walk/Setting2/simulation_results/results_100.rds","2026-05-27 15:14:11.664957","2026-05-27 14:06:54.613847",42,200,TRUE,FALSE
+"Setting II",300,"/data/cheungyb/home/e1404425/SharedQ/Simulation_random_walk/Setting2/simulation_results/results_300.rds","2026-04-30 21:20:25.16739","2026-05-27 14:06:54.613847",200,200,FALSE,FALSE
+"Setting II",500,"/data/cheungyb/home/e1404425/SharedQ/Simulation_random_walk/Setting2/simulation_results/results_500.rds","2026-05-01 02:07:18.877201","2026-05-27 14:06:54.613847",200,200,FALSE,FALSE
+"Setting II",1000,"/data/cheungyb/home/e1404425/SharedQ/Simulation_random_walk/Setting2/simulation_results/results_1000.rds","2026-05-01 10:50:56.71093","2026-05-27 14:06:54.613847",200,200,FALSE,FALSE
+"Setting III",100,"/data/cheungyb/home/e1404425/SharedQ/Simulation_random_walk/Setting3/simulation_results/results_100.rds","2026-05-27 15:16:38.341975","2026-05-27 14:06:54.656165",66,200,TRUE,FALSE
+"Setting III",300,"/data/cheungyb/home/e1404425/SharedQ/Simulation_random_walk/Setting3/simulation_results/results_300.rds","2026-04-30 02:07:44.092286","2026-05-27 14:06:54.656165",200,200,FALSE,FALSE
+"Setting III",500,"/data/cheungyb/home/e1404425/SharedQ/Simulation_random_walk/Setting3/simulation_results/results_500.rds","2026-04-30 05:23:35.251738","2026-05-27 14:06:54.656165",200,200,FALSE,FALSE
+"Setting III",1000,"/data/cheungyb/home/e1404425/SharedQ/Simulation_random_walk/Setting3/simulation_results/results_1000.rds","2026-04-30 12:27:45.076247","2026-05-27 14:06:54.656165",200,200,FALSE,FALSE
+"Supplementary Setting III No Shared",100,"/data/cheungyb/home/e1404425/SharedQ/Simulation_random_walk/SupplSetting3_NoShared/simulation_results/results_100.rds","2026-05-27 15:16:51.056172","2026-05-27 14:06:54.698097",110,200,TRUE,FALSE
+"Supplementary Setting III No Shared",300,"/data/cheungyb/home/e1404425/SharedQ/Simulation_random_walk/SupplSetting3_NoShared/simulation_results/results_300.rds",NA,"2026-05-27 14:06:54.698097",NA,200,FALSE,FALSE
+"Supplementary Setting III No Shared",500,"/data/cheungyb/home/e1404425/SharedQ/Simulation_random_walk/SupplSetting3_NoShared/simulation_results/results_500.rds",NA,"2026-05-27 14:06:54.698097",NA,200,FALSE,FALSE
+"Supplementary Setting III No Shared",1000,"/data/cheungyb/home/e1404425/SharedQ/Simulation_random_walk/SupplSetting3_NoShared/simulation_results/results_1000.rds",NA,"2026-05-27 14:06:54.698097",NA,200,FALSE,FALSE

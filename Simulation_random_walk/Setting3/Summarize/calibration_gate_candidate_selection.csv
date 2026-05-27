@@ -1,0 +1,4 @@
+"setting","spec","source","run_id","artifact_path","mc_n","target_tolerance","constraint_tolerance","best_value","max_abs_error","mean_abs_error","failed_checks","pass"
+"Setting III","rw_sigma_moderate","gate_candidate","tol006","Setting3/calibration/gate_candidates/tol006/calibration_rw_sigma_moderate.rds",1000000,0.006,1e-04,5.06534091132438,0.00600000000002016,0.00375000000000371,0,TRUE
+"Setting III","rw_sigma_moderate","gate_candidate","tol008","Setting3/calibration/gate_candidates/tol008/calibration_rw_sigma_moderate.rds",1000000,0.008,1e-04,5.05462321603765,0.0080000000000206,0.00499999999991777,0,TRUE
+"Setting III","rw_sigma_moderate","production","current","Setting3/calibration/calibration_rw_sigma_moderate.rds",1000000,0.009,1e-04,5.02948367791532,0.00900000000066642,0.00562500000016061,0,TRUE

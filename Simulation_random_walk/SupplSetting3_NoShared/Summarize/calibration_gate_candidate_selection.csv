@@ -1,0 +1,4 @@
+"setting","spec","source","run_id","artifact_path","mc_n","target_tolerance","constraint_tolerance","best_value","max_abs_error","mean_abs_error","failed_checks","pass"
+"Supplementary Setting III No Shared","separated_moderate","gate_candidate","tol024","SupplSetting3_NoShared/calibration/gate_candidates/tol024/calibration_separated_moderate.rds",1000000,0.024,1e-04,5.19009226468478,0.0240000000364022,0.0150000000103773,0,TRUE
+"Supplementary Setting III No Shared","separated_moderate","gate_candidate","tol027","SupplSetting3_NoShared/calibration/gate_candidates/tol027/calibration_separated_moderate.rds",1000000,0.027,1e-04,5.2469524777438,0.0270016313670817,0.016875232101978,0,TRUE
+"Supplementary Setting III No Shared","separated_moderate","production","current","SupplSetting3_NoShared/calibration/calibration_separated_moderate.rds",1000000,0.029,1e-04,5.2154957611857,0.0290000213849755,0.0181250073644139,0,TRUE
