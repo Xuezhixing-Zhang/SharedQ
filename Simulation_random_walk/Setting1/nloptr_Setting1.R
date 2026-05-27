@@ -26,9 +26,39 @@ if (!exists("safe_extract_coef", mode = "function")) {
 shared_sigma <- c(psi1 = 0.03, psi2 = 0.00, psi3 = 0.01)
 shared_mu <- c(psi1 = 0.12, psi2 = -0.35, psi3 = 0.61)
 
+with_preserved_seed <- function(seed, expr) {
+  if (is.null(seed) || is.na(seed)) return(force(expr))
+  has_seed <- exists(".Random.seed", envir = .GlobalEnv, inherits = FALSE)
+  old_seed <- if (has_seed) get(".Random.seed", envir = .GlobalEnv) else NULL
+  on.exit({
+    if (has_seed) {
+      assign(".Random.seed", old_seed, envir = .GlobalEnv)
+    } else if (exists(".Random.seed", envir = .GlobalEnv, inherits = FALSE)) {
+      rm(".Random.seed", envir = .GlobalEnv)
+    }
+  }, add = TRUE)
+  set.seed(seed)
+  force(expr)
+}
+
+draw_setting1_shared_values <- function(shared_mu, shared_sigma, shared_seed = NULL) {
+  with_preserved_seed(shared_seed, {
+    values <- list(
+      psi1 = stats::rnorm(2, mean = unname(shared_mu["psi1"]), sd = unname(shared_sigma["psi1"])),
+      psi2 = stats::rnorm(2, mean = unname(shared_mu["psi2"]), sd = unname(shared_sigma["psi2"])),
+      psi3 = stats::rnorm(2, mean = unname(shared_mu["psi3"]), sd = unname(shared_sigma["psi3"]))
+    )
+    names(values$psi1) <- c("Q3_A1", "Q2_A1")
+    names(values$psi2) <- c("Q3_A3", "Q2_A2")
+    names(values$psi3) <- c("Q3_A1A3", "Q2_A1A2")
+    values
+  })
+}
+
 build_theta_target <- function(
   shared_mu,
   shared_sigma,
+  shared_seed = NULL,
   base_unshared = c(
     Q3_intercept = 0.00,
     Q3_A2 = 0.20,
@@ -40,25 +70,35 @@ build_theta_target <- function(
     Q1_A1 = -0.20
   )
 ) {
-  c(
+  shared_values <- draw_setting1_shared_values(
+    shared_mu = shared_mu,
+    shared_sigma = shared_sigma,
+    shared_seed = shared_seed
+  )
+  theta <- c(
     Q3_intercept = base_unshared["Q3_intercept"],
-    Q3_A1 = shared_mu["psi1"] + shared_sigma["psi1"],
+    Q3_A1 = unname(shared_values$psi1["Q3_A1"]),
     Q3_A2 = base_unshared["Q3_A2"],
     Q3_A1A2 = base_unshared["Q3_A1A2"],
     Q3_G1 = base_unshared["Q3_G1"],
-    Q3_A3 = shared_mu["psi2"] + shared_sigma["psi2"],
-    Q3_A1A3 = shared_mu["psi3"] + shared_sigma["psi3"],
+    Q3_A3 = unname(shared_values$psi2["Q3_A3"]),
+    Q3_A1A3 = unname(shared_values$psi3["Q3_A1A3"]),
     Q3_A2A3 = base_unshared["Q3_A2A3"],
     Q2_intercept = base_unshared["Q2_intercept"],
-    Q2_A1 = shared_mu["psi1"] - shared_sigma["psi1"],
-    Q2_A2 = shared_mu["psi2"] - shared_sigma["psi2"],
-    Q2_A1A2 = shared_mu["psi3"] - shared_sigma["psi3"],
+    Q2_A1 = unname(shared_values$psi1["Q2_A1"]),
+    Q2_A2 = unname(shared_values$psi2["Q2_A2"]),
+    Q2_A1A2 = unname(shared_values$psi3["Q2_A1A2"]),
     Q1_intercept = base_unshared["Q1_intercept"],
     Q1_A1 = base_unshared["Q1_A1"]
   )
+  attr(theta, "shared_mu") <- shared_mu
+  attr(theta, "shared_sigma") <- shared_sigma
+  attr(theta, "shared_seed") <- shared_seed
+  attr(theta, "shared_values") <- shared_values
+  theta
 }
 
-theta_target <- build_theta_target(shared_mu = shared_mu, shared_sigma = shared_sigma)
+theta_target <- build_theta_target(shared_mu = shared_mu, shared_sigma = shared_sigma, shared_seed = 101)
 
 setting1_shared_parameter_specs <- list(
   balanced_small = list(
@@ -325,6 +365,8 @@ run_setting1_parameter_search <- function(
     theta_target = theta_target_override,
     shared_mu = shared_mu_override,
     shared_sigma = shared_sigma_override,
+    shared_values = attr(theta_target_override, "shared_values"),
+    shared_seed = attr(theta_target_override, "shared_seed"),
     seed = seed,
     mc_n = mc_n,
     n_starts = n_starts,
@@ -360,7 +402,11 @@ run_setting1_shared_parameter_specs <- function(
   for (i in seq_along(specs)) {
     spec_name <- spec_names[i]
     spec <- specs[[i]]
-    theta_target_spec <- build_theta_target(spec$shared_mu, spec$shared_sigma)
+    theta_target_spec <- build_theta_target(
+      shared_mu = spec$shared_mu,
+      shared_sigma = spec$shared_sigma,
+      shared_seed = spec$seed
+    )
     output_path <- file.path(output_dir, paste0("calibration_", spec_name, ".rds"))
 
     results <- run_setting1_parameter_search(
@@ -393,6 +439,8 @@ run_setting1_shared_parameter_specs <- function(
       n_starts = n_starts,
       shared_mu = spec$shared_mu,
       shared_sigma = spec$shared_sigma,
+      shared_seed = spec$seed,
+      shared_values = attr(theta_target_spec, "shared_values"),
       theta_target = theta_target_spec,
       best_value = min(results$values),
       best_index = which.min(results$values)

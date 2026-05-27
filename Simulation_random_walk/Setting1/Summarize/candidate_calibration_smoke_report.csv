@@ -1,10 +1,24 @@
 "setting","spec","check_type","group","item","target","calibrated","error","pass"
-"Setting I","balanced_small","coefficient","psi1","Q3_A1",0.23,0.250583148206225,0.0205831482062249,FALSE
-"Setting I","balanced_small","coefficient","psi1","Q2_A1",0.17,0.169999956415637,-4.35843633683763e-08,TRUE
-"Setting I","balanced_small","difference","psi1","Q3_A1 - Q2_A1",0.06,0.0805831917905883,0.0205831917905883,FALSE
-"Setting I","balanced_small","coefficient","psi2","Q3_A3",-0.57,-0.567320189625804,0.00267981037419573,TRUE
-"Setting I","balanced_small","coefficient","psi2","Q2_A2",-0.63,-0.617575543428945,0.0124244565710553,FALSE
-"Setting I","balanced_small","difference","psi2","Q3_A3 - Q2_A2",0.0600000000000001,0.0502553538031405,-0.00974464619685955,TRUE
-"Setting I","balanced_small","coefficient","psi3","Q3_A1A3",0.83,0.809416851793777,-0.0205831482062234,FALSE
-"Setting I","balanced_small","coefficient","psi3","Q2_A1A2",0.77,0.749417607765117,-0.0205823922348835,FALSE
-"Setting I","balanced_small","difference","psi3","Q3_A1A3 - Q2_A1A2",0.0600000000000001,0.0599992440286601,-7.5597133997185e-07,TRUE
+"Setting I","balanced_small","target_definition","theta_target","Q3_intercept",0,0,0,TRUE
+"Setting I","balanced_small","target_definition","theta_target","Q3_A1",0.110218905284538,0.110218905284538,0,TRUE
+"Setting I","balanced_small","target_definition","theta_target","Q3_A2",0.2,0.2,0,TRUE
+"Setting I","balanced_small","target_definition","theta_target","Q3_A1A2",0.4,0.4,0,TRUE
+"Setting I","balanced_small","target_definition","theta_target","Q3_G1",0.8,0.8,0,TRUE
+"Setting I","balanced_small","target_definition","theta_target","Q3_A3",-0.35,-0.35,0,TRUE
+"Setting I","balanced_small","target_definition","theta_target","Q3_A1A3",0.603250561560442,0.603250561560442,0,TRUE
+"Setting I","balanced_small","target_definition","theta_target","Q3_A2A3",0.6,0.6,0,TRUE
+"Setting I","balanced_small","target_definition","theta_target","Q2_intercept",0,0,0,TRUE
+"Setting I","balanced_small","target_definition","theta_target","Q2_A1",0.136573855662574,0.136573855662574,0,TRUE
+"Setting I","balanced_small","target_definition","theta_target","Q2_A2",-0.35,-0.35,0,TRUE
+"Setting I","balanced_small","target_definition","theta_target","Q2_A1A2",0.612143594590434,0.612143594590434,0,TRUE
+"Setting I","balanced_small","target_definition","theta_target","Q1_intercept",0,0,0,TRUE
+"Setting I","balanced_small","target_definition","theta_target","Q1_A1",-0.2,-0.2,0,TRUE
+"Setting I","balanced_small","coefficient","psi1","Q3_A1",0.110218905284538,0.206857419007374,0.0966385137228352,FALSE
+"Setting I","balanced_small","coefficient","psi1","Q2_A1",0.136573855662574,0.129106142566321,-0.00746771309625346,TRUE
+"Setting I","balanced_small","difference","psi1","Q3_A1 - Q2_A1",-0.0263549503780357,0.0777512764410529,0.104106226819089,FALSE
+"Setting I","balanced_small","coefficient","psi2","Q3_A3",-0.35,-0.253361486277164,0.0966385137228359,FALSE
+"Setting I","balanced_small","coefficient","psi2","Q2_A2",-0.35,-0.342532286903746,0.00746771309625399,TRUE
+"Setting I","balanced_small","difference","psi2","Q3_A3 - Q2_A2",0,0.0891708006265819,0.0891708006265819,FALSE
+"Setting I","balanced_small","coefficient","psi3","Q3_A1A3",0.603250561560442,0.506612047837603,-0.0966385137228389,FALSE
+"Setting I","balanced_small","coefficient","psi3","Q2_A1A2",0.612143594590434,0.613517234019407,0.00137363942897295,TRUE
+"Setting I","balanced_small","difference","psi3","Q3_A1A3 - Q2_A1A2",-0.00889303302999256,-0.106905186181804,-0.0980121531518119,FALSE

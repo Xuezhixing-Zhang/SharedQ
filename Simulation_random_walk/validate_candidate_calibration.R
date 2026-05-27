@@ -116,7 +116,88 @@ best_theta <- function(path) {
   )
 }
 
-candidate_rows <- function(setting, spec, path, groups, tolerance) {
+expected_theta_for_spec <- function(config, spec) {
+  env <- new.env(parent = globalenv())
+
+  if (identical(config$dir, "Setting1")) {
+    source(file.path(root_dir, config$dir, "nloptr_Setting1.R"), local = env)
+    spec_def <- env$setting1_shared_parameter_specs[[spec]]
+    target <- env$build_theta_target(
+      shared_mu = spec_def$shared_mu,
+      shared_sigma = spec_def$shared_sigma,
+      shared_seed = spec_def$seed
+    )
+  } else if (identical(config$dir, "Setting2")) {
+    source(file.path(root_dir, config$dir, "nloptr_Setting2.R"), local = env)
+    spec_def <- env$setting2_parameter_specs[[spec]]
+    target <- env$build_theta_target(spec_def$values)
+  } else if (identical(config$dir, "Setting3")) {
+    source(file.path(root_dir, config$dir, "nloptr_Setting3.R"), local = env)
+    spec_def <- env$setting3_parameter_specs[[spec]]
+    target <- env$build_setting3_theta_target(
+      psi0_mu = spec_def$psi0_mu,
+      psi1_mu = spec_def$psi1_mu,
+      psi2_mu = spec_def$psi2_mu,
+      psi0_sigma = spec_def$psi0_sigma,
+      psi1_sigma = spec_def$psi1_sigma,
+      psi2_sigma = spec_def$psi2_sigma,
+      shared_seed = spec_def$seed
+    )
+    names(target) <- names(env$theta_target)
+  } else if (identical(config$dir, "SupplSetting3_NoShared")) {
+    source(file.path(root_dir, config$dir, "nloptr_Setting3.R"), local = env)
+    spec_def <- env$setting3_parameter_specs[[spec]]
+    target <- env$build_setting3_theta_target(
+      q3_a3 = spec_def$q3_a3,
+      q2_a2 = spec_def$q2_a2,
+      q1_a1 = spec_def$q1_a1,
+      q3_o3a3 = spec_def$q3_o3a3,
+      q2_o2a2 = spec_def$q2_o2a2,
+      q1_o1a1 = spec_def$q1_o1a1,
+      q3_a2a3 = spec_def$q3_a2a3,
+      q2_a1a2 = spec_def$q2_a1a2,
+      q3_a1a2a3 = spec_def$q3_a1a2a3
+    )
+    names(target) <- names(env$theta_target)
+  } else {
+    stop("No expected-target builder configured for ", config$setting, ".")
+  }
+
+  names(target) <- clean_names(names(target))
+  target
+}
+
+target_definition_rows <- function(setting, spec, calibration, expected_target) {
+  if (is.null(expected_target)) return(NULL)
+  if (length(calibration$target) != length(expected_target)) {
+    stop(
+      setting,
+      " ",
+      spec,
+      " target length mismatch: artifact has ",
+      length(calibration$target),
+      ", current script has ",
+      length(expected_target),
+      "."
+    )
+  }
+
+  target_error <- calibration$target - expected_target
+  data.frame(
+    setting = setting,
+    spec = spec,
+    check_type = "target_definition",
+    group = "theta_target",
+    item = if (is.null(names(expected_target))) seq_along(expected_target) else names(expected_target),
+    target = expected_target,
+    calibrated = calibration$target,
+    error = target_error,
+    pass = abs(target_error) <= candidate_tolerance_slack,
+    stringsAsFactors = FALSE
+  )
+}
+
+candidate_rows <- function(setting, spec, path, groups, tolerance, expected_target = NULL) {
   if (!file.exists(path)) {
     return(data.frame(
       setting = setting,
@@ -133,8 +214,8 @@ candidate_rows <- function(setting, spec, path, groups, tolerance) {
   }
 
   calibration <- best_theta(path)
-  rows <- list()
-  row_i <- 1
+  rows <- list(target_definition_rows(setting, spec, calibration, expected_target))
+  row_i <- length(rows) + 1
 
   for (group_name in names(groups)) {
     group <- groups[[group_name]]
@@ -184,7 +265,7 @@ candidate_rows <- function(setting, spec, path, groups, tolerance) {
     }
   }
 
-  do.call(rbind, rows)
+  do.call(rbind, rows[!vapply(rows, is.null, logical(1))])
 }
 
 write_report <- function(
@@ -309,12 +390,14 @@ run_candidate_calibration_validation <- function(
     artifacts <- select_validation_artifacts(config)
     rows <- do.call(rbind, lapply(names(artifacts), function(spec) {
       artifact_path <- file.path(root_dir, config$dir, artifacts[[spec]])
+      expected_target <- expected_theta_for_spec(config, spec)
       candidate_rows(
         config$setting,
         spec,
         artifact_path,
         config$groups,
-        config$candidate_tolerance
+        config$candidate_tolerance,
+        expected_target = expected_target
       )
     }))
     statuses <- c(statuses, write_report(

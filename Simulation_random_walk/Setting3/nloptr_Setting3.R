@@ -6,34 +6,86 @@ dir.create(setting3_calibration_dir, showWarnings = FALSE, recursive = TRUE)
 ################## Setting III 3 stage #################
 ## Continuous-covariate random-walk sharing targets.
 
+with_preserved_seed <- function(seed, expr) {
+  if (is.null(seed) || is.na(seed)) return(force(expr))
+  has_seed <- exists(".Random.seed", envir = .GlobalEnv, inherits = FALSE)
+  old_seed <- if (has_seed) get(".Random.seed", envir = .GlobalEnv) else NULL
+  on.exit({
+    if (has_seed) {
+      assign(".Random.seed", old_seed, envir = .GlobalEnv)
+    } else if (exists(".Random.seed", envir = .GlobalEnv, inherits = FALSE)) {
+      rm(".Random.seed", envir = .GlobalEnv)
+    }
+  }, add = TRUE)
+  set.seed(seed)
+  force(expr)
+}
+
+draw_setting3_shared_values <- function(
+  psi0_mu,
+  psi1_mu,
+  psi2_mu,
+  psi0_sigma,
+  psi1_sigma,
+  psi2_sigma,
+  shared_seed = NULL
+) {
+  with_preserved_seed(shared_seed, {
+    values <- list(
+      psi0 = stats::rnorm(3, mean = psi0_mu, sd = psi0_sigma),
+      psi1 = stats::rnorm(3, mean = psi1_mu, sd = psi1_sigma),
+      psi2 = stats::rnorm(2, mean = psi2_mu, sd = psi2_sigma)
+    )
+    names(values$psi0) <- c("Q3_A3", "Q2_A2", "Q1_A1")
+    names(values$psi1) <- c("Q3_O3A3", "Q2_O2A2", "Q1_O1A1")
+    names(values$psi2) <- c("Q3_A2A3", "Q2_A1A2")
+    values
+  })
+}
+
 build_setting3_theta_target <- function(
   psi0_mu = -0.30,
   psi1_mu = 0.50,
   psi2_mu = 0.35,
   psi0_sigma = 0.08,
   psi1_sigma = 0.08,
-  psi2_sigma = 0.06
+  psi2_sigma = 0.06,
+  shared_seed = NULL
 ) {
-  c(
+  shared_values <- draw_setting3_shared_values(
+    psi0_mu = psi0_mu,
+    psi1_mu = psi1_mu,
+    psi2_mu = psi2_mu,
+    psi0_sigma = psi0_sigma,
+    psi1_sigma = psi1_sigma,
+    psi2_sigma = psi2_sigma,
+    shared_seed = shared_seed
+  )
+  theta <- c(
     # Q3
     0.10, 0.25, 0.50, 0.15, 0.60, 0.25, 0.20, 0.45, 0.40,
-    psi0_mu + psi0_sigma,
-    psi1_mu + psi1_sigma,
-    psi2_mu + psi2_sigma,
+    unname(shared_values$psi0["Q3_A3"]),
+    unname(shared_values$psi1["Q3_O3A3"]),
+    unname(shared_values$psi2["Q3_A2A3"]),
     -0.28,
     # Q2
     0.20, 0.25, 0.35, 0.15, 0.70,
-    psi0_mu,
-    psi1_mu,
-    psi2_mu - psi2_sigma,
+    unname(shared_values$psi0["Q2_A2"]),
+    unname(shared_values$psi1["Q2_O2A2"]),
+    unname(shared_values$psi2["Q2_A1A2"]),
     # Q1
     0.40, 0.50,
-    psi0_mu - psi0_sigma,
-    psi1_mu - psi1_sigma
+    unname(shared_values$psi0["Q1_A1"]),
+    unname(shared_values$psi1["Q1_O1A1"])
   )
+  attr(theta, "shared_mu") <- c(psi0 = psi0_mu, psi1 = psi1_mu, psi2 = psi2_mu)
+  attr(theta, "shared_sigma") <- c(psi0 = psi0_sigma, psi1 = psi1_sigma, psi2 = psi2_sigma)
+  attr(theta, "shared_seed") <- shared_seed
+  attr(theta, "shared_values") <- shared_values
+  theta
 }
 
-theta_target <- build_setting3_theta_target()
+theta_target <- build_setting3_theta_target(shared_seed = 401)
 names(theta_target) <- c("Q3_intercept","Q3_O1","Q3_A1","Q3_O1A1","Q3_O2","Q3_A2","Q3_O2A2","Q3_A1A2","Q3_O3","Q3_A3_psi0","Q3_O3A3_psi1","Q3_A2A3_psi2","Q3_A1A2A3_psi3",
                          "Q2_intercept","Q2_O1","Q2_A1","Q2_O1A1","Q2_O2","Q2_A2_psi0","Q2_O2A2_psi1","Q2_A1A2_psi2",
                          "Q1_intercept","Q1_O1","Q1_A1_psi0","Q1_O1A1_psi1")
@@ -401,6 +453,10 @@ run_setting3_parameter_search <- function(
 
   results <- list(
     theta_target = theta_target_override,
+    shared_mu = attr(theta_target_override, "shared_mu"),
+    shared_sigma = attr(theta_target_override, "shared_sigma"),
+    shared_values = attr(theta_target_override, "shared_values"),
+    shared_seed = attr(theta_target_override, "shared_seed"),
     seed = seed,
     mc_n = mc_n,
     n_starts = n_starts,
@@ -439,7 +495,8 @@ run_setting3_parameter_specs <- function(
       psi2_mu = spec$psi2_mu,
       psi0_sigma = spec$psi0_sigma,
       psi1_sigma = spec$psi1_sigma,
-      psi2_sigma = spec$psi2_sigma
+      psi2_sigma = spec$psi2_sigma,
+      shared_seed = spec$seed
     )
     names(theta_target_spec) <- names(theta_target)
     output_path <- file.path(output_dir, paste0("calibration_", spec_name, ".rds"))
@@ -468,11 +525,10 @@ run_setting3_parameter_specs <- function(
       target_tolerance = target_tolerance,
       constraint_tolerance = constraint_tolerance,
       n_starts = n_starts,
-      sigmas = c(
-        psi0 = spec$psi0_sigma,
-        psi1 = spec$psi1_sigma,
-        psi2 = spec$psi2_sigma
-      ),
+      shared_mu = c(psi0 = spec$psi0_mu, psi1 = spec$psi1_mu, psi2 = spec$psi2_mu),
+      shared_sigma = c(psi0 = spec$psi0_sigma, psi1 = spec$psi1_sigma, psi2 = spec$psi2_sigma),
+      shared_seed = spec$seed,
+      shared_values = attr(theta_target_spec, "shared_values"),
       theta_target = theta_target_spec,
       best_value = min(results$values),
       best_index = which.min(results$values)

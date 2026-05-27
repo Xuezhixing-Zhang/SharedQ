@@ -62,12 +62,14 @@ run_setting_smoke <- function(
 
   rows <- do.call(rbind, lapply(names(report_config$artifacts), function(spec) {
     artifact_path <- file.path(root_dir, report_config$dir, report_config$artifacts[[spec]])
+    expected_target <- expected_theta_for_spec(report_config, spec)
     candidate_rows(
       report_config$setting,
       spec,
       artifact_path,
       report_config$groups,
-      report_config$candidate_tolerance
+      report_config$candidate_tolerance,
+      expected_target = expected_target
     )
   }))
 

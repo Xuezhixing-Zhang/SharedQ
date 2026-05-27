@@ -12,6 +12,10 @@ This folder is the single document hub for the SharedQ workspace. Future agents 
 6. Update `docs/plan and goal.md` and today's log before making code or document changes.
 7. For any random-walk calibration or production-simulation work, run candidate-parameter validation before accepting calibration artifacts or launching production simulations.
 
+## Critical Shared-Parameter Rule
+
+In true shared or near-shared simulation settings, the shared relationship is part of the true data-generating coefficients, not an assumption imposed on fitted estimates. Each shared coefficient must be generated as `theta_j^(d) = mu_j + delta_j^(d)`, with `delta_j^(d) ~ N(0, sigma_shared^2)`. Therefore `sigma_shared` is the standard deviation of the random deviation around the latent common effect `mu_j`: `sigma_shared = 0` gives exact sharing, small positive values give close but non-identical coefficients, and larger values weaken the shared relationship. Do not use deterministic offsets such as `mu + sigma`, `mu`, or `mu - sigma` to define shared true parameters.
+
 ## Required Updates During Work
 
 - Update `docs/plan and goal.md` when starting a milestone, completing a milestone, or changing the planned milestone order.
@@ -20,6 +24,7 @@ This folder is the single document hub for the SharedQ workspace. Future agents 
 - Use `Simulation_random_walk/submission_calibration_gate_candidate.pbs` for concurrent production-scale gate candidates. Set `CALIBRATION_SETTING`, `CALIBRATION_GATE_PROFILE`, `CALIBRATION_TARGET_TOLERANCE`, and `CALIBRATION_OUTPUT_DIR` so each candidate writes under `calibration/gate_candidates/<profile>/` instead of overwriting production artifacts.
 - Run `Rscript Simulation_random_walk/select_calibration_gate_candidate.R` after gate candidates finish; it writes `Summarize/calibration_gate_candidate_selection.*` and ranks passing candidates by max absolute validation error. Set `CALIBRATION_GATE_PROMOTE=1` only when the best passing candidate should replace the production calibration artifact.
 - Run `Rscript Simulation_random_walk/validate_candidate_calibration.R` after calibration artifacts are generated or changed; do not treat production simulation outputs as final until candidate coefficients and implied differences pass the documented per-setting tolerance (`0.01` for Setting I/III, `0.03` for no-shared settings). Use `VALIDATION_SPEC_MODE=default` for the production-simulation gate, `VALIDATION_SPECS` for a comma-separated subset, and `VALIDATION_REPORT_STEM` if the report should not overwrite the all-spec report.
+- Validation must also confirm that each calibration artifact's stored `theta_target` matches the current script-generated target. This prevents old deterministic-offset shared artifacts from passing after the shared-parameter design changes.
 - After each milestone is complete, commit the relevant changes and push them to the configured Git remote.
 - If push fails, record the exact blocker in today's log before moving to the next milestone.
 

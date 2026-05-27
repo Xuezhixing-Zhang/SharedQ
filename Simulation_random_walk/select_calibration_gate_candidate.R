@@ -89,7 +89,8 @@ candidate_metrics <- function(config, spec, artifact_path, source, run_id) {
     spec,
     artifact_path,
     config$groups,
-    config$candidate_tolerance
+    config$candidate_tolerance,
+    expected_target = expected_theta_for_spec(config, spec)
   )
   artifact <- readRDS(artifact_path)
   best_index <- which.min(artifact$values)
