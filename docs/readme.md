@@ -43,6 +43,11 @@ For Setting II, Setting III, and supplementary no-shared work, read `RANDOM_WALK
 
 For Project Quit / Forever Free Setting IV work, read `PROJECT_QUIT_FOREVER_FREE_SETTING_IV_DESIGN.md` first, then use `Simulation_random_walk/Setting4/` and `Simulation_random_walk/SupplSetting4_NoShared/` as the implementation folders. Setting IV shared true parameters must also follow the random shared rule in this README.
 
+Setting IV is initialized but not implemented. Before calibration or production simulation work, add the same executable pieces used by the earlier settings: data-preparation and treatment-recoding code, target builders, calibration scripts, Q-learning wrappers, validation reports, simulation wrappers, PBS scripts, and evaluation summaries. The initial todo files are:
+
+- `Simulation_random_walk/Setting4/Summarize/todo.md`
+- `Simulation_random_walk/SupplSetting4_NoShared/Summarize/todo.md`
+
 For per-setting file management, artifact layout, parameter choices, seeds, and result status, read the matching management file:
 
 - `docs/simulation_random_walk_setting1_management.md`
@@ -57,6 +62,8 @@ For candidate-parameter calibration status, read each setting's `Summarize/candi
 For bounded candidate-calibration smoke status, read each setting's `Summarize/candidate_calibration_smoke_report.md` after running `Simulation_random_walk/run_candidate_calibration_smoke.R`.
 
 Production simulations read the accepted default calibration artifacts directly: `calibration_balanced_small.rds`, `calibration_separated_moderate.rds`, `calibration_rw_sigma_moderate.rds`, and supplementary `calibration_separated_moderate.rds`. Do not launch production simulation jobs until those default artifacts pass candidate validation.
+
+Setting IV has no accepted calibration artifacts yet. Do not add Setting IV to production table generation or launch Setting IV production simulations until its calibration and validation tooling exists and the default specs pass validation.
 
 If any calibration job or default validation report fails, follow `docs/random_walk_calibration_tuning_strategy.md` before changing parameter targets, constraints, or launching another production attempt.
 
