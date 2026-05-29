@@ -4,7 +4,7 @@ This file is the consolidated design reference for the active random-walk simula
 
 Values listed as "calibrated true values" are population-projected Q-parameter estimates saved in the calibration `.rds` artifacts and used as `theta_true` by the simulation wrappers. They are not always identical to the hand-specified target values because the outcome-generating `gamma` is found by numerical calibration.
 
-Current status: the May 2026 production/default calibration artifacts for Setting I and Setting III were found to use an incorrect deterministic shared-target construction and are superseded as of 2026-05-27. The corrected shared settings generate true shared coefficients randomly around a latent effect, then require fresh calibration and validation before any full production simulations are accepted. Replacement gate-candidate calibration jobs for Setting I and Setting III were submitted on 2026-05-27. Setting II and Supplementary Setting III No Shared keep their separated no-shared target definitions, but the full simulation batch submitted with the superseded shared settings was canceled and must be rerun after the corrected shared settings are accepted.
+Current status as of 2026-05-29: all four active random-walk default calibration artifacts pass validation. Setting I was re-expressed as feasible random shared draws rather than deterministic offsets; Setting III `rs_tol006` was promoted to the default production calibration artifact. Setting II and Supplementary Setting III No Shared keep their separated no-shared target definitions and pass default validation. Full production simulations submitted on 2026-05-28 as jobs `523877.hn-10-03`, `523878.hn-10-03`, `523879.hn-10-03`, and `523880.hn-10-03` are complete, with `200/200` replicates for every expected sample size. Evaluation summaries and manuscript-style tables have been regenerated under `Simulation_random_walk/Writing/generated_tables/`.
 
 ## Common Simulation Plan
 
@@ -72,11 +72,11 @@ The Q-model uses stage-3 terms `intercept, A1, A2, A1A2, G1, A3, A1A3, A2A3`, st
 
 | Spec | Seed | Shared means | Shared sigmas | Implied target shared coefficients |
 | --- | ---: | --- | --- | --- |
-| `balanced_small` | 101 | `psi1=0.12`, `psi2=-0.35`, `psi3=0.61` | `0.03`, `0.00`, `0.01` | `Q3_A1=0.1102`, `Q2_A1=0.1366`; `Q3_A3=-0.3500`, `Q2_A2=-0.3500`; `Q3_A1A3=0.6033`, `Q2_A1A2=0.6121` |
+| `balanced_small` | 63 | `psi1=0.1251519160`, `psi2=-0.35`, `psi3=0.6158834940` | `0.0187658541`, `0.00`, `0.0083599859` | `Q3_A1=0.1500`, `Q2_A1=0.0900`; `Q3_A3=-0.3500`, `Q2_A2=-0.3500`; `Q3_A1A3=0.6200`, `Q2_A1A2=0.6000` |
 | `tighter_small` | 202 | `psi1=0.16`, `psi2=-0.52`, `psi3=0.68` | `0.015`, `0.02`, `0.02` | `Q3_A1=0.1430`, `Q2_A1=0.1534`; `Q3_A3=-0.5267`, `Q2_A2=-0.5369`; `Q3_A1A3=0.6771`, `Q2_A1A2=0.6514` |
 | `wider_small` | 303 | `psi1=0.24`, `psi2=-0.68`, `psi3=0.92` | `0.05`, `0.05`, `0.05` | `Q3_A1=0.2152`, `Q2_A1=0.2539`; `Q3_A3=-0.6608`, `Q2_A2=-0.6766`; `Q3_A1A3=0.8911`, `Q2_A1A2=0.9857` |
 
-Superseded production/default calibrated true values for the intended near-shared groups:
+Accepted production/default calibrated true values for the intended near-shared groups:
 
 | Spec | Parameter group | Calibrated true values |
 | --- | --- | --- |
@@ -84,7 +84,7 @@ Superseded production/default calibrated true values for the intended near-share
 | `balanced_small` | `Q3_A3 / Q2_A2` | `Q3_A3=-0.3469`; `Q2_A2=-0.3432` |
 | `balanced_small` | `Q3_A1A3 / Q2_A1A2` | `Q3_A1A3=0.6132`; `Q2_A1A2=0.5939` |
 
-These calibrated values came from the old deterministic-offset target and are not accepted for production under the corrected random-shared design. Setting I must be recalibrated and pass validation before full simulation results are used.
+These calibrated values now pass because the Setting I target is represented through the random shared rule using seed `63` and the `balanced_small` means/sigmas above. Current result files must still be replaced by the submitted production rerun before manuscript table generation.
 
 ## Setting II
 
@@ -143,16 +143,16 @@ The Q-model has 25 coefficients. The true intended random-walk near-shared group
 | `rw_sigma_tight` | 402 | `psi0=-0.30`, `psi1=0.50`, `psi2=0.35` | `0.04`, `0.04`, `0.03` | `Q3_A3=-0.1948`, `Q2_A2=-0.3125`, `Q1_A1=-0.2970`; `Q3_O3:A3=0.5345`, `Q2_O2:A2=0.5676`, `Q1_O1:A1=0.5143`; `Q3_A2:A3=0.3489`, `Q2_A1:A2=0.3297`; `Q3_A1:A2:A3=-0.2800` |
 | `rw_sigma_wide` | 403 | `psi0=-0.30`, `psi1=0.50`, `psi2=0.35` | `0.15`, `0.15`, `0.10` | `Q3_A3=-0.3242`, `Q2_A2=-0.4133`, `Q1_A1=-0.4527`; `Q3_O3:A3=0.5806`, `Q2_O2:A2=0.3238`, `Q1_O1:A1=0.6610`; `Q3_A2:A3=0.3379`, `Q2_A1:A2=0.3874`; `Q3_A1:A2:A3=-0.2800` |
 
-Superseded production/default calibrated true values for the intended random-walk near-shared groups:
+Accepted production/default calibrated true values for the intended random-walk near-shared groups after promoting `rs_tol006` on 2026-05-28:
 
 | Spec | Parameter group | Calibrated true values |
 | --- | --- | --- |
-| `rw_sigma_moderate` | `Q3_A3 / Q2_A2 / Q1_A1` | `Q3_A3=-0.2200`; `Q2_A2=-0.2940`; `Q1_A1=-0.3740` |
-| `rw_sigma_moderate` | `Q3_O3:A3 / Q2_O2:A2 / Q1_O1:A1` | `Q3_O3:A3=0.5740`; `Q2_O2:A2=0.4940`; `Q1_O1:A1=0.4140` |
-| `rw_sigma_moderate` | `Q3_A2:A3 / Q2_A1:A2` | `Q3_A2:A3=0.4101`; `Q2_A1:A2=0.2841` |
+| `rw_sigma_moderate` | `Q3_A3 / Q2_A2 / Q1_A1` | `Q3_A3=-0.3073`; `Q2_A2=-0.1997`; `Q1_A1=-0.2039` |
+| `rw_sigma_moderate` | `Q3_O3:A3 / Q2_O2:A2 / Q1_O1:A1` | `Q3_O3:A3=0.4570`; `Q2_O2:A2=0.5461`; `Q1_O1:A1=0.5743` |
+| `rw_sigma_moderate` | `Q3_A2:A3 / Q2_A1:A2` | `Q3_A2:A3=0.3522`; `Q2_A1:A2=0.2564` |
 | `rw_sigma_moderate` | `Q3_A1:A2:A3` | `Q3_A1:A2:A3=-0.2860` |
 
-These calibrated values came from the old deterministic-offset target and are not accepted for production under the corrected random-shared design. Setting III must be recalibrated and pass validation before full simulation results are used.
+Earlier deterministic-offset calibrated values for `rw_sigma_moderate` are superseded and are not accepted for production. Even though Setting III now passes calibration validation, its simulation results must still be rerun after the full active-suite gate passes because the current result files predate the promoted artifact and one sample-size file is partial.
 
 ## Supplementary Setting III No Shared
 

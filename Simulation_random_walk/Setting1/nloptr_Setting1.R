@@ -102,10 +102,10 @@ theta_target <- build_theta_target(shared_mu = shared_mu, shared_sigma = shared_
 
 setting1_shared_parameter_specs <- list(
   balanced_small = list(
-    description = "Baseline feasible near-shared specification tuned after constrained calibration probes.",
-    seed = 101,
-    shared_mu = c(psi1 = 0.12, psi2 = -0.35, psi3 = 0.61),
-    shared_sigma = c(psi1 = 0.03, psi2 = 0.00, psi3 = 0.01)
+    description = "Baseline feasible near-shared specification represented as random shared draws.",
+    seed = 63,
+    shared_mu = c(psi1 = 0.1251519160, psi2 = -0.35, psi3 = 0.6158834940),
+    shared_sigma = c(psi1 = 0.0187658541, psi2 = 0.00, psi3 = 0.0083599859)
   ),
   tighter_small = list(
     description = "Smaller deviations and slightly weaker shared means to test a closer-to-exact sharing scenario.",

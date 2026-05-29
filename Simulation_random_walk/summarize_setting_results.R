@@ -28,16 +28,58 @@ settings <- list(
     expected_ns = c(100, 300, 500, 1000),
     expected_reps = 200,
     todo_when_missing = "Run calibration and production simulations; only smoke-test artifacts are currently available."
+  ),
+  Setting4 = list(
+    label = "Setting IV",
+    objective = "Project Quit / Forever Free two-stage shared design. Current executable outputs are synthetic fallback runs unless a cleaned PQ/FF source data file is supplied through SETTING4_SOURCE_DATA.",
+    expected_ns = c(100, 300, 500, 1000),
+    expected_reps = 200,
+    todo_when_missing = "Run production simulation after adding the cleaned Project Quit / Forever Free source data and accepted calibration artifacts.",
+    non_production_note = "Synthetic fallback files are useful for exercising code and evaluation paths, but they are not accepted production Setting IV results.",
+    additional_todo = c(
+      "Locate or add the cleaned Project Quit / Forever Free source data with the required columns from `PROJECT_QUIT_FOREVER_FREE_SETTING_IV_DESIGN.md`.",
+      "Run production mode with `SETTING4_SOURCE_DATA=/path/to/data` and without `SETTING4_ALLOW_SYNTHETIC=1`.",
+      "Add and validate a production calibration gate analogous to Settings I-III before using Setting IV in manuscript tables.",
+      "Do not include `results_*_synthetic.rds` or synthetic calibration artifacts in production method claims."
+    )
   )
 )
+
+summary_settings <- Sys.getenv("SUMMARY_SETTINGS", unset = "")
+if (nzchar(summary_settings)) {
+  requested_settings <- trimws(strsplit(summary_settings, ",", fixed = TRUE)[[1]])
+  unknown_settings <- setdiff(requested_settings, names(settings))
+  if (length(unknown_settings)) {
+    stop("Unknown SUMMARY_SETTINGS value(s): ", paste(unknown_settings, collapse = ", "))
+  }
+  settings <- settings[requested_settings]
+}
 
 fmt <- function(x) {
   if (is.na(x)) return("NA")
   formatC(x, digits = 4, format = "f")
 }
 
+parse_n_one <- function(path) {
+  match <- regexec("^results_([0-9]+)(_[A-Za-z0-9]+)?\\.rds$", basename(path))
+  parts <- regmatches(basename(path), match)[[1]]
+  if (length(parts) < 2L) return(NA_integer_)
+  as.integer(parts[[2]])
+}
+
 parse_n <- function(path) {
-  as.integer(sub("^results_([0-9]+)\\.rds$", "\\1", basename(path)))
+  vapply(path, parse_n_one, integer(1))
+}
+
+result_file_type <- function(path) {
+  base <- basename(path)
+  if (grepl("^results_[0-9]+\\.rds$", base)) {
+    return("production")
+  }
+  if (grepl("^results_[0-9]+_synthetic\\.rds$", base)) {
+    return("synthetic fallback")
+  }
+  "non-production"
 }
 
 flatten_numeric <- function(x, prefix = NULL) {
@@ -120,14 +162,21 @@ write_setting_summary <- function(setting_name, cfg) {
 
   result_files <- sort(Sys.glob(file.path(results_dir, "results_*.rds")))
   result_ns <- parse_n(result_files)
-  production_files <- result_files[result_ns %in% cfg$expected_ns]
-  missing_ns <- setdiff(cfg$expected_ns, result_ns)
+  result_files <- result_files[!is.na(result_ns)]
+  result_ns <- result_ns[!is.na(result_ns)]
+  result_types <- vapply(result_files, result_file_type, character(1))
+  production_mask <- result_types == "production"
+  production_files <- result_files[production_mask & result_ns %in% cfg$expected_ns]
+  production_ns <- result_ns[production_mask]
+  missing_ns <- setdiff(cfg$expected_ns, production_ns)
+  non_production_ns <- sort(unique(result_ns[!production_mask & result_ns %in% cfg$expected_ns]))
 
   status_rows <- lapply(result_files, function(path) {
     x <- readRDS(path)
     data.frame(
       file = basename(path),
       n = parse_n(path),
+      type = result_file_type(path),
       entries = length(x),
       non_null = sum(!vapply(x, is.null, logical(1))),
       stringsAsFactors = FALSE
@@ -150,6 +199,12 @@ write_setting_summary <- function(setting_name, cfg) {
     paste0("- Expected production replicates per sample size: ", cfg$expected_reps),
     paste0("- Production result files found: ", length(production_files), " of ", length(cfg$expected_ns)),
     paste0("- Missing production sample sizes: ", if (length(missing_ns)) paste(missing_ns, collapse = ", ") else "none"),
+    if (length(non_production_ns)) {
+      paste0("- Non-production result sample sizes present: ", paste(non_production_ns, collapse = ", "))
+    },
+    if (!is.null(cfg$non_production_note)) {
+      paste0("- Note: ", cfg$non_production_note)
+    },
     "",
     "## Result Files",
     ""
@@ -158,11 +213,12 @@ write_setting_summary <- function(setting_name, cfg) {
   if (is.null(status_table)) {
     lines <- c(lines, "- No production `results_*.rds` files found in `simulation_results/`.")
   } else {
-    lines <- c(lines, "| File | n | Entries | Non-null |", "| --- | ---: | ---: | ---: |")
+    lines <- c(lines, "| File | n | Type | Entries | Non-null |", "| --- | ---: | --- | ---: | ---: |")
     for (i in seq_len(nrow(status_table))) {
       lines <- c(lines, paste0(
         "| `", status_table$file[i], "` | ",
         status_table$n[i], " | ",
+        status_table$type[i], " | ",
         status_table$entries[i], " | ",
         status_table$non_null[i], " |"
       ))
@@ -180,8 +236,7 @@ write_setting_summary <- function(setting_name, cfg) {
     "## Evaluation Output",
     "",
     "- `evaluation_summary.csv` contains mean and standard deviation summaries by setting, sample size, method, and metric.",
-    "- Metrics are flattened from each replicate's `evaluation_*` objects so vector bias outputs appear as indexed columns.",
-    ""
+    "- Metrics are flattened from each replicate's `evaluation_*` objects so vector bias outputs appear as indexed columns."
   )
   writeLines(lines, file.path(summary_dir, "current_results_summary.md"))
 
@@ -194,6 +249,12 @@ write_setting_summary <- function(setting_name, cfg) {
       paste0("- Missing production outputs for n = ", paste(missing_ns, collapse = ", "), ". ", cfg$todo_when_missing)
     } else {
       "- Production output files are present for all expected sample sizes; review `evaluation_summary.csv` before manuscript table generation."
+    },
+    if (length(non_production_ns) && !is.null(cfg$non_production_note)) {
+      paste0("- ", cfg$non_production_note)
+    },
+    if (!is.null(cfg$additional_todo)) {
+      paste0("- ", cfg$additional_todo)
     },
     "- Keep large `.rds` artifacts local or move them to Git LFS/external storage if versioning is required."
   )

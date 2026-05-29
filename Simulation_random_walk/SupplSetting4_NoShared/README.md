@@ -10,4 +10,6 @@ This folder is the implementation workspace for the no-shared Project Quit / For
 
 ## Implementation Status
 
-The folder structure is initialized only. Calibration, simulation, Q-learning wrappers, PBS scripts, validation reports, and production summaries are pending.
+The folder structure is initialized only. The main Setting IV folder now contains an executable synthetic fallback pipeline, but this supplementary no-shared Setting IV variant has not been implemented or run.
+
+Parameter selection has not been run because the cleaned Project Quit / Forever Free source data was not found in the workspace. Calibration, simulation, Q-learning wrappers, PBS scripts, validation reports, and production summaries are pending. Do not infer supplementary no-shared Setting IV results from the main Setting IV synthetic fallback outputs.

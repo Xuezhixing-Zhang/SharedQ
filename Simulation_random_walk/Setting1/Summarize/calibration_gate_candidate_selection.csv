@@ -1,4 +1,7 @@
 "setting","spec","source","run_id","artifact_path","mc_n","target_tolerance","constraint_tolerance","best_value","max_abs_error","mean_abs_error","failed_checks","pass"
-"Setting I","balanced_small","production","current","Setting1/calibration/calibration_balanced_small.rds",1000000,0.006,1e-04,3.04982369986016,0.0465738556625742,0.00679304335586939,4,FALSE
-"Setting I","balanced_small","gate_candidate","tol006","Setting1/calibration/gate_candidates/tol006/calibration_balanced_small.rds",1000000,0.006,1e-04,3.04982369986016,0.0465738556625742,0.00679304335586939,4,FALSE
-"Setting I","balanced_small","gate_candidate","tol008","Setting1/calibration/gate_candidates/tol008/calibration_balanced_small.rds",1000000,0.008,1e-04,3.34300513952689,0.0465738556625742,0.00715806980930118,4,FALSE
+"Setting I","balanced_small","production","current","Setting1/calibration/calibration_balanced_small.rds",1000000,0.006,1e-04,3.04982369986016,0.00684994578922284,0.00178226147554938,0,TRUE
+"Setting I","balanced_small","gate_candidate","tol006","Setting1/calibration/gate_candidates/tol006/calibration_balanced_small.rds",1000000,0.006,1e-04,3.04982369986016,0.00684994578922284,0.00178226147554938,0,TRUE
+"Setting I","balanced_small","gate_candidate","tol008","Setting1/calibration/gate_candidates/tol008/calibration_balanced_small.rds",1000000,0.008,1e-04,3.34300513952689,0.00823134970248787,0.00214728792898117,0,TRUE
+"Setting I","balanced_small","gate_candidate","rs_tol006","Setting1/calibration/gate_candidates/rs_tol006/calibration_balanced_small.rds",1000000,0.006,1e-04,2.99166520522391,0.0896295922132689,0.0283923829230101,12,FALSE
+"Setting I","balanced_small","gate_candidate","rs_tol008","Setting1/calibration/gate_candidates/rs_tol008/calibration_balanced_small.rds",1000000,0.008,1e-04,2.99272021333663,0.0897171116306509,0.0284151781928998,12,FALSE
+"Setting I","balanced_small","gate_candidate","rs_tol010","Setting1/calibration/gate_candidates/rs_tol010/calibration_balanced_small.rds",1000000,0.01,1e-04,2.98938414514561,0.089731899533666,0.0283774379112522,12,FALSE

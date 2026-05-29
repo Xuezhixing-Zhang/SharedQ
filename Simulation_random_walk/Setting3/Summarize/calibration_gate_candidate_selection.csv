@@ -1,4 +1,7 @@
 "setting","spec","source","run_id","artifact_path","mc_n","target_tolerance","constraint_tolerance","best_value","max_abs_error","mean_abs_error","failed_checks","pass"
-"Setting III","rw_sigma_moderate","production","current","Setting3/calibration/calibration_rw_sigma_moderate.rds",1000000,0.006,1e-04,5.06534091132438,0.170057376519539,0.0207505965281469,8,FALSE
+"Setting III","rw_sigma_moderate","production","current","Setting3/calibration/calibration_rw_sigma_moderate.rds",1000000,0.006,1e-04,4.98004741574743,0.006000253238583,0.00132546970246789,0,TRUE
+"Setting III","rw_sigma_moderate","gate_candidate","rs_tol006","Setting3/calibration/gate_candidates/rs_tol006/calibration_rw_sigma_moderate.rds",1000000,0.006,1e-04,4.98004741574743,0.006000253238583,0.00132546970246789,0,TRUE
+"Setting III","rw_sigma_moderate","gate_candidate","rs_tol008","Setting3/calibration/gate_candidates/rs_tol008/calibration_rw_sigma_moderate.rds",1000000,0.008,1e-04,4.91257182215656,0.00800000002919726,0.00175609756111557,0,TRUE
+"Setting III","rw_sigma_moderate","gate_candidate","rs_tol010","Setting3/calibration/gate_candidates/rs_tol010/calibration_rw_sigma_moderate.rds",1000000,0.01,1e-04,4.96342601653045,0.0100000081498809,0.00221201741644194,0,TRUE
 "Setting III","rw_sigma_moderate","gate_candidate","tol006","Setting3/calibration/gate_candidates/tol006/calibration_rw_sigma_moderate.rds",1000000,0.006,1e-04,5.06534091132438,0.170057376519539,0.0207505965281469,8,FALSE
 "Setting III","rw_sigma_moderate","gate_candidate","tol008","Setting3/calibration/gate_candidates/tol008/calibration_rw_sigma_moderate.rds",1000000,0.008,1e-04,5.05462321603765,0.170057376519539,0.0212384014061621,8,FALSE

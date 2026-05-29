@@ -22,4 +22,15 @@ Do not implement Setting IV shared targets as deterministic `mu + sigma` or `mu 
 
 ## Implementation Status
 
-The folder structure is initialized only. Calibration, simulation, Q-learning wrappers, PBS scripts, validation reports, and production summaries are pending.
+The folder now has executable data-generation, Q-learning, helper, and simulation wrappers:
+
+- `Q_datagenerating.R`
+- `Q_learning.R`
+- `Q_functions.R`
+- `Simulation_Setting4.R`
+
+Production mode is strict: it requires a cleaned Project Quit / Forever Free source data file through `SETTING4_SOURCE_DATA`. If that file is absent, the script stops unless `SETTING4_ALLOW_SYNTHETIC=1` is set.
+
+Synthetic fallback mode has been run for `n = 100, 300, 500, 1000` with `200/200` non-null replicates per sample size. These outputs exercise the code and evaluation path only. They are not accepted production Setting IV results, and they must not be used in manuscript tables or method claims.
+
+Production Setting IV remains blocked until the cleaned PQ/FF source data is supplied, production calibration is generated, and a validation gate analogous to Settings I-III passes.

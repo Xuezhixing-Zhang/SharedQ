@@ -8,13 +8,13 @@
 
 ## Result Files
 
-| File | n | Entries | Non-null |
-| --- | ---: | ---: | ---: |
-| `results_100.rds` | 100 | 200 | 200 |
-| `results_1000.rds` | 1000 | 200 | 200 |
-| `results_30.rds` | 30 | 1 | 1 |
-| `results_300.rds` | 300 | 200 | 200 |
-| `results_500.rds` | 500 | 200 | 200 |
+| File | n | Type | Entries | Non-null |
+| --- | ---: | --- | ---: | ---: |
+| `results_100.rds` | 100 | production | 200 | 200 |
+| `results_1000.rds` | 1000 | production | 200 | 200 |
+| `results_30.rds` | 30 | production | 1 | 1 |
+| `results_300.rds` | 300 | production | 200 | 200 |
+| `results_500.rds` | 500 | production | 200 | 200 |
 
 ## Artifact Inventory
 
@@ -25,4 +25,3 @@
 
 - `evaluation_summary.csv` contains mean and standard deviation summaries by setting, sample size, method, and metric.
 - Metrics are flattened from each replicate's `evaluation_*` objects so vector bias outputs appear as indexed columns.
-

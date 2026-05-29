@@ -1,0 +1,3 @@
+| total_comparisons | supported_comparisons | support_rate | flagged_comparisons |
+| --- | --- | --- | --- |
+| 64 | 25 | 0.390625 | 39 |

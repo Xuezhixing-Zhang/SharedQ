@@ -43,7 +43,7 @@ For Setting II, Setting III, and supplementary no-shared work, read `RANDOM_WALK
 
 For Project Quit / Forever Free Setting IV work, read `PROJECT_QUIT_FOREVER_FREE_SETTING_IV_DESIGN.md` first, then use `Simulation_random_walk/Setting4/` and `Simulation_random_walk/SupplSetting4_NoShared/` as the implementation folders. Setting IV shared true parameters must also follow the random shared rule in this README.
 
-Setting IV is initialized but not implemented. Before calibration or production simulation work, add the same executable pieces used by the earlier settings: data-preparation and treatment-recoding code, target builders, calibration scripts, Q-learning wrappers, validation reports, simulation wrappers, PBS scripts, and evaluation summaries. The initial todo files are:
+Setting IV now has executable main-folder scripts and synthetic fallback outputs, but it still has no accepted production calibration or production results. Before production simulation work, supply the cleaned Project Quit / Forever Free source data through `SETTING4_SOURCE_DATA`, run production calibration, add the same validation gate used by the earlier settings, and rerun production simulations without `SETTING4_ALLOW_SYNTHETIC=1`. The synthetic files are for code/evaluation smoke coverage only. The relevant todo files are:
 
 - `Simulation_random_walk/Setting4/Summarize/todo.md`
 - `Simulation_random_walk/SupplSetting4_NoShared/Summarize/todo.md`
@@ -63,7 +63,7 @@ For bounded candidate-calibration smoke status, read each setting's `Summarize/c
 
 Production simulations read the accepted default calibration artifacts directly: `calibration_balanced_small.rds`, `calibration_separated_moderate.rds`, `calibration_rw_sigma_moderate.rds`, and supplementary `calibration_separated_moderate.rds`. Do not launch production simulation jobs until those default artifacts pass candidate validation.
 
-Setting IV has no accepted calibration artifacts yet. Do not add Setting IV to production table generation or launch Setting IV production simulations until its calibration and validation tooling exists and the default specs pass validation.
+Setting IV has no accepted production calibration artifacts yet. Do not add Setting IV to production table generation or launch accepted production simulations until cleaned PQ/FF source data exists, calibration and validation tooling exists, and the default specs pass validation. Do not use `results_*_synthetic.rds` in manuscript tables or method claims.
 
 If any calibration job or default validation report fails, follow `docs/random_walk_calibration_tuning_strategy.md` before changing parameter targets, constraints, or launching another production attempt.
 
@@ -77,7 +77,7 @@ Examples:
 
 - `Simulation_random_walk/Setting1/Workflow.md` becomes `docs/simulation_random_walk_setting1_workflow.md`.
 - `Simulation_random_walk/Setting2/File_Manifest.md` becomes `docs/simulation_random_walk_setting2_file_manifest.md`.
-- `Simulation_random_walk/Setting1/working_log/2026-04-29_codex_log.md` becomes `docs/simulation_random_walk_setting1_2026-04-29_codex_log.md`.
+- `Simulation_random_walk/Setting1/working_log/YYYY-MM-DD_codex_log.md` becomes `docs/simulation_random_walk_setting1_YYYY-MM-DD_codex_log.md`.
 
 Do not create new scattered markdown or log files outside `docs/` unless a tool temporarily generates one and the same milestone moves it here.
 
