@@ -64,3 +64,35 @@
 | Suppl III No Shared | 1000 | SQ learning (L1 penalty) | Q shared | 0.322115 | 0.192607106535522 | -0.395834874620796 | 3 | TRUE |
 | Suppl III No Shared | 1000 | SQ learning (L2 penalty) | Q learning | -0.0289349999999999 | -0.0140714513128727 | 0.0383059535503913 | 0 | FALSE |
 | Suppl III No Shared | 1000 | SQ learning (L2 penalty) | Q shared | 0.32607 | 0.194564384270826 | -0.403633681172906 | 3 | TRUE |
+| IV | 100 | SQ learning (L1 penalty) | Q learning | 0.0204500000000001 | 0.00758333333333328 | -0.015311142541089 | 3 | TRUE |
+| IV | 100 | SQ learning (L1 penalty) | Q shared | 0.02925 | 0.00817499999999993 | 0.00841192009065332 | 2 | TRUE |
+| IV | 100 | SQ learning (L2 penalty) | Q learning | 0.0243500000000001 | 0.00898333333333334 | -0.0109384911784815 | 3 | TRUE |
+| IV | 100 | SQ learning (L2 penalty) | Q shared | 0.03315 | 0.009575 | 0.0127845714532608 | 2 | TRUE |
+| IV | 300 | SQ learning (L1 penalty) | Q learning | 0.0154833333333333 | 0.00518888888888891 | -0.01013131764092 | 3 | TRUE |
+| IV | 300 | SQ learning (L1 penalty) | Q shared | 0.0053833333333333 | 0.00156388888888892 | 0.000903535817743509 | 2 | TRUE |
+| IV | 300 | SQ learning (L2 penalty) | Q learning | 0.00855000000000006 | 0.00281666666666669 | -0.00558002197033912 | 3 | TRUE |
+| IV | 300 | SQ learning (L2 penalty) | Q shared | -0.00154999999999994 | -0.0008083333333333 | 0.00545483148832443 | 0 | FALSE |
+| IV | 500 | SQ learning (L1 penalty) | Q learning | -0.000120000000000009 | 0.000428333333333253 | -0.00838139148690766 | 2 | TRUE |
+| IV | 500 | SQ learning (L1 penalty) | Q shared | 0.000369999999999981 | 6.16666666666266e-05 | 0.000377078992974969 | 2 | TRUE |
+| IV | 500 | SQ learning (L2 penalty) | Q learning | 0.00162999999999991 | 0.000728333333333331 | -0.00435728322684505 | 3 | TRUE |
+| IV | 500 | SQ learning (L2 penalty) | Q shared | 0.0021199999999999 | 0.000361666666666705 | 0.00440118725303758 | 2 | TRUE |
+| IV | 1000 | SQ learning (L1 penalty) | Q learning | -0.000300000000000078 | -4.99999999999945e-05 | -0.00543487349441734 | 1 | FALSE |
+| IV | 1000 | SQ learning (L1 penalty) | Q shared | 0 | 0 | -3.46644087008477e-05 | 3 | TRUE |
+| IV | 1000 | SQ learning (L2 penalty) | Q learning | -0.000300000000000078 | -4.99999999999945e-05 | -0.00307461238079114 | 1 | FALSE |
+| IV | 1000 | SQ learning (L2 penalty) | Q shared | 0 | 0 | 0.00232559670492535 | 2 | TRUE |
+| Suppl IV No Shared | 100 | SQ learning (L1 penalty) | Q learning | -0.0661 | -0.02735 | 0.00615396979881225 | 0 | FALSE |
+| Suppl IV No Shared | 100 | SQ learning (L1 penalty) | Q shared | 0.224 | 0.118841666666667 | -0.0785309224967284 | 3 | TRUE |
+| Suppl IV No Shared | 100 | SQ learning (L2 penalty) | Q learning | -0.0729 | -0.0294833333333333 | -4.74551006883761e-05 | 1 | FALSE |
+| Suppl IV No Shared | 100 | SQ learning (L2 penalty) | Q shared | 0.2172 | 0.116708333333333 | -0.0847323473962291 | 3 | TRUE |
+| Suppl IV No Shared | 300 | SQ learning (L1 penalty) | Q learning | -0.10095 | -0.0348055555555556 | 0.0119234634623856 | 0 | FALSE |
+| Suppl IV No Shared | 300 | SQ learning (L1 penalty) | Q shared | 0.330016666666667 | 0.132338888888889 | -0.10822542728102 | 3 | TRUE |
+| Suppl IV No Shared | 300 | SQ learning (L2 penalty) | Q learning | -0.13255 | -0.0466111111111112 | 0.0107549764132984 | 0 | FALSE |
+| Suppl IV No Shared | 300 | SQ learning (L2 penalty) | Q shared | 0.298416666666667 | 0.120533333333333 | -0.109393914330108 | 3 | TRUE |
+| Suppl IV No Shared | 500 | SQ learning (L1 penalty) | Q learning | -0.13847 | -0.0467166666666667 | 0.0153670775127165 | 0 | FALSE |
+| Suppl IV No Shared | 500 | SQ learning (L1 penalty) | Q shared | 0.37369 | 0.139928333333333 | -0.117385894680672 | 3 | TRUE |
+| Suppl IV No Shared | 500 | SQ learning (L2 penalty) | Q learning | -0.17996 | -0.0609816666666667 | 0.0164011779189465 | 0 | FALSE |
+| Suppl IV No Shared | 500 | SQ learning (L2 penalty) | Q shared | 0.3322 | 0.125663333333333 | -0.116351794274442 | 3 | TRUE |
+| Suppl IV No Shared | 1000 | SQ learning (L1 penalty) | Q learning | -0.14802 | -0.0494591666666667 | 0.0200844690512017 | 0 | FALSE |
+| Suppl IV No Shared | 1000 | SQ learning (L1 penalty) | Q shared | 0.431345 | 0.1493875 | -0.124089633699697 | 3 | TRUE |
+| Suppl IV No Shared | 1000 | SQ learning (L2 penalty) | Q learning | -0.197715 | -0.0658075 | 0.0236468490159774 | 0 | FALSE |
+| Suppl IV No Shared | 1000 | SQ learning (L2 penalty) | Q shared | 0.38165 | 0.133039166666667 | -0.120527253734921 | 3 | TRUE |

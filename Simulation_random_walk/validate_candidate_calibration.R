@@ -102,16 +102,26 @@ clean_names <- function(x) {
 
 best_theta <- function(path) {
   artifact <- readRDS(path)
-  best_index <- which.min(artifact$values)
-  theta <- artifact$all_theta[, best_index]
+  if (!is.null(artifact$all_theta)) {
+    best_index <- which.min(artifact$values)
+    theta <- artifact$all_theta[, best_index]
+    best_value <- artifact$values[best_index]
+  } else if (!is.null(artifact$theta)) {
+    best_index <- 1L
+    theta <- artifact$theta
+    best_value <- artifact$values
+  } else {
+    stop("Calibration artifact lacks both `all_theta` and `theta`: ", path)
+  }
   target <- artifact$theta_target
   names(theta) <- clean_names(names(theta))
   names(target) <- clean_names(names(target))
   list(
     theta = theta,
     target = target,
+    artifact = artifact,
     best_index = best_index,
-    best_value = artifact$values[best_index],
+    best_value = best_value,
     mc_n = artifact$mc_n
   )
 }
@@ -159,6 +169,9 @@ expected_theta_for_spec <- function(config, spec) {
       q3_a1a2a3 = spec_def$q3_a1a2a3
     )
     names(target) <- names(env$theta_target)
+  } else if (identical(config$dir, "Setting4") || identical(config$dir, "SupplSetting4_NoShared")) {
+    source(file.path(root_dir, "Setting4", "Q_datagenerating.R"), local = env)
+    target <- env$setting4_target_theta(spec)
   } else {
     stop("No expected-target builder configured for ", config$setting, ".")
   }
@@ -216,6 +229,22 @@ candidate_rows <- function(setting, spec, path, groups, tolerance, expected_targ
   calibration <- best_theta(path)
   rows <- list(target_definition_rows(setting, spec, calibration, expected_target))
   row_i <- length(rows) + 1
+
+  if (!is.null(calibration$artifact$source_mode)) {
+    rows[[row_i]] <- data.frame(
+      setting = setting,
+      spec = spec,
+      check_type = "artifact",
+      group = "source_mode",
+      item = basename(path),
+      target = NA_real_,
+      calibrated = NA_real_,
+      error = NA_real_,
+      pass = !identical(calibration$artifact$source_mode, "real"),
+      stringsAsFactors = FALSE
+    )
+    row_i <- row_i + 1
+  }
 
   for (group_name in names(groups)) {
     group <- groups[[group_name]]
@@ -328,6 +357,15 @@ continuous_groups <- list(
   psi3 = c(Q3_A1A2A3 = 13)
 )
 
+setting4_groups <- list(
+  SE_main = c(Q2_PQSE = 3, Q1_QuitSE = 12),
+  Motiv_main = c(Q2_PQMotiv = 4, Q1_QuitMotiv = 13),
+  LowEducation_main = c(Q2_LowEducation = 5, Q1_LowEducation = 14),
+  SE_treatment = c(Q2_PQSE_A_FF = 8, Q1_QuitSE_A_efficacy = 20),
+  Motiv_treatment = c(Q2_PQMotiv_A_FF = 9, Q1_QuitMotiv_A_outcome = 21),
+  LowEducation_treatment = c(Q2_LowEducation_A_FF = 10, Q1_LowEducation_A_story = 22)
+)
+
 configs <- list(
   list(
     setting = "Setting I",
@@ -376,6 +414,30 @@ configs <- list(
       separated_reversed = "calibration/calibration_separated_reversed.rds",
       separated_large = "calibration/calibration_separated_large.rds",
       smoke_default = "calibration/test_alternative_pars.rds"
+    )
+  ),
+  list(
+    setting = "Setting IV",
+    dir = "Setting4",
+    candidate_tolerance = setting_candidate_tolerance(shared_candidate_tolerance),
+    default_spec = "pqff_shared_parsimonious",
+    groups = setting4_groups,
+    artifacts = c(
+      pqff_shared_parsimonious = "calibration/calibration_pqff_shared_parsimonious.rds",
+      pqff_shared_tight = "calibration/calibration_pqff_shared_tight.rds",
+      pqff_shared_wide = "calibration/calibration_pqff_shared_wide.rds"
+    )
+  ),
+  list(
+    setting = "Supplementary Setting IV No Shared",
+    dir = "SupplSetting4_NoShared",
+    candidate_tolerance = setting_candidate_tolerance(no_shared_candidate_tolerance),
+    default_spec = "pqff_separated_parsimonious",
+    groups = setting4_groups,
+    artifacts = c(
+      pqff_separated_parsimonious = "calibration/calibration_pqff_separated_parsimonious.rds",
+      pqff_separated_reversed = "calibration/calibration_pqff_separated_reversed.rds",
+      pqff_separated_large = "calibration/calibration_pqff_separated_large.rds"
     )
   )
 )

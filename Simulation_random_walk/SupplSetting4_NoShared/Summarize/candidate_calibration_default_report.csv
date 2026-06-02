@@ -1,0 +1,42 @@
+"setting","spec","check_type","group","item","target","calibrated","error","pass"
+"Supplementary Setting IV No Shared","pqff_separated_parsimonious","target_definition","theta_target","Q2_intercept",0.1,0.1,0,TRUE
+"Supplementary Setting IV No Shared","pqff_separated_parsimonious","target_definition","theta_target","Q2_PQQuit",0.4,0.4,0,TRUE
+"Supplementary Setting IV No Shared","pqff_separated_parsimonious","target_definition","theta_target","Q2_PQSE",0.55,0.55,0,TRUE
+"Supplementary Setting IV No Shared","pqff_separated_parsimonious","target_definition","theta_target","Q2_PQMotiv",-0.15,-0.15,0,TRUE
+"Supplementary Setting IV No Shared","pqff_separated_parsimonious","target_definition","theta_target","Q2_LowEducation",0.3,0.3,0,TRUE
+"Supplementary Setting IV No Shared","pqff_separated_parsimonious","target_definition","theta_target","Q2_A_FF",0.12,0.12,0,TRUE
+"Supplementary Setting IV No Shared","pqff_separated_parsimonious","target_definition","theta_target","Q2_PQQuit_A_FF",-0.08,-0.08,0,TRUE
+"Supplementary Setting IV No Shared","pqff_separated_parsimonious","target_definition","theta_target","Q2_PQSE_A_FF",0.45,0.45,0,TRUE
+"Supplementary Setting IV No Shared","pqff_separated_parsimonious","target_definition","theta_target","Q2_PQMotiv_A_FF",-0.3,-0.3,0,TRUE
+"Supplementary Setting IV No Shared","pqff_separated_parsimonious","target_definition","theta_target","Q2_LowEducation_A_FF",0.5,0.5,0,TRUE
+"Supplementary Setting IV No Shared","pqff_separated_parsimonious","target_definition","theta_target","Q1_intercept",0.1,0.1,0,TRUE
+"Supplementary Setting IV No Shared","pqff_separated_parsimonious","target_definition","theta_target","Q1_QuitSE",-0.05,-0.05,0,TRUE
+"Supplementary Setting IV No Shared","pqff_separated_parsimonious","target_definition","theta_target","Q1_QuitMotiv",0.45,0.45,0,TRUE
+"Supplementary Setting IV No Shared","pqff_separated_parsimonious","target_definition","theta_target","Q1_LowEducation",-0.25,-0.25,0,TRUE
+"Supplementary Setting IV No Shared","pqff_separated_parsimonious","target_definition","theta_target","Q1_A_source",0.2,0.2,0,TRUE
+"Supplementary Setting IV No Shared","pqff_separated_parsimonious","target_definition","theta_target","Q1_A_outcome",0.08,0.08,0,TRUE
+"Supplementary Setting IV No Shared","pqff_separated_parsimonious","target_definition","theta_target","Q1_A_story",0.18,0.18,0,TRUE
+"Supplementary Setting IV No Shared","pqff_separated_parsimonious","target_definition","theta_target","Q1_A_efficacy",0.08,0.08,0,TRUE
+"Supplementary Setting IV No Shared","pqff_separated_parsimonious","target_definition","theta_target","Q1_A_multiple",0.02,0.02,0,TRUE
+"Supplementary Setting IV No Shared","pqff_separated_parsimonious","target_definition","theta_target","Q1_QuitSE_A_efficacy",-0.25,-0.25,0,TRUE
+"Supplementary Setting IV No Shared","pqff_separated_parsimonious","target_definition","theta_target","Q1_QuitMotiv_A_outcome",0.32,0.32,0,TRUE
+"Supplementary Setting IV No Shared","pqff_separated_parsimonious","target_definition","theta_target","Q1_LowEducation_A_story",-0.2,-0.2,0,TRUE
+"Supplementary Setting IV No Shared","pqff_separated_parsimonious","artifact","source_mode","calibration_pqff_separated_parsimonious.rds",NA,NA,NA,TRUE
+"Supplementary Setting IV No Shared","pqff_separated_parsimonious","coefficient","SE_main","Q2_PQSE",0.55,0.54999999999999,-1.01030295240889e-14,TRUE
+"Supplementary Setting IV No Shared","pqff_separated_parsimonious","coefficient","SE_main","Q1_QuitSE",-0.05,-0.0499999999999997,2.77555756156289e-16,TRUE
+"Supplementary Setting IV No Shared","pqff_separated_parsimonious","difference","SE_main","Q2_PQSE - Q1_QuitSE",0.6,0.59999999999999,-1.04360964314765e-14,TRUE
+"Supplementary Setting IV No Shared","pqff_separated_parsimonious","coefficient","Motiv_main","Q2_PQMotiv",-0.15,-0.149999999999998,1.83186799063151e-15,TRUE
+"Supplementary Setting IV No Shared","pqff_separated_parsimonious","coefficient","Motiv_main","Q1_QuitMotiv",0.45,0.450000000000002,1.72084568816899e-15,TRUE
+"Supplementary Setting IV No Shared","pqff_separated_parsimonious","difference","Motiv_main","Q2_PQMotiv - Q1_QuitMotiv",-0.6,-0.6,1.11022302462516e-16,TRUE
+"Supplementary Setting IV No Shared","pqff_separated_parsimonious","coefficient","LowEducation_main","Q2_LowEducation",0.3,0.299999999999996,-4.21884749357559e-15,TRUE
+"Supplementary Setting IV No Shared","pqff_separated_parsimonious","coefficient","LowEducation_main","Q1_LowEducation",-0.25,-0.24999999999999,9.88098491916389e-15,TRUE
+"Supplementary Setting IV No Shared","pqff_separated_parsimonious","difference","LowEducation_main","Q2_LowEducation - Q1_LowEducation",0.55,0.549999999999986,-1.4210854715202e-14,TRUE
+"Supplementary Setting IV No Shared","pqff_separated_parsimonious","coefficient","SE_treatment","Q2_PQSE_A_FF",0.45,0.449999999999992,-7.88258347483861e-15,TRUE
+"Supplementary Setting IV No Shared","pqff_separated_parsimonious","coefficient","SE_treatment","Q1_QuitSE_A_efficacy",-0.25,-0.25,1.38777878078145e-16,TRUE
+"Supplementary Setting IV No Shared","pqff_separated_parsimonious","difference","SE_treatment","Q2_PQSE_A_FF - Q1_QuitSE_A_efficacy",0.7,0.699999999999992,-7.99360577730113e-15,TRUE
+"Supplementary Setting IV No Shared","pqff_separated_parsimonious","coefficient","Motiv_treatment","Q2_PQMotiv_A_FF",-0.3,-0.300000000000004,-4.44089209850063e-15,TRUE
+"Supplementary Setting IV No Shared","pqff_separated_parsimonious","coefficient","Motiv_treatment","Q1_QuitMotiv_A_outcome",0.32,0.319999999999998,-2.22044604925031e-15,TRUE
+"Supplementary Setting IV No Shared","pqff_separated_parsimonious","difference","Motiv_treatment","Q2_PQMotiv_A_FF - Q1_QuitMotiv_A_outcome",-0.62,-0.620000000000002,-2.22044604925031e-15,TRUE
+"Supplementary Setting IV No Shared","pqff_separated_parsimonious","coefficient","LowEducation_treatment","Q2_LowEducation_A_FF",0.5,0.500000000000015,1.47659662275146e-14,TRUE
+"Supplementary Setting IV No Shared","pqff_separated_parsimonious","coefficient","LowEducation_treatment","Q1_LowEducation_A_story",-0.2,-0.200000000000001,-6.93889390390723e-16,TRUE
+"Supplementary Setting IV No Shared","pqff_separated_parsimonious","difference","LowEducation_treatment","Q2_LowEducation_A_FF - Q1_LowEducation_A_story",0.7,0.700000000000015,1.55431223447522e-14,TRUE

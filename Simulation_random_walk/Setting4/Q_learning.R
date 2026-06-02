@@ -13,6 +13,7 @@ setting4_shared_pairs <- function() {
 
 coef_or_zero <- function(fit, names_out) {
   coefs <- stats::coef(fit)
+  coefs[!is.finite(coefs)] <- 0
   out <- stats::setNames(rep(0, length(names_out)), names_out)
   common <- intersect(names(out), names(coefs))
   out[common] <- coefs[common]
@@ -52,10 +53,13 @@ setting4_policy <- function(data, theta, arms = setting4_fractional_factorial_ar
 }
 
 fit_setting4_q <- function(data, arms = setting4_fractional_factorial_arms()) {
+  q2_outcome <- if ("Y_FF" %in% names(data)) data$Y_FF else data$Y
+  q2_data <- data
+  q2_data$Q2_outcome <- q2_outcome
   q2_fit <- stats::lm(
-    Y ~ PQQuit + PQSE + PQMotiv + LowEducation + A_FF +
+    Q2_outcome ~ PQQuit + PQSE + PQMotiv + LowEducation + A_FF +
       PQQuit:A_FF + PQSE:A_FF + PQMotiv:A_FF + LowEducation:A_FF,
-    data = data
+    data = q2_data
   )
   q2_names <- c(
     "(Intercept)", "PQQuit", "PQSE", "PQMotiv", "LowEducation", "A_FF",

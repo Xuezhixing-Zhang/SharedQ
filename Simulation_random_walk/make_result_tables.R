@@ -53,6 +53,22 @@ settings <- list(
     calibration = "SupplSetting3_NoShared/calibration/calibration_separated_moderate.rds",
     kind = "continuous_no_shared",
     table_group = "supplement"
+  ),
+  Setting4 = list(
+    label = "IV",
+    name = "Setting IV",
+    result_dir = "Setting4/simulation_results",
+    calibration = "Setting4/calibration/calibration_pqff_shared_parsimonious.rds",
+    kind = "setting4_shared",
+    table_group = "main_setting_iv"
+  ),
+  SupplSetting4_NoShared = list(
+    label = "Suppl IV No Shared",
+    name = "Supplementary Setting IV No Shared",
+    result_dir = "SupplSetting4_NoShared/simulation_results",
+    calibration = "SupplSetting4_NoShared/calibration/calibration_pqff_separated_parsimonious.rds",
+    kind = "setting4_no_shared",
+    table_group = "supplement"
   )
 )
 
@@ -142,6 +158,31 @@ collect_metric <- function(results, evaluation_name, metric) {
 bias_metrics_for <- function(kind) {
   if (grepl("^binary", kind)) {
     c("A3_bias", "A2_bias", "A1_bias", "A1A3_bias", "A1A2_bias")
+  } else if (grepl("^setting4", kind)) {
+    paste0(c(
+      "Q2_intercept",
+      "Q2_PQQuit",
+      "Q2_PQSE",
+      "Q2_PQMotiv",
+      "Q2_LowEducation",
+      "Q2_A_FF",
+      "Q2_PQQuit_A_FF",
+      "Q2_PQSE_A_FF",
+      "Q2_PQMotiv_A_FF",
+      "Q2_LowEducation_A_FF",
+      "Q1_intercept",
+      "Q1_QuitSE",
+      "Q1_QuitMotiv",
+      "Q1_LowEducation",
+      "Q1_A_source",
+      "Q1_A_outcome",
+      "Q1_A_story",
+      "Q1_A_efficacy",
+      "Q1_A_multiple",
+      "Q1_QuitSE_A_efficacy",
+      "Q1_QuitMotiv_A_outcome",
+      "Q1_LowEducation_A_story"
+    ), "_bias")
   } else {
     c(
       "A1_bias",
@@ -292,6 +333,12 @@ for (setting_key in active_setting_keys) {
         bias_a1a2 = fmt_mean_sd(collect_metric(results, row$evaluation, "A1A2_bias")),
         bias_a1a3 = fmt_mean_sd(collect_metric(results, row$evaluation, "A1A3_bias")),
         bias_a2a3 = fmt_mean_sd(collect_metric(results, row$evaluation, "A2A3_bias")),
+        a_ff_match = fmt_mean_sd(collect_metric(results, row$evaluation, "A_FF_match")),
+        a_source_match = fmt_mean_sd(collect_metric(results, row$evaluation, "A_source_match")),
+        a_outcome_match = fmt_mean_sd(collect_metric(results, row$evaluation, "A_outcome_match")),
+        a_story_match = fmt_mean_sd(collect_metric(results, row$evaluation, "A_story_match")),
+        a_efficacy_match = fmt_mean_sd(collect_metric(results, row$evaluation, "A_efficacy_match")),
+        a_multiple_match = fmt_mean_sd(collect_metric(results, row$evaluation, "A_multiple_match")),
         mean_m = mean_numeric(collect_metric(results, row$evaluation, "M")),
         mean_m_weighted = mean_numeric(collect_metric(results, row$evaluation, "M_weighted")),
         mean_abs_bias = mean_numeric(collect_abs_bias(results, row$evaluation, cfg$kind)),
@@ -329,6 +376,13 @@ for (setting_key in active_setting_keys) {
     if (grepl("binary", cfg$kind)) {
       true_pairs <- if (identical(cfg$kind, "binary_shared")) list(c(2, 10), c(6, 11), c(7, 12)) else list()
       candidate_pairs <- list(c(2, 10), c(6, 11), c(7, 12), c(2, 14), c(10, 14))
+    } else if (grepl("^setting4", cfg$kind)) {
+      true_pairs <- if (identical(cfg$kind, "setting4_shared")) {
+        list(c(3, 12), c(4, 13), c(5, 14), c(8, 20), c(9, 21), c(10, 22))
+      } else {
+        list()
+      }
+      candidate_pairs <- list(c(3, 12), c(4, 13), c(5, 14), c(8, 20), c(9, 21), c(10, 22))
     } else {
       true_pairs <- if (identical(cfg$kind, "continuous_shared")) {
         list(c(10, 19), c(10, 24), c(19, 24), c(11, 20), c(11, 25), c(20, 25), c(12, 21))
@@ -381,17 +435,29 @@ suppl_setting_iii_data <- all_tables[all_tables$setting_name == "Supplementary S
   "setting", "n", "method", "allocation_matching", "weighted_allocation_matching",
   "bias_a1", "bias_a2", "bias_a3"
 )]
+setting_iv_data <- all_tables[all_tables$setting_name == "Setting IV", c(
+  "setting", "n", "method", "allocation_matching", "weighted_allocation_matching",
+  "a_ff_match", "mean_abs_bias"
+)]
+suppl_setting_iv_data <- all_tables[all_tables$setting_name == "Supplementary Setting IV No Shared", c(
+  "setting", "n", "method", "allocation_matching", "weighted_allocation_matching",
+  "a_ff_match", "mean_abs_bias"
+)]
 
 write.csv(all_tables, file.path(out_dir, "all_method_summary.csv"), row.names = FALSE)
 write.csv(table1_data, file.path(out_dir, "table1_setting_i.csv"), row.names = FALSE)
 write.csv(table2_data, file.path(out_dir, "table2_settings_ii_iii.csv"), row.names = FALSE)
 write.csv(suppl_setting_iii_data, file.path(out_dir, "suppl_table_setting_iii_no_shared.csv"), row.names = FALSE)
+write.csv(setting_iv_data, file.path(out_dir, "table3_setting_iv.csv"), row.names = FALSE)
+write.csv(suppl_setting_iv_data, file.path(out_dir, "suppl_table_setting_iv_no_shared.csv"), row.names = FALSE)
 write.csv(tp_fp, file.path(out_dir, "suppl_table_tp_fp.csv"), row.names = FALSE)
 write.csv(comparisons, file.path(out_dir, "method_claim_check.csv"), row.names = FALSE)
 
 write_markdown_table(table1_data, file.path(out_dir, "table1_setting_i.md"))
 write_markdown_table(table2_data, file.path(out_dir, "table2_settings_ii_iii.md"))
 write_markdown_table(suppl_setting_iii_data, file.path(out_dir, "suppl_table_setting_iii_no_shared.md"))
+write_markdown_table(setting_iv_data, file.path(out_dir, "table3_setting_iv.md"))
+write_markdown_table(suppl_setting_iv_data, file.path(out_dir, "suppl_table_setting_iv_no_shared.md"))
 write_markdown_table(tp_fp, file.path(out_dir, "suppl_table_tp_fp.md"))
 write_markdown_table(comparisons, file.path(out_dir, "method_claim_check.md"))
 
@@ -420,7 +486,11 @@ main_report_lines <- c(
   "",
   "Table 2: Simulation Results for Setting II and III. For each setting, we run 200 replicates.",
   "",
-  markdown_table_lines(table2_data)
+  markdown_table_lines(table2_data),
+  "",
+  "Table 3: Simulation Results for Setting IV. For each setting, we run 200 replicates.",
+  "",
+  markdown_table_lines(setting_iv_data)
 )
 writeLines(main_report_lines, file.path(out_dir, "completed_main_tables.md"))
 
@@ -435,7 +505,11 @@ supplement_report_lines <- c(
   "",
   "Supplementary simulation results for Setting III No Shared.",
   "",
-  markdown_table_lines(suppl_setting_iii_data)
+  markdown_table_lines(suppl_setting_iii_data),
+  "",
+  "Supplementary simulation results for Setting IV No Shared.",
+  "",
+  markdown_table_lines(suppl_setting_iv_data)
 )
 writeLines(supplement_report_lines, file.path(out_dir, "completed_supplement_tables.md"))
 
@@ -561,7 +635,9 @@ write_simple_docx(
     docx_paragraph("Table 1: Simulation Results for Setting I. For each setting, we run 200 replicates.", bold = TRUE),
     if (nrow(table1_data) == 0L) docx_paragraph("Setting I is still running or incomplete, so Table 1 is pending.") else docx_table(table1_data),
     docx_paragraph("Table 2: Simulation Results for Setting II and III. For each setting, we run 200 replicates.", bold = TRUE),
-    docx_table(table2_data)
+    docx_table(table2_data),
+    docx_paragraph("Table 3: Simulation Results for Setting IV. For each setting, we run 200 replicates.", bold = TRUE),
+    docx_table(setting_iv_data)
   )
 )
 
@@ -573,7 +649,9 @@ write_simple_docx(
     docx_paragraph("Table 1: Simulation Results for Setting I. For each setting, we run 200 replicates.", bold = TRUE),
     if (nrow(table1_data) == 0L) docx_paragraph("Setting I is still running or incomplete, so Table 1 is pending.") else docx_table(table1_data),
     docx_paragraph("Table 2: Simulation Results for Setting II and III. For each setting, we run 200 replicates.", bold = TRUE),
-    docx_table(table2_data)
+    docx_table(table2_data),
+    docx_paragraph("Table 3: Simulation Results for Setting IV. For each setting, we run 200 replicates.", bold = TRUE),
+    docx_table(setting_iv_data)
   )
 )
 
@@ -585,7 +663,9 @@ write_simple_docx(
     docx_paragraph("Suppl Table 1: True Positives and False Positives for SQ learning with L1 penalty. For each setting, we run 200 replicates.", bold = TRUE),
     docx_table(tp_fp),
     docx_paragraph("Supplementary simulation results for Setting III No Shared.", bold = TRUE),
-    docx_table(suppl_setting_iii_data)
+    docx_table(suppl_setting_iii_data),
+    docx_paragraph("Supplementary simulation results for Setting IV No Shared.", bold = TRUE),
+    docx_table(suppl_setting_iv_data)
   )
 )
 
@@ -597,7 +677,9 @@ write_simple_docx(
     docx_paragraph("Suppl Table 1: True Positives and False Positives for SQ learning with L1 penalty. For each setting, we run 200 replicates.", bold = TRUE),
     docx_table(tp_fp),
     docx_paragraph("Supplementary simulation results for Setting III No Shared.", bold = TRUE),
-    docx_table(suppl_setting_iii_data)
+    docx_table(suppl_setting_iii_data),
+    docx_paragraph("Supplementary simulation results for Setting IV No Shared.", bold = TRUE),
+    docx_table(suppl_setting_iv_data)
   )
 )
 

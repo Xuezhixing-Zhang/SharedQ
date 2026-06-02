@@ -1,4 +1,8 @@
-setting4_dir <- "/data/cheungyb/home/e1404425/SharedQ/Simulation_random_walk/Setting4"
+setting4_repo_root <- "/data/cheungyb/home/e1404425/SharedQ"
+setting4_dir <- Sys.getenv(
+  "SETTING4_DIR",
+  unset = file.path(setting4_repo_root, "Simulation_random_walk", "Setting4")
+)
 setting4_calibration_dir <- file.path(setting4_dir, "calibration")
 dir.create(setting4_calibration_dir, showWarnings = FALSE, recursive = TRUE)
 
@@ -27,35 +31,141 @@ setting4_theta_names <- c(
   "Q1_LowEducation_A_story"
 )
 
+setting4_base_theta <- c(
+  Q2_intercept = 0.10,
+  Q2_PQQuit = 0.40,
+  Q2_PQSE = 0,
+  Q2_PQMotiv = 0,
+  Q2_LowEducation = 0,
+  Q2_A_FF = 0.12,
+  Q2_PQQuit_A_FF = -0.08,
+  Q2_PQSE_A_FF = 0,
+  Q2_PQMotiv_A_FF = 0,
+  Q2_LowEducation_A_FF = 0,
+  Q1_intercept = 0.10,
+  Q1_QuitSE = 0,
+  Q1_QuitMotiv = 0,
+  Q1_LowEducation = 0,
+  Q1_A_source = 0.20,
+  Q1_A_outcome = 0.08,
+  Q1_A_story = 0.18,
+  Q1_A_efficacy = 0.08,
+  Q1_A_multiple = 0.02,
+  Q1_QuitSE_A_efficacy = 0,
+  Q1_QuitMotiv_A_outcome = 0,
+  Q1_LowEducation_A_story = 0
+)
+
+setting4_shared_parameter_specs <- list(
+  pqff_shared_parsimonious = list(
+    seed = 601,
+    shared_mu = c(0.35, 0.24, -0.08, 0.16, 0.14, 0.18),
+    shared_sigma = c(0.04, 0.03, 0.02, 0.03, 0.03, 0.04)
+  ),
+  pqff_shared_tight = list(
+    seed = 602,
+    shared_mu = c(0.35, 0.24, -0.08, 0.16, 0.14, 0.18),
+    shared_sigma = c(0.02, 0.015, 0.01, 0.015, 0.015, 0.02)
+  ),
+  pqff_shared_wide = list(
+    seed = 603,
+    shared_mu = c(0.35, 0.24, -0.08, 0.16, 0.14, 0.18),
+    shared_sigma = c(0.08, 0.06, 0.04, 0.06, 0.06, 0.08)
+  )
+)
+
+setting4_separated_parameter_specs <- list(
+  pqff_separated_parsimonious = c(
+    Q2_PQSE = 0.55,
+    Q1_QuitSE = -0.05,
+    Q2_PQMotiv = -0.15,
+    Q1_QuitMotiv = 0.45,
+    Q2_LowEducation = 0.30,
+    Q1_LowEducation = -0.25,
+    Q2_PQSE_A_FF = 0.45,
+    Q1_QuitSE_A_efficacy = -0.25,
+    Q2_PQMotiv_A_FF = -0.30,
+    Q1_QuitMotiv_A_outcome = 0.32,
+    Q2_LowEducation_A_FF = 0.50,
+    Q1_LowEducation_A_story = -0.20
+  ),
+  pqff_separated_reversed = c(
+    Q2_PQSE = -0.35,
+    Q1_QuitSE = 0.50,
+    Q2_PQMotiv = 0.40,
+    Q1_QuitMotiv = -0.20,
+    Q2_LowEducation = -0.30,
+    Q1_LowEducation = 0.25,
+    Q2_PQSE_A_FF = -0.40,
+    Q1_QuitSE_A_efficacy = 0.30,
+    Q2_PQMotiv_A_FF = 0.36,
+    Q1_QuitMotiv_A_outcome = -0.26,
+    Q2_LowEducation_A_FF = -0.42,
+    Q1_LowEducation_A_story = 0.28
+  ),
+  pqff_separated_large = c(
+    Q2_PQSE = 0.75,
+    Q1_QuitSE = -0.25,
+    Q2_PQMotiv = -0.35,
+    Q1_QuitMotiv = 0.65,
+    Q2_LowEducation = 0.50,
+    Q1_LowEducation = -0.45,
+    Q2_PQSE_A_FF = 0.65,
+    Q1_QuitSE_A_efficacy = -0.45,
+    Q2_PQMotiv_A_FF = -0.50,
+    Q1_QuitMotiv_A_outcome = 0.52,
+    Q2_LowEducation_A_FF = 0.72,
+    Q1_LowEducation_A_story = -0.40
+  )
+)
+
+setting4_default_design <- list(
+  source_file = "Simulation_random_walk/Setting4/source_data/cleaned_data.05.21.csv",
+  raw_rows = 1848,
+  raw_columns = 29,
+  consent_rows = 479,
+  complete_consent_rows = 469,
+  stage1_arms = 16,
+  p_quit_se = 0.515991,
+  p_quit_motiv = 0.486141,
+  p_low_education = 1 - 0.716418,
+  p_pq_quit = 0.313433,
+  p_pq_se = 0.582090,
+  p_pq_motiv = 0.558635,
+  p_a_ff_positive = 312 / 469
+)
+
+setting4_shared_pairs <- function() {
+  rbind(
+    c("Q2_PQSE", "Q1_QuitSE"),
+    c("Q2_PQMotiv", "Q1_QuitMotiv"),
+    c("Q2_LowEducation", "Q1_LowEducation"),
+    c("Q2_PQSE_A_FF", "Q1_QuitSE_A_efficacy"),
+    c("Q2_PQMotiv_A_FF", "Q1_QuitMotiv_A_outcome"),
+    c("Q2_LowEducation_A_FF", "Q1_LowEducation_A_story")
+  )
+}
+
+setting4_shared_target_values <- function(spec_def) {
+  set.seed(spec_def$seed)
+  values <- unlist(lapply(seq_along(spec_def$shared_mu), function(i) {
+    stats::rnorm(2, spec_def$shared_mu[i], spec_def$shared_sigma[i])
+  }), use.names = FALSE)
+  names(values) <- as.vector(t(setting4_shared_pairs()))
+  values
+}
+
 setting4_target_theta <- function(spec = "pqff_shared_parsimonious") {
-  if (!identical(spec, "pqff_shared_parsimonious")) {
+  theta <- setting4_base_theta
+  if (spec %in% names(setting4_shared_parameter_specs)) {
+    theta[names(setting4_shared_target_values(setting4_shared_parameter_specs[[spec]]))] <-
+      setting4_shared_target_values(setting4_shared_parameter_specs[[spec]])
+  } else if (spec %in% names(setting4_separated_parameter_specs)) {
+    theta[names(setting4_separated_parameter_specs[[spec]])] <-
+      setting4_separated_parameter_specs[[spec]]
+  } else {
     stop("Unsupported Setting IV spec: ", spec)
   }
-
-  theta <- c(
-    Q2_intercept = 0.10,
-    Q2_PQQuit = 0.40,
-    Q2_PQSE = 0.3560,
-    Q2_PQMotiv = 0.2389,
-    Q2_LowEducation = -0.0863,
-    Q2_A_FF = 0.12,
-    Q2_PQQuit_A_FF = -0.08,
-    Q2_PQSE_A_FF = 0.1116,
-    Q2_PQMotiv_A_FF = 0.1322,
-    Q2_LowEducation_A_FF = 0.1745,
-    Q1_intercept = 0.10,
-    Q1_QuitSE = 0.4235,
-    Q1_QuitMotiv = 0.2320,
-    Q1_LowEducation = -0.1149,
-    Q1_A_source = 0.20,
-    Q1_A_outcome = 0.08,
-    Q1_A_story = 0.18,
-    Q1_A_efficacy = 0.08,
-    Q1_A_multiple = 0.02,
-    Q1_QuitSE_A_efficacy = 0.1229,
-    Q1_QuitMotiv_A_outcome = 0.1601,
-    Q1_LowEducation_A_story = 0.2000
-  )
   theta[setting4_theta_names]
 }
 
@@ -70,101 +180,19 @@ setting4_fractional_factorial_arms <- function() {
   base
 }
 
-as_binary01 <- function(x) {
-  if (is.logical(x)) return(as.integer(x))
-  x_num <- suppressWarnings(as.numeric(x))
-  if (all(stats::na.omit(x_num) %in% c(0, 1))) return(as.integer(x_num))
-  if (all(stats::na.omit(x_num) %in% c(-1, 1))) return(as.integer(x_num == 1))
-  as.integer(x_num > stats::median(x_num, na.rm = TRUE))
-}
-
-as_pm1 <- function(x) {
-  x_num <- suppressWarnings(as.numeric(x))
-  if (all(stats::na.omit(x_num) %in% c(-1, 1))) return(as.integer(x_num))
-  if (all(stats::na.omit(x_num) %in% c(0, 1))) return(ifelse(x_num == 1, 1L, -1L))
-  ifelse(x_num > stats::median(x_num, na.rm = TRUE), 1L, -1L)
-}
-
-read_setting4_source_file <- function(path) {
-  ext <- tolower(tools::file_ext(path))
-  if (identical(ext, "rds")) return(readRDS(path))
-  if (ext %in% c("csv", "txt")) return(utils::read.csv(path, stringsAsFactors = FALSE))
-  if (ext %in% c("rda", "rdata")) {
-    env <- new.env(parent = emptyenv())
-    load(path, envir = env)
-    objects <- mget(ls(env), envir = env)
-    data_objects <- objects[vapply(objects, is.data.frame, logical(1))]
-    if (length(data_objects) == 0L) stop("No data.frame object found in ", path)
-    return(data_objects[[1]])
-  }
-  stop("Unsupported Setting IV source data file extension: ", ext)
-}
-
-prepare_setting4_source_data <- function(
-  source_path = Sys.getenv("SETTING4_SOURCE_DATA", unset = ""),
-  allow_synthetic = FALSE,
-  synthetic_n = 5000,
-  seed = 601
-) {
-  if (!nzchar(source_path) || !file.exists(source_path)) {
-    if (!allow_synthetic) {
-      stop(
-        "Missing cleaned Project Quit / Forever Free source data. Set SETTING4_SOURCE_DATA ",
-        "to a file containing FFConsent, FFArm, QuitOverallSEBin, QuitOverallMotivBin, ",
-        "EDUCATION, PQ6Quitstatus, PQ6OverallSEBin, PQ6OverallMotivBin, SOURCE.DEPTH, ",
-        "OUTCOME.DEPTH, STORY.DEPTH, EFFICACY.DEPTH, and EXPOSURE. For a code smoke run ",
-        "only, set SETTING4_ALLOW_SYNTHETIC=1."
-      )
-    }
-    return(generate_synthetic_setting4_source(synthetic_n, seed = seed))
-  }
-
-  raw <- read_setting4_source_file(source_path)
-  required <- c(
-    "FFConsent", "FFArm", "QuitOverallSEBin", "QuitOverallMotivBin", "EDUCATION",
-    "PQ6Quitstatus", "PQ6OverallSEBin", "PQ6OverallMotivBin",
-    "SOURCE.DEPTH", "OUTCOME.DEPTH", "STORY.DEPTH", "EFFICACY.DEPTH", "EXPOSURE"
-  )
-  missing <- setdiff(required, names(raw))
-  if (length(missing)) {
-    stop("Setting IV source data is missing required columns: ", paste(missing, collapse = ", "))
-  }
-
-  keep <- raw[as_binary01(raw$FFConsent) == 1L, , drop = FALSE]
-  out <- data.frame(
-    QuitSE = as_binary01(keep$QuitOverallSEBin),
-    QuitMotiv = as_binary01(keep$QuitOverallMotivBin),
-    LowEducation = 1L - as_binary01(keep$EDUCATION),
-    PQQuit = as_binary01(keep$PQ6Quitstatus),
-    PQSE = as_binary01(keep$PQ6OverallSEBin),
-    PQMotiv = as_binary01(keep$PQ6OverallMotivBin),
-    A_source = -as_pm1(keep$SOURCE.DEPTH),
-    A_outcome = as_pm1(keep$OUTCOME.DEPTH),
-    A_story = as_pm1(keep$STORY.DEPTH),
-    A_efficacy = as_pm1(keep$EFFICACY.DEPTH),
-    A_multiple = -as_pm1(keep$EXPOSURE),
-    A_FF = as_pm1(keep$FFArm),
-    source_mode = "real",
-    stringsAsFactors = FALSE
-  )
-  stats::na.omit(out)
-}
-
-generate_synthetic_setting4_source <- function(n, seed = 601) {
-  set.seed(seed)
+generate_synthetic_setting4_source <- function(n, seed = NULL, design = setting4_default_design) {
+  if (!is.null(seed)) set.seed(seed)
   arms <- setting4_fractional_factorial_arms()
   arm_idx <- sample(seq_len(nrow(arms)), n, replace = TRUE)
   arm_data <- arms[arm_idx, , drop = FALSE]
 
-  QuitSE <- rbinom(n, 1, 0.48)
-  QuitMotiv <- rbinom(n, 1, 0.55)
-  LowEducation <- rbinom(n, 1, 0.38)
-  logit_pq <- -0.25 + 0.55 * QuitSE + 0.35 * QuitMotiv - 0.20 * LowEducation +
-    0.18 * arm_data$A_efficacy + 0.12 * arm_data$A_outcome
-  PQQuit <- rbinom(n, 1, stats::plogis(logit_pq))
-  PQSE <- rbinom(n, 1, stats::plogis(-0.10 + 0.75 * QuitSE + 0.25 * PQQuit + 0.12 * arm_data$A_efficacy))
-  PQMotiv <- rbinom(n, 1, stats::plogis(0.05 + 0.70 * QuitMotiv + 0.20 * PQQuit + 0.10 * arm_data$A_outcome))
-  A_FF <- ifelse(rbinom(n, 1, 2 / 3) == 1L, 1L, -1L)
+  QuitSE <- stats::rbinom(n, 1, design$p_quit_se)
+  QuitMotiv <- stats::rbinom(n, 1, design$p_quit_motiv)
+  LowEducation <- stats::rbinom(n, 1, design$p_low_education)
+  PQQuit <- stats::rbinom(n, 1, design$p_pq_quit)
+  PQSE <- stats::rbinom(n, 1, design$p_pq_se)
+  PQMotiv <- stats::rbinom(n, 1, design$p_pq_motiv)
+  A_FF <- ifelse(stats::rbinom(n, 1, design$p_a_ff_positive) == 1L, 1L, -1L)
 
   data.frame(
     QuitSE = QuitSE,
@@ -179,7 +207,7 @@ generate_synthetic_setting4_source <- function(n, seed = 601) {
     A_efficacy = arm_data$A_efficacy,
     A_multiple = arm_data$A_multiple,
     A_FF = A_FF,
-    source_mode = "synthetic",
+    source_mode = "synthetic_parametric",
     stringsAsFactors = FALSE
   )
 }
@@ -216,20 +244,24 @@ setting4_q1_matrix <- function(data) {
   )
 }
 
-generate_setting4_data <- function(n, theta, source_data, noise_sd = 1) {
-  rows <- sample(seq_len(nrow(source_data)), n, replace = TRUE)
-  data <- source_data[rows, , drop = FALSE]
+generate_setting4_data <- function(n, theta, noise_sd = 1, seed = NULL, design = setting4_default_design) {
+  data <- generate_synthetic_setting4_source(n, seed = seed, design = design)
   theta <- theta[setting4_theta_names]
-  signal <- as.numeric(setting4_q1_matrix(data) %*% theta[paste0("Q1_", c(
+  q1_signal <- as.numeric(setting4_q1_matrix(data) %*% theta[paste0("Q1_", c(
     "intercept", "QuitSE", "QuitMotiv", "LowEducation", "A_source", "A_outcome",
     "A_story", "A_efficacy", "A_multiple", "QuitSE_A_efficacy",
     "QuitMotiv_A_outcome", "LowEducation_A_story"
   ))])
-  signal <- signal + as.numeric(setting4_q2_matrix(data) %*% theta[paste0("Q2_", c(
+  q2_signal <- as.numeric(setting4_q2_matrix(data) %*% theta[paste0("Q2_", c(
     "intercept", "PQQuit", "PQSE", "PQMotiv", "LowEducation", "A_FF",
     "PQQuit_A_FF", "PQSE_A_FF", "PQMotiv_A_FF", "LowEducation_A_FF"
   ))])
-  data$Y <- signal + stats::rnorm(n, 0, noise_sd)
-  data$Y_signal <- signal
+  component_sd <- noise_sd / sqrt(2)
+  data$Y_PQ <- q1_signal + stats::rnorm(n, 0, component_sd)
+  data$Y_FF <- q2_signal + stats::rnorm(n, 0, component_sd)
+  data$Y <- data$Y_PQ + data$Y_FF
+  data$Y_PQ_signal <- q1_signal
+  data$Y_FF_signal <- q2_signal
+  data$Y_signal <- q1_signal + q2_signal
   data
 }

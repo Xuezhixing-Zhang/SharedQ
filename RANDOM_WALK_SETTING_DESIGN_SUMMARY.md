@@ -1,10 +1,10 @@
-# Random Walk Setting Design Summary
+# Simulation Setting Design Summary
 
-This file is the consolidated design reference for the active random-walk simulation suite. It replaces the older per-setting design notes and the separate true-estimate markdown summary.
+This file is the consolidated design reference for the active simulation suite. It replaces the older per-setting design notes, the separate true-estimate markdown summary, and the standalone Project Quit / Forever Free Setting IV design note.
 
 Values listed as "calibrated true values" are population-projected Q-parameter estimates saved in the calibration `.rds` artifacts and used as `theta_true` by the simulation wrappers. They are not always identical to the hand-specified target values because the outcome-generating `gamma` is found by numerical calibration.
 
-Current status as of 2026-05-29: all four active random-walk default calibration artifacts pass validation. Setting I was re-expressed as feasible random shared draws rather than deterministic offsets; Setting III `rs_tol006` was promoted to the default production calibration artifact. Setting II and Supplementary Setting III No Shared keep their separated no-shared target definitions and pass default validation. Full production simulations submitted on 2026-05-28 as jobs `523877.hn-10-03`, `523878.hn-10-03`, `523879.hn-10-03`, and `523880.hn-10-03` are complete, with `200/200` replicates for every expected sample size. Evaluation summaries and manuscript-style tables have been regenerated under `Simulation_random_walk/Writing/generated_tables/`.
+Current status as of 2026-06-02: all four active random-walk default calibration artifacts pass validation. Setting I was re-expressed as feasible random shared draws rather than deterministic offsets; Setting III `rs_tol006` was promoted to the default production calibration artifact. Setting II and Supplementary Setting III No Shared keep their separated no-shared target definitions and pass default validation. Full production simulations submitted on 2026-05-28 as jobs `523877.hn-10-03`, `523878.hn-10-03`, `523879.hn-10-03`, and `523880.hn-10-03` are complete, with `200/200` replicates for every expected sample size. Setting IV and Supplementary Setting IV No Shared are synthetic-parametric Project Quit / Forever Free simulation settings; the uploaded cleaned dataset is used only to understand structure and set aggregate design constants, not to resample real histories or outcomes.
 
 ## Common Simulation Plan
 
@@ -14,8 +14,10 @@ Current status as of 2026-05-29: all four active random-walk default calibration
 | Setting II | Binary-treatment real-data mimic with candidate shared effects intentionally separated. | `100`, `300`, `500`, `1000` | 200 per size | `separated_moderate` |
 | Setting III | Continuous-covariate random-walk shared-effect design. | `100`, `300`, `500`, `1000` | 200 per size | `rw_sigma_moderate` |
 | Supplementary Setting III No Shared | Continuous-covariate Setting III mechanism with candidate shared effects intentionally separated. | `100`, `300`, `500`, `1000` | 200 per size | `separated_moderate` |
+| Setting IV | Project Quit / Forever Free two-stage synthetic-parametric shared design informed by cleaned-data structure. | `100`, `300`, `500`, `1000` | 200 per size | `pqff_shared_parsimonious` |
+| Supplementary Setting IV No Shared | Same Setting IV synthetic mechanism with candidate shared effects intentionally separated. | `100`, `300`, `500`, `1000` | 200 per size | `pqff_separated_parsimonious` |
 
-All settings compare conventional Q-learning, fused lasso SQ-learning, fused ridge SQ-learning, and strict SharedQ variants where applicable. Setting II and the supplementary no-shared setting retain shared-pattern estimators as intentionally misspecified comparisons.
+All settings compare conventional Q-learning, fused lasso SQ-learning, fused ridge SQ-learning, and strict SharedQ variants where applicable. Setting II and the supplementary no-shared settings retain shared-pattern estimators as intentionally misspecified comparisons.
 
 ## Calibration Objective And Constraints
 
@@ -33,6 +35,8 @@ The saved post-search score is `sum(abs(theta(gamma) - theta_target))`. The opti
 | Setting II | Constrain the same candidate-only shared terms as Setting I to their separated targets within `0.03`; also constrain each candidate pair difference to its implied separated target difference within `0.03`. |
 | Setting III | Constrain `Q3_A3`, `Q2_A2`, `Q1_A1`, `Q3_O3:A3`, `Q2_O2:A2`, `Q1_O1:A1`, `Q3_A2:A3`, `Q2_A1:A2`, and `Q3_A1:A2:A3` to their current targets within `0.01`; also constrain all pairwise differences within the `psi0`, `psi1`, and `psi2` groups to their implied target differences within `0.01`. |
 | Supplementary Setting III No Shared | Use the same candidate analogue constraints as Setting III, but centered on the separated no-shared targets within `0.03` rather than the random-walk targets. |
+| Setting IV | Constrain the six intended shared pairs in `pqff_shared_parsimonious` to their current targets within `0.01`; also constrain each intended pair difference to its implied target difference within `0.01`. |
+| Supplementary Setting IV No Shared | Use the same candidate-pair constraints as Setting IV, but centered on separated no-shared targets within `0.03` rather than near-shared targets. |
 
 Accepted calibration artifacts must pass `Rscript Simulation_random_walk/validate_candidate_calibration.R`, which writes candidate calibration report `.md` and `.csv` files into each setting's `Summarize/` folder using these per-setting tolerances. Use `VALIDATION_SPEC_MODE=default` for the production gate.
 
@@ -54,6 +58,8 @@ The random deviation is part of the true data-generating coefficients, not a fit
 | Setting II | None. The Setting I candidate pairs are intentionally separated. | No `sigma` relationship is used. Shared-pattern estimators are misspecified comparisons. |
 | Setting III | Near-shared random-walk groups: `psi0 = Q3_A3 / Q2_A2 / Q1_A1`, `psi1 = Q3_O3:A3 / Q2_O2:A2 / Q1_O1:A1`, and `psi2 = Q3_A2:A3 / Q2_A1:A2`. `Q3_A1:A2:A3` is unpaired. | Each coefficient in the group is independently drawn from `N(mu_psi, sigma_psi^2)` using the documented spec seed. The resulting stage-to-stage differences are random draws around zero, not deterministic offsets. |
 | Supplementary Setting III No Shared | None. The Setting III analogue groups are intentionally separated. | No `sigma` relationship is used. Shared-pattern estimators are misspecified comparisons. |
+| Setting IV | Near-shared main-effect pairs: `Q2_PQSE / Q1_QuitSE`, `Q2_PQMotiv / Q1_QuitMotiv`, and `Q2_LowEducation / Q1_LowEducation`; near-shared moderator pairs: `Q2_PQSE:A_FF / Q1_QuitSE:A_efficacy`, `Q2_PQMotiv:A_FF / Q1_QuitMotiv:A_outcome`, and `Q2_LowEducation:A_FF / Q1_LowEducation:A_story`. | Each pair is independently drawn from `N(mu_psi, sigma_psi^2)` using the documented spec seed. Moderator analogue pairs are weaker sharing candidates than main-effect pairs. |
+| Supplementary Setting IV No Shared | None. The Setting IV analogue groups are intentionally separated. | No `sigma` relationship is used. Shared-pattern estimators are misspecified comparisons. |
 
 ## Setting I
 
@@ -175,6 +181,112 @@ Accepted production/default calibrated true values for the supplementary no-shar
 
 The `separated_reversed` and `separated_large` rows are retained above as sensitivity target designs only. They are not accepted production true values under the current validation gate.
 
+## Setting IV
+
+Setting IV is a two-stage Project Quit / Forever Free randomized-design mimic. It uses the cleaned PQ/FF dataset only to understand the randomized structure and set aggregate constants for a fully synthetic parametric simulation. Production simulation must not resample real participant histories, fit real outcomes, or treat real-source outputs as accepted Setting IV results.
+
+The uploaded local source file is `Simulation_random_walk/Setting4/source_data/cleaned_data.05.21.csv`. It has `1848` rows and `29` columns. The relevant structural checks are:
+
+| Quantity | Value |
+| --- | ---: |
+| `FFConsent = 1` rows | 479 |
+| Complete rows for required design variables | 469 |
+| Observed Project Quit stage-1 fractional-factorial arms among complete consenters | 16 |
+| `A_FF = +1` among complete consenters | 312 |
+| `A_FF = -1` among complete consenters | 157 |
+
+The production synthetic design uses these aggregate constants:
+
+```text
+QuitSE       ~ Bernoulli(0.515991)
+QuitMotiv    ~ Bernoulli(0.486141)
+LowEducation ~ Bernoulli(0.283582)
+A1           ~ uniform over the 16 Project Quit fractional-factorial arms
+A_FF         ~ +1 with probability 312 / 469, otherwise -1
+```
+
+The stage-1 treatment coding is:
+
+```text
+A_source   = -SOURCE.DEPTH
+A_outcome  =  OUTCOME.DEPTH
+A_story    =  STORY.DEPTH
+A_efficacy =  EFFICACY.DEPTH
+A_multiple = -EXPOSURE
+```
+
+The executable stage-2 history model generates the PQ variables independently at the complete-consenter aggregate margins. This keeps Setting IV synthetic-parametric and avoids using real participant transition associations:
+
+```text
+PQQuit  ~ Bernoulli(0.313433)
+PQSE    ~ Bernoulli(0.582090)
+PQMotiv ~ Bernoulli(0.558635)
+```
+
+The simulation reward is continuous cumulative abstinence signal plus noise:
+
+```text
+Y = Q1_signal(H1, A1; gamma) + Q2_signal(H2, A_FF; gamma) + error
+```
+
+where `gamma` is calibrated so the population-projected working Q coefficients match the target `theta`.
+
+The stage-2 working Q-model is:
+
+```text
+Q2(H2, A_FF) = intercept
+             + PQQuit + PQSE + PQMotiv + LowEducation
+             + A_FF
+             + PQQuit:A_FF
+             + PQSE:A_FF
+             + PQMotiv:A_FF
+             + LowEducation:A_FF
+```
+
+The stage-1 working Q-model is:
+
+```text
+Q1(H1, A1) = intercept
+           + QuitSE + QuitMotiv + LowEducation
+           + A_source + A_outcome + A_story + A_efficacy + A_multiple
+           + QuitSE:A_efficacy
+           + QuitMotiv:A_outcome
+           + LowEducation:A_story
+```
+
+### Setting IV Target Shared Coefficients
+
+| Spec | Seed | Shared means | Shared sigmas | Implied target shared coefficients |
+| --- | ---: | --- | --- | --- |
+| `pqff_shared_parsimonious` | 601 | `SE_main=0.35`, `Motiv_main=0.24`, `LowEdu_main=-0.08`, `SE_treat=0.16`, `Motiv_treat=0.14`, `LowEdu_treat=0.18` | `0.04`, `0.03`, `0.02`, `0.03`, `0.03`, `0.04` | `Q2_PQSE=0.3560`, `Q1_QuitSE=0.4235`; `Q2_PQMotiv=0.2389`, `Q1_QuitMotiv=0.2320`; `Q2_LowEducation=-0.0863`, `Q1_LowEducation=-0.1149`; `Q2_PQSE:A_FF=0.1116`, `Q1_QuitSE:A_efficacy=0.1229`; `Q2_PQMotiv:A_FF=0.1322`, `Q1_QuitMotiv:A_outcome=0.1601`; `Q2_LowEducation:A_FF=0.1745`, `Q1_LowEducation:A_story=0.2000` |
+| `pqff_shared_tight` | 602 | Same means as `pqff_shared_parsimonious` | `0.02`, `0.015`, `0.01`, `0.015`, `0.015`, `0.02` | `Q2_PQSE=0.3236`, `Q1_QuitSE=0.3487`; `Q2_PQMotiv=0.2247`, `Q1_QuitMotiv=0.2274`; `Q2_LowEducation=-0.0875`, `Q1_LowEducation=-0.0895`; `Q2_PQSE:A_FF=0.1501`, `Q1_QuitSE:A_efficacy=0.1240`; `Q2_PQMotiv:A_FF=0.1365`, `Q1_QuitMotiv:A_outcome=0.1394`; `Q2_LowEducation:A_FF=0.1870`, `Q1_LowEducation:A_story=0.1934` |
+| `pqff_shared_wide` | 603 | Same means as `pqff_shared_parsimonious` | `0.08`, `0.06`, `0.04`, `0.06`, `0.06`, `0.08` | `Q2_PQSE=0.4823`, `Q1_QuitSE=0.3222`; `Q2_PQMotiv=0.2341`, `Q1_QuitMotiv=0.2962`; `Q2_LowEducation=-0.0711`, `Q1_LowEducation=0.0278`; `Q2_PQSE:A_FF=0.1290`, `Q1_QuitSE:A_efficacy=0.0976`; `Q2_PQMotiv:A_FF=0.1355`, `Q1_QuitMotiv:A_outcome=0.2704`; `Q2_LowEducation:A_FF=0.1713`, `Q1_LowEducation:A_story=0.3401` |
+
+The default unshared treatment/intermediate targets are:
+
+```text
+Q1_A_source=0.20
+Q1_A_story=0.18
+Q1_A_outcome=0.08
+Q1_A_efficacy=0.08
+Q1_A_multiple=0.02
+Q2_A_FF=0.12
+Q2_PQQuit=0.40
+Q2_PQQuit:A_FF=-0.08
+```
+
+## Supplementary Setting IV No Shared
+
+The supplementary no-shared Setting IV uses the same synthetic covariate, transition, treatment, outcome, and working Q-model structure as Setting IV. It changes only the target Q-parameter pattern: the Setting IV analogue groups are intentionally separated rather than shared.
+
+| Spec | Seed | Target separated coefficients |
+| --- | ---: | --- |
+| `pqff_separated_parsimonious` | 701 | `Q2_PQSE=0.55`, `Q1_QuitSE=-0.05`; `Q2_PQMotiv=-0.15`, `Q1_QuitMotiv=0.45`; `Q2_LowEducation=0.30`, `Q1_LowEducation=-0.25`; `Q2_PQSE:A_FF=0.45`, `Q1_QuitSE:A_efficacy=-0.25`; `Q2_PQMotiv:A_FF=-0.30`, `Q1_QuitMotiv:A_outcome=0.32`; `Q2_LowEducation:A_FF=0.50`, `Q1_LowEducation:A_story=-0.20` |
+| `pqff_separated_reversed` | 702 | `Q2_PQSE=-0.35`, `Q1_QuitSE=0.50`; `Q2_PQMotiv=0.40`, `Q1_QuitMotiv=-0.20`; `Q2_LowEducation=-0.30`, `Q1_LowEducation=0.25`; `Q2_PQSE:A_FF=-0.40`, `Q1_QuitSE:A_efficacy=0.30`; `Q2_PQMotiv:A_FF=0.36`, `Q1_QuitMotiv:A_outcome=-0.26`; `Q2_LowEducation:A_FF=-0.42`, `Q1_LowEducation:A_story=0.28` |
+| `pqff_separated_large` | 703 | `Q2_PQSE=0.75`, `Q1_QuitSE=-0.25`; `Q2_PQMotiv=-0.35`, `Q1_QuitMotiv=0.65`; `Q2_LowEducation=0.50`, `Q1_LowEducation=-0.45`; `Q2_PQSE:A_FF=0.65`, `Q1_QuitSE:A_efficacy=-0.45`; `Q2_PQMotiv:A_FF=-0.50`, `Q1_QuitMotiv:A_outcome=0.52`; `Q2_LowEducation:A_FF=0.72`, `Q1_LowEducation:A_story=-0.40` |
+
+The separated default uses the same unshared treatment/intermediate targets as Setting IV. The `pqff_separated_reversed` and `pqff_separated_large` rows are retained as sensitivity target designs only.
+
 ## Superseded Files
 
 This consolidated file supersedes and replaces the deleted design-only summaries:
@@ -186,3 +298,4 @@ This consolidated file supersedes and replaces the deleted design-only summaries
 - `docs/simulation_random_walk_supplsetting3_noshared_setting_supplementary_iii_no_shared.md`
 - `docs/simulation_random_walk_design_check.md`
 - `docs/simulation_random_walk_true_estimates_sigma_summary.md`
+- `PROJECT_QUIT_FOREVER_FREE_SETTING_IV_DESIGN.md`

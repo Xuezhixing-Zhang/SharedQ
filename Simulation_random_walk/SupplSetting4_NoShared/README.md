@@ -1,15 +1,23 @@
 # Supplementary Setting IV No Shared
 
-This folder is the implementation workspace for the no-shared Project Quit / Forever Free supplementary design described in `PROJECT_QUIT_FOREVER_FREE_SETTING_IV_DESIGN.md`.
+This folder is the implementation workspace for the no-shared Project Quit / Forever Free supplementary design described in `RANDOM_WALK_SETTING_DESIGN_SUMMARY.md`.
 
 ## Scope
 
 - Default scenario: `pqff_separated_parsimonious`
-- Population, treatment coding, treatment allocation, state variables, and reward definition match Setting IV.
+- Simulation type: synthetic-parametric
+- Population, treatment coding, treatment allocation, state variables, transition model, and reward definition match Setting IV.
 - Candidate shared groups are intentionally separated in the true target parameters.
 
 ## Implementation Status
 
-The folder structure is initialized only. The main Setting IV folder now contains an executable synthetic fallback pipeline, but this supplementary no-shared Setting IV variant has not been implemented or run.
+This folder uses the shared Setting IV implementation through `Simulation_Setting4_NoShared.R`, with artifacts written under this supplementary folder.
 
-Parameter selection has not been run because the cleaned Project Quit / Forever Free source data was not found in the workspace. Calibration, simulation, Q-learning wrappers, PBS scripts, validation reports, and production summaries are pending. Do not infer supplementary no-shared Setting IV results from the main Setting IV synthetic fallback outputs.
+Run Supplementary Setting IV No Shared with:
+
+```bash
+module load r/4.4.0
+Rscript Simulation_random_walk/SupplSetting4_NoShared/Simulation_Setting4_NoShared.R
+```
+
+Accepted calibration artifacts must have `source_mode = "synthetic_parametric"`. Do not reuse main Setting IV shared artifacts as no-shared results.

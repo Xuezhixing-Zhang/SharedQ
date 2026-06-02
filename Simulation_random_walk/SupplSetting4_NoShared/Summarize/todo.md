@@ -1,10 +1,8 @@
 # Supplementary Setting IV No Shared Todo
 
-- Reuse Setting IV data preparation, treatment recoding, treatment allocation, and working Q-model structure.
-- Add or locate the cleaned Project Quit / Forever Free source data required by Setting IV.
-- Implement separated target builder for `pqff_separated_parsimonious`, `pqff_separated_reversed`, and `pqff_separated_large`.
-- Implement calibration, validation, simulation, and evaluation scripts following the supplementary no-shared setting patterns.
-- Run supplementary Setting IV parameter selection only after the calibration and validation tooling exists.
-- Run bounded smoke checks before production calibration.
-- Run production simulations only after default calibration passes validation.
-- Do not reuse or report main Setting IV synthetic fallback outputs as supplementary no-shared results.
+- Keep code-file objectives and parameter choices synchronized with the corresponding top-level management document.
+- Rerun `Rscript Simulation_random_walk/summarize_setting_results.R` after any new simulation output is produced.
+- Production output files are present for all expected sample sizes; review `evaluation_summary.csv` before manuscript table generation.
+- Keep this setting paired with Setting IV when regenerating manuscript tables.
+- Do not reuse main Setting IV shared artifacts as no-shared results.
+- Keep large `.rds` artifacts local or move them to Git LFS/external storage if versioning is required.

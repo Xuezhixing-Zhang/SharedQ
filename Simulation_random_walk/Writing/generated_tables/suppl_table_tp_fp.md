@@ -24,3 +24,11 @@
 | Suppl III No Shared | 300 | SQ learning (L1 penalty) |  | 0.000 (0.000) |
 | Suppl III No Shared | 500 | SQ learning (L1 penalty) |  | 0.000 (0.000) |
 | Suppl III No Shared | 1000 | SQ learning (L1 penalty) |  | 0.000 (0.000) |
+| IV | 100 | SQ learning (L1 penalty) | 0.000 (0.000) |  |
+| IV | 300 | SQ learning (L1 penalty) | 0.000 (0.000) |  |
+| IV | 500 | SQ learning (L1 penalty) | 0.000 (0.000) |  |
+| IV | 1000 | SQ learning (L1 penalty) | 0.000 (0.000) |  |
+| Suppl IV No Shared | 100 | SQ learning (L1 penalty) |  | 0.000 (0.000) |
+| Suppl IV No Shared | 300 | SQ learning (L1 penalty) |  | 0.000 (0.000) |
+| Suppl IV No Shared | 500 | SQ learning (L1 penalty) |  | 0.000 (0.000) |
+| Suppl IV No Shared | 1000 | SQ learning (L1 penalty) |  | 0.000 (0.000) |

@@ -1,18 +1,19 @@
 # Setting IV: Project Quit / Forever Free Shared Design
 
-This folder is the implementation workspace for the Project Quit / Forever Free Setting IV design described in `PROJECT_QUIT_FOREVER_FREE_SETTING_IV_DESIGN.md`.
+This folder is the implementation workspace for the Setting IV design described in `RANDOM_WALK_SETTING_DESIGN_SUMMARY.md`.
 
 ## Scope
 
 - Main scenario: `pqff_shared_parsimonious`
-- Population: `FFConsent = 1`
+- Simulation type: synthetic-parametric
+- Dataset role: structure and aggregate design constants only
 - Stage 1 treatment: five Project Quit fractional-factorial components
-- Stage 2 treatment: Forever Free arm, default allocation `P(A_FF = +1) = 2/3`
-- Primary reward: `Y_primary = Y_PQ + Y_FF`
+- Stage 2 treatment: Forever Free arm, default allocation `P(A_FF = +1) = 312 / 469`
+- Primary reward: continuous cumulative abstinence signal plus additive noise
 
 ## Shared-Parameter Rule
 
-The shared true coefficients must follow the project-wide random shared rule:
+The shared true coefficients follow the project-wide random shared rule:
 
 ```text
 theta_j^(d) = mu_j + delta_j^(d),  delta_j^(d) ~ N(0, sigma_shared^2)
@@ -22,15 +23,22 @@ Do not implement Setting IV shared targets as deterministic `mu + sigma` or `mu 
 
 ## Implementation Status
 
-The folder now has executable data-generation, Q-learning, helper, and simulation wrappers:
+The folder has executable synthetic-parametric data-generation, Q-learning, helper, and simulation wrappers:
 
 - `Q_datagenerating.R`
 - `Q_learning.R`
 - `Q_functions.R`
 - `Simulation_Setting4.R`
 
-Production mode is strict: it requires a cleaned Project Quit / Forever Free source data file through `SETTING4_SOURCE_DATA`. If that file is absent, the script stops unless `SETTING4_ALLOW_SYNTHETIC=1` is set.
+The cleaned PQ/FF file in `source_data/` is not a production simulation input. It is retained locally to document and verify the study structure: required variables, complete-consenter count, 16 fractional-factorial Project Quit arms, and the observed Forever Free allocation ratio.
 
-Synthetic fallback mode has been run for `n = 100, 300, 500, 1000` with `200/200` non-null replicates per sample size. These outputs exercise the code and evaluation path only. They are not accepted production Setting IV results, and they must not be used in manuscript tables or method claims.
+Run Setting IV with:
 
-Production Setting IV remains blocked until the cleaned PQ/FF source data is supplied, production calibration is generated, and a validation gate analogous to Settings I-III passes.
+```bash
+module load r/4.4.0
+Rscript Simulation_random_walk/Setting4/Simulation_Setting4.R
+```
+
+Use environment variables such as `SETTING4_NS`, `SETTING4_N_REPS`, `SETTING4_RECALIBRATE`, `SETTING4_CALIBRATION_MC_N`, `SETTING4_CALIBRATION_SEARCH_N`, `SETTING4_CALIBRATION_N_STARTS`, and `SETTING4_CALIBRATION_MAXIT` to control runtime.
+
+Accepted calibration artifacts must have `source_mode = "synthetic_parametric"`. Real-source or source-data-resampling artifacts are invalid for Setting IV method claims.

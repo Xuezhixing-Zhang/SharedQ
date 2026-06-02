@@ -1,0 +1,42 @@
+"setting","spec","check_type","group","item","target","calibrated","error","pass"
+"Setting IV","pqff_shared_parsimonious","target_definition","theta_target","Q2_intercept",0.1,0.1,0,TRUE
+"Setting IV","pqff_shared_parsimonious","target_definition","theta_target","Q2_PQQuit",0.4,0.4,0,TRUE
+"Setting IV","pqff_shared_parsimonious","target_definition","theta_target","Q2_PQSE",0.35596663029322,0.35596663029322,0,TRUE
+"Setting IV","pqff_shared_parsimonious","target_definition","theta_target","Q2_PQMotiv",0.238875043796853,0.238875043796853,0,TRUE
+"Setting IV","pqff_shared_parsimonious","target_definition","theta_target","Q2_LowEducation",-0.0862914480361849,-0.0862914480361849,0,TRUE
+"Setting IV","pqff_shared_parsimonious","target_definition","theta_target","Q2_A_FF",0.12,0.12,0,TRUE
+"Setting IV","pqff_shared_parsimonious","target_definition","theta_target","Q2_PQQuit_A_FF",-0.08,-0.08,0,TRUE
+"Setting IV","pqff_shared_parsimonious","target_definition","theta_target","Q2_PQSE_A_FF",0.111640771202396,0.111640771202396,0,TRUE
+"Setting IV","pqff_shared_parsimonious","target_definition","theta_target","Q2_PQMotiv_A_FF",0.132218379203655,0.132218379203655,0,TRUE
+"Setting IV","pqff_shared_parsimonious","target_definition","theta_target","Q2_LowEducation_A_FF",0.174484284553788,0.174484284553788,0,TRUE
+"Setting IV","pqff_shared_parsimonious","target_definition","theta_target","Q1_intercept",0.1,0.1,0,TRUE
+"Setting IV","pqff_shared_parsimonious","target_definition","theta_target","Q1_QuitSE",0.423493066969299,0.423493066969299,0,TRUE
+"Setting IV","pqff_shared_parsimonious","target_definition","theta_target","Q1_QuitMotiv",0.23197878839248,0.23197878839248,0,TRUE
+"Setting IV","pqff_shared_parsimonious","target_definition","theta_target","Q1_LowEducation",-0.114889440249203,-0.114889440249203,0,TRUE
+"Setting IV","pqff_shared_parsimonious","target_definition","theta_target","Q1_A_source",0.2,0.2,0,TRUE
+"Setting IV","pqff_shared_parsimonious","target_definition","theta_target","Q1_A_outcome",0.08,0.08,0,TRUE
+"Setting IV","pqff_shared_parsimonious","target_definition","theta_target","Q1_A_story",0.18,0.18,0,TRUE
+"Setting IV","pqff_shared_parsimonious","target_definition","theta_target","Q1_A_efficacy",0.08,0.08,0,TRUE
+"Setting IV","pqff_shared_parsimonious","target_definition","theta_target","Q1_A_multiple",0.02,0.02,0,TRUE
+"Setting IV","pqff_shared_parsimonious","target_definition","theta_target","Q1_QuitSE_A_efficacy",0.122870364595248,0.122870364595248,0,TRUE
+"Setting IV","pqff_shared_parsimonious","target_definition","theta_target","Q1_QuitMotiv_A_outcome",0.160083710779148,0.160083710779148,0,TRUE
+"Setting IV","pqff_shared_parsimonious","target_definition","theta_target","Q1_LowEducation_A_story",0.200033223756318,0.200033223756318,0,TRUE
+"Setting IV","pqff_shared_parsimonious","artifact","source_mode","calibration_pqff_shared_parsimonious.rds",NA,NA,NA,TRUE
+"Setting IV","pqff_shared_parsimonious","coefficient","SE_main","Q2_PQSE",0.35596663029322,0.355966630293219,-9.43689570931383e-16,TRUE
+"Setting IV","pqff_shared_parsimonious","coefficient","SE_main","Q1_QuitSE",0.423493066969299,0.423493066969299,4.44089209850063e-16,TRUE
+"Setting IV","pqff_shared_parsimonious","difference","SE_main","Q2_PQSE - Q1_QuitSE",-0.0675264366760784,-0.0675264366760798,-1.38777878078145e-15,TRUE
+"Setting IV","pqff_shared_parsimonious","coefficient","Motiv_main","Q2_PQMotiv",0.238875043796853,0.238875043796847,-5.30131494258512e-15,TRUE
+"Setting IV","pqff_shared_parsimonious","coefficient","Motiv_main","Q1_QuitMotiv",0.23197878839248,0.23197878839248,1.94289029309402e-16,TRUE
+"Setting IV","pqff_shared_parsimonious","difference","Motiv_main","Q2_PQMotiv - Q1_QuitMotiv",0.00689625540437289,0.00689625540436739,-5.49560397189452e-15,TRUE
+"Setting IV","pqff_shared_parsimonious","coefficient","LowEducation_main","Q2_LowEducation",-0.0862914480361849,-0.0862914480361832,1.73472347597681e-15,TRUE
+"Setting IV","pqff_shared_parsimonious","coefficient","LowEducation_main","Q1_LowEducation",-0.114889440249203,-0.114889440249204,-7.63278329429795e-16,TRUE
+"Setting IV","pqff_shared_parsimonious","difference","LowEducation_main","Q2_LowEducation - Q1_LowEducation",0.0285979922130184,0.0285979922130209,2.4980018054066e-15,TRUE
+"Setting IV","pqff_shared_parsimonious","coefficient","SE_treatment","Q2_PQSE_A_FF",0.111640771202396,0.111640771202395,-8.18789480661053e-16,TRUE
+"Setting IV","pqff_shared_parsimonious","coefficient","SE_treatment","Q1_QuitSE_A_efficacy",0.122870364595248,0.122870364595248,3.19189119579733e-16,TRUE
+"Setting IV","pqff_shared_parsimonious","difference","SE_treatment","Q2_PQSE_A_FF - Q1_QuitSE_A_efficacy",-0.0112295933928516,-0.0112295933928527,-1.13797860024079e-15,TRUE
+"Setting IV","pqff_shared_parsimonious","coefficient","Motiv_treatment","Q2_PQMotiv_A_FF",0.132218379203655,0.132218379203656,1.19348975147204e-15,TRUE
+"Setting IV","pqff_shared_parsimonious","coefficient","Motiv_treatment","Q1_QuitMotiv_A_outcome",0.160083710779148,0.160083710779147,-5.55111512312578e-16,TRUE
+"Setting IV","pqff_shared_parsimonious","difference","Motiv_treatment","Q2_PQMotiv_A_FF - Q1_QuitMotiv_A_outcome",-0.0278653315754929,-0.0278653315754911,1.74860126378462e-15,TRUE
+"Setting IV","pqff_shared_parsimonious","coefficient","LowEducation_treatment","Q2_LowEducation_A_FF",0.174484284553788,0.174484284553789,1.38777878078145e-15,TRUE
+"Setting IV","pqff_shared_parsimonious","coefficient","LowEducation_treatment","Q1_LowEducation_A_story",0.200033223756318,0.200033223756317,-9.99200722162641e-16,TRUE
+"Setting IV","pqff_shared_parsimonious","difference","LowEducation_treatment","Q2_LowEducation_A_FF - Q1_LowEducation_A_story",-0.0255489392025306,-0.0255489392025282,2.38697950294409e-15,TRUE

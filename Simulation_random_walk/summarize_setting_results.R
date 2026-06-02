@@ -31,16 +31,26 @@ settings <- list(
   ),
   Setting4 = list(
     label = "Setting IV",
-    objective = "Project Quit / Forever Free two-stage shared design. Current executable outputs are synthetic fallback runs unless a cleaned PQ/FF source data file is supplied through SETTING4_SOURCE_DATA.",
+    objective = "Project Quit / Forever Free two-stage synthetic-parametric shared design informed by cleaned PQ/FF structure only.",
     expected_ns = c(100, 300, 500, 1000),
     expected_reps = 200,
-    todo_when_missing = "Run production simulation after adding the cleaned Project Quit / Forever Free source data and accepted calibration artifacts.",
-    non_production_note = "Synthetic fallback files are useful for exercising code and evaluation paths, but they are not accepted production Setting IV results.",
+    todo_when_missing = "Run production simulation after confirming the synthetic-parametric calibration artifact.",
+    default_spec = "pqff_shared_parsimonious",
     additional_todo = c(
-      "Locate or add the cleaned Project Quit / Forever Free source data with the required columns from `PROJECT_QUIT_FOREVER_FREE_SETTING_IV_DESIGN.md`.",
-      "Run production mode with `SETTING4_SOURCE_DATA=/path/to/data` and without `SETTING4_ALLOW_SYNTHETIC=1`.",
-      "Add and validate a production calibration gate analogous to Settings I-III before using Setting IV in manuscript tables.",
-      "Do not include `results_*_synthetic.rds` or synthetic calibration artifacts in production method claims."
+      "Keep the uploaded cleaned PQ/FF data local/ignored and use it only for structural design checks.",
+      "Do not include deleted real-source calibration/results or any source-data-resampling outputs in method claims."
+    )
+  ),
+  SupplSetting4_NoShared = list(
+    label = "Supplementary Setting IV No Shared",
+    objective = "Project Quit / Forever Free two-stage synthetic-parametric no-sharing sensitivity design.",
+    expected_ns = c(100, 300, 500, 1000),
+    expected_reps = 200,
+    todo_when_missing = "Run production simulation after confirming the synthetic-parametric separated calibration artifact.",
+    default_spec = "pqff_separated_parsimonious",
+    additional_todo = c(
+      "Keep this setting paired with Setting IV when regenerating manuscript tables.",
+      "Do not reuse main Setting IV shared artifacts as no-shared results."
     )
   )
 )
@@ -190,6 +200,42 @@ write_setting_summary <- function(setting_name, cfg) {
 
   calibration_files <- basename(sort(Sys.glob(file.path(calibration_dir, "*.rds"))))
   test_files <- basename(sort(Sys.glob(file.path(test_results_dir, "*.rds"))))
+  calibration_detail_lines <- character()
+  if (setting_name %in% c("Setting4", "SupplSetting4_NoShared")) {
+    production_calibration <- file.path(calibration_dir, paste0("calibration_", cfg$default_spec, ".rds"))
+    if (file.exists(production_calibration)) {
+      cal <- readRDS(production_calibration)
+      calibration_detail_lines <- c(
+        "",
+        "## Candidate Calibration",
+        "",
+        paste0("- Source mode: ", cal$source_mode),
+        paste0("- Design source complete consent rows used for aggregate constants: ", cal$design$complete_consent_rows),
+        paste0("- Projection Monte Carlo rows: ", cal$mc_n),
+        paste0("- Calibration search rows: ", cal$search_n),
+        paste0("- Calibration starts: ", cal$n_starts),
+        paste0("- Search objective: ", fmt(cal$objective)),
+        paste0("- Sum absolute target difference: ", fmt(cal$values)),
+        paste0("- Max absolute target difference: ", fmt(cal$max_abs_error)),
+        paste0("- Max absolute shared-pair difference: ", fmt(cal$max_abs_pair_difference)),
+        "",
+        "| Q2 parameter | Q1 parameter | Q2 theta | Q1 theta | Pair diff | Target diff |",
+        "| --- | --- | ---: | ---: | ---: | ---: |"
+      )
+      if (!is.null(cal$pair_summary) && nrow(cal$pair_summary) > 0L) {
+        for (i in seq_len(nrow(cal$pair_summary))) {
+          row <- cal$pair_summary[i, , drop = FALSE]
+          calibration_detail_lines <- c(calibration_detail_lines, paste0(
+            "| `", row$q2_parameter, "` | `", row$q1_parameter, "` | ",
+            fmt(row$q2_theta), " | ",
+            fmt(row$q1_theta), " | ",
+            fmt(row$pair_difference), " | ",
+            fmt(row$target_difference), " |"
+          ))
+        }
+      }
+    }
+  }
 
   lines <- c(
     paste0("# ", cfg$label, " Current Results Summary"),
@@ -232,6 +278,7 @@ write_setting_summary <- function(setting_name, cfg) {
     "",
     paste0("- Calibration artifacts: ", if (length(calibration_files)) paste(sprintf("`%s`", calibration_files), collapse = ", ") else "none"),
     paste0("- Test artifacts: ", if (length(test_files)) paste(sprintf("`%s`", test_files), collapse = ", ") else "none"),
+    calibration_detail_lines,
     "",
     "## Evaluation Output",
     "",
