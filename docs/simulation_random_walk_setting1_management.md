@@ -18,7 +18,7 @@ Setting I mimics the real-data binary-treatment design and targets near-shared e
 
 | Spec | Seed | Shared means | Shared sigmas | Purpose |
 | --- | ---: | --- | --- | --- |
-| `balanced_small` | `101` | `psi1=0.20`, `psi2=-0.60`, `psi3=0.80` | `0.03`, `0.03`, `0.03` | Baseline near-sharing |
+| `balanced_small` | `63` | `psi1=0.13`, `psi2=-0.35`, `psi3=0.61` | `0.006`, `0.00`, `0.006` | Rounded baseline near-sharing; pending recalibration |
 | `tighter_small` | `202` | `psi1=0.16`, `psi2=-0.52`, `psi3=0.68` | `0.015`, `0.02`, `0.02` | Closer-to-exact sharing |
 | `wider_small` | `303` | `psi1=0.24`, `psi2=-0.68`, `psi3=0.92` | `0.05`, `0.05`, `0.05` | Wider random-walk deviations |
 

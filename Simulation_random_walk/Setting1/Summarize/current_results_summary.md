@@ -5,6 +5,7 @@
 - Expected production replicates per sample size: 200
 - Production result files found: 4 of 4
 - Missing production sample sizes: none
+- Current status: these production files predate the rounded `balanced_small` target revision and should not be used for final Setting I reporting until recalibration and production rerun complete.
 
 ## Result Files
 
@@ -20,6 +21,7 @@
 
 - Calibration artifacts: `alternative_pars.rds`, `calibration_balanced_small.rds`, `calibration_tighter_small.rds`, `calibration_wider_small.rds`, `data_original.rds`, `shared_parameter_spec_runs.rds`, `test_alternative_pars.rds`
 - Test artifacts: `test_one_replicate.rds`
+- Current `calibration_balanced_small.rds` predates the rounded seed-63 target revision and must be replaced by a passing gate candidate before new production simulations are accepted.
 
 ## Evaluation Output
 

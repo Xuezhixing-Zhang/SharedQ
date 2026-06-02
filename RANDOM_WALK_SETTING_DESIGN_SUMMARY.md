@@ -4,7 +4,7 @@ This file is the consolidated design reference for the active simulation suite. 
 
 Values listed as "calibrated true values" are population-projected Q-parameter estimates saved in the calibration `.rds` artifacts and used as `theta_true` by the simulation wrappers. They are not always identical to the hand-specified target values because the outcome-generating `gamma` is found by numerical calibration.
 
-Current status as of 2026-06-02: all four active random-walk default calibration artifacts pass validation. Setting I was re-expressed as feasible random shared draws rather than deterministic offsets; Setting III `rs_tol006` was promoted to the default production calibration artifact. Setting II and Supplementary Setting III No Shared keep their separated no-shared target definitions and pass default validation. Full production simulations submitted on 2026-05-28 as jobs `523877.hn-10-03`, `523878.hn-10-03`, `523879.hn-10-03`, and `523880.hn-10-03` are complete, with `200/200` replicates for every expected sample size. Setting IV and Supplementary Setting IV No Shared are synthetic-parametric Project Quit / Forever Free simulation settings; the uploaded cleaned dataset is used only to understand structure and set aggregate design constants, not to resample real histories or outcomes.
+Current status as of 2026-06-02: Setting I `balanced_small` is being revised to a rounded random-shared target and is pending recalibration. Previous Setting I calibration and production outputs predate this revision and must not be used for final Setting I reporting. Setting III `rs_tol006` remains the promoted default production calibration artifact. Setting II and Supplementary Setting III No Shared keep their separated no-shared target definitions and pass default validation. Full random-walk production simulations submitted on 2026-05-28 as jobs `523877.hn-10-03`, `523878.hn-10-03`, `523879.hn-10-03`, and `523880.hn-10-03` completed under the previous Setting I target, with `200/200` replicates for every expected sample size. Setting IV and Supplementary Setting IV No Shared are synthetic-parametric Project Quit / Forever Free simulation settings; the uploaded cleaned dataset is used only to understand structure and set aggregate design constants, not to resample real histories or outcomes.
 
 ## Common Simulation Plan
 
@@ -78,19 +78,11 @@ The Q-model uses stage-3 terms `intercept, A1, A2, A1A2, G1, A3, A1A3, A2A3`, st
 
 | Spec | Seed | Shared means | Shared sigmas | Implied target shared coefficients |
 | --- | ---: | --- | --- | --- |
-| `balanced_small` | 63 | `psi1=0.1251519160`, `psi2=-0.35`, `psi3=0.6158834940` | `0.0187658541`, `0.00`, `0.0083599859` | `Q3_A1=0.1500`, `Q2_A1=0.0900`; `Q3_A3=-0.3500`, `Q2_A2=-0.3500`; `Q3_A1A3=0.6200`, `Q2_A1A2=0.6000` |
+| `balanced_small` | 63 | `psi1=0.13`, `psi2=-0.35`, `psi3=0.61` | `0.006`, `0.00`, `0.006` | `Q3_A1=0.1379`, `Q2_A1=0.1188`; `Q3_A3=-0.3500`, `Q2_A2=-0.3500`; `Q3_A1A3=0.6130`, `Q2_A1A2=0.5986` |
 | `tighter_small` | 202 | `psi1=0.16`, `psi2=-0.52`, `psi3=0.68` | `0.015`, `0.02`, `0.02` | `Q3_A1=0.1430`, `Q2_A1=0.1534`; `Q3_A3=-0.5267`, `Q2_A2=-0.5369`; `Q3_A1A3=0.6771`, `Q2_A1A2=0.6514` |
 | `wider_small` | 303 | `psi1=0.24`, `psi2=-0.68`, `psi3=0.92` | `0.05`, `0.05`, `0.05` | `Q3_A1=0.2152`, `Q2_A1=0.2539`; `Q3_A3=-0.6608`, `Q2_A2=-0.6766`; `Q3_A1A3=0.8911`, `Q2_A1A2=0.9857` |
 
-Accepted production/default calibrated true values for the intended near-shared groups:
-
-| Spec | Parameter group | Calibrated true values |
-| --- | --- | --- |
-| `balanced_small` | `Q3_A1 / Q2_A1` | `Q3_A1=0.1568`; `Q2_A1=0.0900` |
-| `balanced_small` | `Q3_A3 / Q2_A2` | `Q3_A3=-0.3469`; `Q2_A2=-0.3432` |
-| `balanced_small` | `Q3_A1A3 / Q2_A1A2` | `Q3_A1A3=0.6132`; `Q2_A1A2=0.5939` |
-
-These calibrated values pass the current validation gate because the gate is centered on the script-generated `balanced_small` target. However, the `Q3_A1 / Q2_A1` target gap is `0.0600` and the calibrated gap is `0.0668`, which is large for a near-shared default. The high-precision `balanced_small` means and sigmas are also not ideal for a defensible design specification. Next Setting I work is to replace `balanced_small` with a rounded near-shared spec, reduce the `Q3_A1 / Q2_A1` target gap to a clearly near-shared value, preferably at most `0.02`, recalibrate/validate Setting I, and rerun Setting I production before final manuscript reporting.
+Accepted production/default calibrated true values for the revised `balanced_small` target are pending recalibration. The previous calibrated values passed their validation gate, but they were centered on the superseded target with a `Q3_A1 / Q2_A1` target gap of `0.0600`; they must not be used for final Setting I reporting after this rounded-target revision. Next Setting I work is to recalibrate and validate `balanced_small`, promote only a passing artifact, and rerun Setting I production before final manuscript reporting.
 
 ## Setting II
 

@@ -23,8 +23,8 @@ if (!exists("safe_extract_coef", mode = "function")) {
 ## beta35 and beta22 are near-shared around mu2
 ## beta37 and beta23 are near-shared around mu3
 
-shared_sigma <- c(psi1 = 0.03, psi2 = 0.00, psi3 = 0.01)
-shared_mu <- c(psi1 = 0.12, psi2 = -0.35, psi3 = 0.61)
+shared_sigma <- c(psi1 = 0.006, psi2 = 0.00, psi3 = 0.006)
+shared_mu <- c(psi1 = 0.13, psi2 = -0.35, psi3 = 0.61)
 
 with_preserved_seed <- function(seed, expr) {
   if (is.null(seed) || is.na(seed)) return(force(expr))
@@ -98,14 +98,14 @@ build_theta_target <- function(
   theta
 }
 
-theta_target <- build_theta_target(shared_mu = shared_mu, shared_sigma = shared_sigma, shared_seed = 101)
+theta_target <- build_theta_target(shared_mu = shared_mu, shared_sigma = shared_sigma, shared_seed = 63)
 
 setting1_shared_parameter_specs <- list(
   balanced_small = list(
-    description = "Baseline feasible near-shared specification represented as random shared draws.",
+    description = "Rounded near-shared specification represented as random shared draws.",
     seed = 63,
-    shared_mu = c(psi1 = 0.1251519160, psi2 = -0.35, psi3 = 0.6158834940),
-    shared_sigma = c(psi1 = 0.0187658541, psi2 = 0.00, psi3 = 0.0083599859)
+    shared_mu = c(psi1 = 0.13, psi2 = -0.35, psi3 = 0.61),
+    shared_sigma = c(psi1 = 0.006, psi2 = 0.00, psi3 = 0.006)
   ),
   tighter_small = list(
     description = "Smaller deviations and slightly weaker shared means to test a closer-to-exact sharing scenario.",
