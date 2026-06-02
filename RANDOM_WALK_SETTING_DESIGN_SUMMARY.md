@@ -90,7 +90,7 @@ Accepted production/default calibrated true values for the intended near-shared 
 | `balanced_small` | `Q3_A3 / Q2_A2` | `Q3_A3=-0.3469`; `Q2_A2=-0.3432` |
 | `balanced_small` | `Q3_A1A3 / Q2_A1A2` | `Q3_A1A3=0.6132`; `Q2_A1A2=0.5939` |
 
-These calibrated values now pass because the Setting I target is represented through the random shared rule using seed `63` and the `balanced_small` means/sigmas above. Current result files must still be replaced by the submitted production rerun before manuscript table generation.
+These calibrated values pass the current validation gate because the gate is centered on the script-generated `balanced_small` target. However, the `Q3_A1 / Q2_A1` target gap is `0.0600` and the calibrated gap is `0.0668`, which is large for a near-shared default. The high-precision `balanced_small` means and sigmas are also not ideal for a defensible design specification. Next Setting I work is to replace `balanced_small` with a rounded near-shared spec, reduce the `Q3_A1 / Q2_A1` target gap to a clearly near-shared value, preferably at most `0.02`, recalibrate/validate Setting I, and rerun Setting I production before final manuscript reporting.
 
 ## Setting II
 
