@@ -1,16 +1,16 @@
 "setting","spec","check_type","group","item","target","calibrated","error","pass"
 "Setting I","balanced_small","target_definition","theta_target","Q3_intercept",0,0,0,TRUE
-"Setting I","balanced_small","target_definition","theta_target","Q3_A1",0.149999999978562,0.15,2.14378792495751e-11,TRUE
+"Setting I","balanced_small","target_definition","theta_target","Q3_A1",0.137944669242173,0.15,0.0120553307578272,FALSE
 "Setting I","balanced_small","target_definition","theta_target","Q3_A2",0.2,0.2,0,TRUE
 "Setting I","balanced_small","target_definition","theta_target","Q3_A1A2",0.4,0.4,0,TRUE
 "Setting I","balanced_small","target_definition","theta_target","Q3_G1",0.8,0.8,0,TRUE
 "Setting I","balanced_small","target_definition","theta_target","Q3_A3",-0.35,-0.35,0,TRUE
-"Setting I","balanced_small","target_definition","theta_target","Q3_A1A3",0.620000000025233,0.62,-2.52327048144707e-11,TRUE
+"Setting I","balanced_small","target_definition","theta_target","Q3_A1A3",0.612954435144609,0.62,0.00704556485539087,FALSE
 "Setting I","balanced_small","target_definition","theta_target","Q3_A2A3",0.6,0.6,0,TRUE
 "Setting I","balanced_small","target_definition","theta_target","Q2_intercept",0,0,0,TRUE
-"Setting I","balanced_small","target_definition","theta_target","Q2_A1",0.0900000000617671,0.09,-6.17671053193547e-11,TRUE
+"Setting I","balanced_small","target_definition","theta_target","Q2_A1",0.118760890151576,0.09,-0.028760890151576,FALSE
 "Setting I","balanced_small","target_definition","theta_target","Q2_A2",-0.35,-0.35,0,TRUE
-"Setting I","balanced_small","target_definition","theta_target","Q2_A1A2",0.59999999994777,0.6,5.22304421934905e-11,TRUE
+"Setting I","balanced_small","target_definition","theta_target","Q2_A1A2",0.598600343893716,0.6,0.0013996561062839,FALSE
 "Setting I","balanced_small","target_definition","theta_target","Q1_intercept",0,0,0,TRUE
 "Setting I","balanced_small","target_definition","theta_target","Q1_A1",-0.2,-0.2,0,TRUE
 "Setting I","balanced_small","coefficient","psi1","Q3_A1",0.15,0.156832888057712,0.00683288805771193,TRUE

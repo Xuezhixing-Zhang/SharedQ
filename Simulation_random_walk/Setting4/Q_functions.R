@@ -141,7 +141,9 @@ build_setting4_calibration <- function(
     seed = seed,
     created_at = Sys.time(),
     note = paste(
-      "Synthetic-parametric Setting IV calibration.",
+      "Synthetic-parametric Setting IV target-to-truth calibration/projection artifact.",
+      "The saved theta is the population-projected working Q truth obtained after constructing gamma from theta_target;",
+      "do not report theta_target alone as the accepted true estimate.",
       "The cleaned PQ/FF dataset informs structure and aggregate design constants only;",
       "no real participant histories or outcomes are resampled for production simulation."
     )

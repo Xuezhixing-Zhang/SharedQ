@@ -7,6 +7,10 @@ settings <- list(
     expected_ns = c(100, 300, 500, 1000),
     expected_reps = 200,
     todo_when_missing = "Rerun production simulation for missing sample sizes after confirming calibration.",
+    current_status_note = c(
+      "These production files predate the rounded `balanced_small` target revision and should not be used for final Setting I reporting until recalibration and production rerun complete.",
+      "Current `calibration_balanced_small.rds` predates the rounded seed-63 target revision and must be replaced by a passing gate candidate before new production simulations are accepted."
+    ),
     additional_todo = c(
       "The `balanced_small` target has been revised to a rounded seed-63 random-shared spec; existing Setting I calibration and production outputs predate that target and should not be used for final reporting.",
       "Rerun Setting I calibration/gate validation and promote only an artifact whose target vector and calibrated true values satisfy the revised near-shared design.",
@@ -42,6 +46,7 @@ settings <- list(
     todo_when_missing = "Run production simulation after confirming the synthetic-parametric calibration artifact.",
     default_spec = "pqff_shared_parsimonious",
     additional_todo = c(
+      "Accepted true estimates must come from the synthetic-parametric target-to-truth calibration/projection artifact's saved `theta`, not from the scripted `theta_target` vector alone.",
       "Keep the uploaded cleaned PQ/FF data local/ignored and use it only for structural design checks.",
       "Do not include deleted real-source calibration/results or any source-data-resampling outputs in method claims."
     )
@@ -54,6 +59,7 @@ settings <- list(
     todo_when_missing = "Run production simulation after confirming the synthetic-parametric separated calibration artifact.",
     default_spec = "pqff_separated_parsimonious",
     additional_todo = c(
+      "Accepted true estimates must come from the synthetic-parametric target-to-truth calibration/projection artifact's saved `theta`, not from the scripted `theta_target` vector alone.",
       "Keep this setting paired with Setting IV when regenerating manuscript tables.",
       "Do not reuse main Setting IV shared artifacts as no-shared results."
     )
@@ -215,6 +221,7 @@ write_setting_summary <- function(setting_name, cfg) {
         "## Candidate Calibration",
         "",
         paste0("- Source mode: ", cal$source_mode),
+        "- True-estimate workflow: target-to-truth synthetic population projection",
         paste0("- Design source complete consent rows used for aggregate constants: ", cal$design$complete_consent_rows),
         paste0("- Projection Monte Carlo rows: ", cal$mc_n),
         paste0("- Calibration search rows: ", cal$search_n),
@@ -245,7 +252,11 @@ write_setting_summary <- function(setting_name, cfg) {
           "",
           "## Accepted True Parameters",
           "",
-          paste0("The accepted production calibration artifact is `", basename(production_calibration), "`. Direct calibration matches the target vector to numerical precision."),
+          paste0(
+            "The accepted production calibration artifact is `",
+            basename(production_calibration),
+            "`. Accepted true estimates are the saved population-projected `theta` values after target-to-truth calibration/projection; do not report the scripted target vector alone."
+          ),
           "",
           "| Parameter | Accepted true theta |",
           "| --- | ---: |"
@@ -268,6 +279,9 @@ write_setting_summary <- function(setting_name, cfg) {
     paste0("- Expected production replicates per sample size: ", cfg$expected_reps),
     paste0("- Production result files found: ", length(production_files), " of ", length(cfg$expected_ns)),
     paste0("- Missing production sample sizes: ", if (length(missing_ns)) paste(missing_ns, collapse = ", ") else "none"),
+    if (!is.null(cfg$current_status_note)) {
+      paste0("- Current status: ", cfg$current_status_note)
+    },
     if (length(non_production_ns)) {
       paste0("- Non-production result sample sizes present: ", paste(non_production_ns, collapse = ", "))
     },

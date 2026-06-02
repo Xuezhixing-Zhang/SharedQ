@@ -21,3 +21,5 @@ Rscript Simulation_random_walk/SupplSetting4_NoShared/Simulation_Setting4_NoShar
 ```
 
 Accepted calibration artifacts must have `source_mode = "synthetic_parametric"`. Do not reuse main Setting IV shared artifacts as no-shared results.
+
+Accepted true estimates for this supplementary setting must come from the calibration artifact's saved population-projected `theta`, not directly from the separated target vector. Regenerate them by forcing recalibration (`SETTING4_RECALIBRATE=1`), which rebuilds the target, constructs/calibrates `gamma`, projects the synthetic working Q coefficients on a large Monte Carlo population, saves the resulting `theta`, and then runs production simulations from that artifact.

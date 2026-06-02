@@ -42,3 +42,5 @@ Rscript Simulation_random_walk/Setting4/Simulation_Setting4.R
 Use environment variables such as `SETTING4_NS`, `SETTING4_N_REPS`, `SETTING4_RECALIBRATE`, `SETTING4_CALIBRATION_MC_N`, `SETTING4_CALIBRATION_SEARCH_N`, `SETTING4_CALIBRATION_N_STARTS`, and `SETTING4_CALIBRATION_MAXIT` to control runtime.
 
 Accepted calibration artifacts must have `source_mode = "synthetic_parametric"`. Real-source or source-data-resampling artifacts are invalid for Setting IV method claims.
+
+Accepted true estimates for Setting IV must come from the calibration artifact's saved population-projected `theta`, not directly from the scripted target vector. Regenerate them by forcing recalibration (`SETTING4_RECALIBRATE=1`), which rebuilds `theta_target`, constructs/calibrates `gamma`, projects the synthetic working Q coefficients on a large Monte Carlo population, saves the resulting `theta`, and then runs production simulations from that artifact.

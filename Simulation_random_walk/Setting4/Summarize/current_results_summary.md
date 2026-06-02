@@ -23,6 +23,7 @@
 ## Candidate Calibration
 
 - Source mode: synthetic_parametric
+- True-estimate workflow: target-to-truth synthetic population projection
 - Design source complete consent rows used for aggregate constants: 469
 - Projection Monte Carlo rows: 100000
 - Calibration search rows: 20000
@@ -43,7 +44,7 @@
 
 ## Accepted True Parameters
 
-The accepted production calibration artifact is `calibration_pqff_shared_parsimonious.rds`. Direct calibration matches the target vector to numerical precision.
+The accepted production calibration artifact is `calibration_pqff_shared_parsimonious.rds`. Accepted true estimates are the saved population-projected `theta` values after target-to-truth calibration/projection; do not report the scripted target vector alone.
 
 | Parameter | Accepted true theta |
 | --- | ---: |

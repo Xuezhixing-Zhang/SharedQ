@@ -177,6 +177,8 @@ The `separated_reversed` and `separated_large` rows are retained above as sensit
 
 Setting IV is a two-stage Project Quit / Forever Free randomized-design mimic. It uses the cleaned PQ/FF dataset only to understand the randomized structure and set aggregate constants for a fully synthetic parametric simulation. Production simulation must not resample real participant histories, fit real outcomes, or treat real-source outputs as accepted Setting IV results.
 
+Like the other settings, Setting IV target values are design inputs, not final true estimates. Accepted Setting IV true values must be obtained by the target-to-truth calibration workflow: define `theta_target`, construct/calibrate the outcome-generating `gamma`, generate a large synthetic Monte Carlo population from `gamma`, fit the working Q projection on that population, save the projected `theta` in the calibration artifact, validate the artifact, and only then run production simulations from that artifact. The current synthetic-parametric calibration is direct algebraic calibration, but it is still accepted only through the saved population-projection artifact, not by reporting the scripted target vector alone.
+
 The uploaded local source file is `Simulation_random_walk/Setting4/source_data/cleaned_data.05.21.csv`. It has `1848` rows and `29` columns. The relevant structural checks are:
 
 | Quantity | Value |
@@ -267,7 +269,7 @@ Q2_PQQuit=0.40
 Q2_PQQuit:A_FF=-0.08
 ```
 
-Accepted production/default calibrated true values for Setting IV after the 2026-06-02 synthetic-parametric calibration:
+Accepted production/default calibrated true values for Setting IV after the 2026-06-02 synthetic-parametric target-to-truth calibration/projection:
 
 | Parameter | Accepted true theta |
 | --- | ---: |
@@ -306,7 +308,7 @@ The supplementary no-shared Setting IV uses the same synthetic covariate, transi
 
 The separated default uses the same unshared treatment/intermediate targets as Setting IV. The `pqff_separated_reversed` and `pqff_separated_large` rows are retained as sensitivity target designs only.
 
-Accepted production/default calibrated true values for Supplementary Setting IV No Shared after the 2026-06-02 synthetic-parametric calibration:
+Accepted production/default calibrated true values for Supplementary Setting IV No Shared after the 2026-06-02 synthetic-parametric target-to-truth calibration/projection:
 
 | Parameter | Accepted true theta |
 | --- | ---: |

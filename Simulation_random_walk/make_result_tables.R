@@ -28,7 +28,9 @@ settings <- list(
     result_dir = "Setting1/simulation_results",
     calibration = "Setting1/calibration/calibration_balanced_small.rds",
     kind = "binary_shared",
-    table_group = "main_setting_i"
+    table_group = "main_setting_i",
+    stale_for_reporting = TRUE,
+    status_note = "Superseded by the 2026-06-02 rounded seed-63 `balanced_small` target revision; wait for revised Setting I calibration and production rerun before reporting."
   ),
   Setting2 = list(
     label = "II",
@@ -237,6 +239,9 @@ status_rows <- do.call(rbind, lapply(names(settings), function(setting_key) {
       }
     }
     result_mtime <- if (exists) file.info(result_path)$mtime else as.POSIXct(NA)
+    artifact_current <- exists && !is.na(result_mtime) && !is.na(calibration_mtime) &&
+      result_mtime >= calibration_mtime
+    reporting_current <- artifact_current && !isTRUE(cfg$stale_for_reporting)
     data.frame(
       setting = cfg$name,
       n = n,
@@ -245,10 +250,10 @@ status_rows <- do.call(rbind, lapply(names(settings), function(setting_key) {
       calibration_mtime = as.character(calibration_mtime),
       non_null_reps = non_null_reps,
       expected_reps = expected_reps,
-      current_result = exists && !is.na(result_mtime) && !is.na(calibration_mtime) &&
-        result_mtime >= calibration_mtime,
+      current_result = reporting_current,
       complete = exists && !is.na(non_null_reps) && non_null_reps == expected_reps &&
-        !is.na(result_mtime) && !is.na(calibration_mtime) && result_mtime >= calibration_mtime,
+        reporting_current,
+      status_note = if (!is.null(cfg$status_note)) cfg$status_note else "",
       stringsAsFactors = FALSE
     )
   }))
@@ -288,7 +293,7 @@ if (completed_only) {
 }
 
 if (!all(status_rows$complete)) {
-  incomplete <- status_rows[!status_rows$complete, c("setting", "n", "non_null_reps", "result_mtime", "calibration_mtime", "current_result")]
+  incomplete <- status_rows[!status_rows$complete, c("setting", "n", "non_null_reps", "result_mtime", "calibration_mtime", "current_result", "status_note")]
   message("Production results are incomplete or stale relative to promoted calibration artifacts.")
   print(incomplete, row.names = FALSE)
   if (completed_only) {
@@ -479,7 +484,7 @@ main_report_lines <- c(
   "Table 1: Simulation Results for Setting I. For each setting, we run 200 replicates.",
   "",
   if (nrow(table1_data) == 0L) {
-    "Setting I is still running or incomplete, so Table 1 is pending."
+    "Setting I revised calibration and production are pending, so Table 1 is pending."
   } else {
     markdown_table_lines(table1_data)
   },
@@ -633,7 +638,7 @@ write_simple_docx(
     docx_paragraph("Completed Main Tables", bold = TRUE),
     docx_paragraph("Tables follow the structure of docs/reports_tables_and_figures.docx."),
     docx_paragraph("Table 1: Simulation Results for Setting I. For each setting, we run 200 replicates.", bold = TRUE),
-    if (nrow(table1_data) == 0L) docx_paragraph("Setting I is still running or incomplete, so Table 1 is pending.") else docx_table(table1_data),
+    if (nrow(table1_data) == 0L) docx_paragraph("Setting I revised calibration and production are pending, so Table 1 is pending.") else docx_table(table1_data),
     docx_paragraph("Table 2: Simulation Results for Setting II and III. For each setting, we run 200 replicates.", bold = TRUE),
     docx_table(table2_data),
     docx_paragraph("Table 3: Simulation Results for Setting IV. For each setting, we run 200 replicates.", bold = TRUE),
@@ -647,7 +652,7 @@ write_simple_docx(
     docx_paragraph("Generated Main Tables", bold = TRUE),
     docx_paragraph("Tables follow the structure of docs/reports_tables_and_figures.docx."),
     docx_paragraph("Table 1: Simulation Results for Setting I. For each setting, we run 200 replicates.", bold = TRUE),
-    if (nrow(table1_data) == 0L) docx_paragraph("Setting I is still running or incomplete, so Table 1 is pending.") else docx_table(table1_data),
+    if (nrow(table1_data) == 0L) docx_paragraph("Setting I revised calibration and production are pending, so Table 1 is pending.") else docx_table(table1_data),
     docx_paragraph("Table 2: Simulation Results for Setting II and III. For each setting, we run 200 replicates.", bold = TRUE),
     docx_table(table2_data),
     docx_paragraph("Table 3: Simulation Results for Setting IV. For each setting, we run 200 replicates.", bold = TRUE),
