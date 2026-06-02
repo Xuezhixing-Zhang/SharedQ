@@ -234,6 +234,24 @@ write_setting_summary <- function(setting_name, cfg) {
           ))
         }
       }
+      if (!is.null(cal$theta)) {
+        calibration_detail_lines <- c(
+          calibration_detail_lines,
+          "",
+          "## Accepted True Parameters",
+          "",
+          paste0("The accepted production calibration artifact is `", basename(production_calibration), "`. Direct calibration matches the target vector to numerical precision."),
+          "",
+          "| Parameter | Accepted true theta |",
+          "| --- | ---: |"
+        )
+        for (parameter in names(cal$theta)) {
+          calibration_detail_lines <- c(
+            calibration_detail_lines,
+            paste0("| `", parameter, "` | ", fmt(cal$theta[[parameter]]), " |")
+          )
+        }
+      }
     }
   }
 
