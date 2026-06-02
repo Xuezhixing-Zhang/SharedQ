@@ -41,6 +41,35 @@
 | `Q2_PQMotiv_A_FF` | `Q1_QuitMotiv_A_outcome` | -0.3000 | 0.3200 | -0.6200 | -0.6200 |
 | `Q2_LowEducation_A_FF` | `Q1_LowEducation_A_story` | 0.5000 | -0.2000 | 0.7000 | 0.7000 |
 
+## Accepted True Parameters
+
+The accepted production calibration artifact is `calibration_pqff_separated_parsimonious.rds`. Direct calibration matches the target vector to numerical precision.
+
+| Parameter | Accepted true theta |
+| --- | ---: |
+| `Q2_intercept` | 0.1000 |
+| `Q2_PQQuit` | 0.4000 |
+| `Q2_PQSE` | 0.5500 |
+| `Q2_PQMotiv` | -0.1500 |
+| `Q2_LowEducation` | 0.3000 |
+| `Q2_A_FF` | 0.1200 |
+| `Q2_PQQuit_A_FF` | -0.0800 |
+| `Q2_PQSE_A_FF` | 0.4500 |
+| `Q2_PQMotiv_A_FF` | -0.3000 |
+| `Q2_LowEducation_A_FF` | 0.5000 |
+| `Q1_intercept` | 0.1000 |
+| `Q1_QuitSE` | -0.0500 |
+| `Q1_QuitMotiv` | 0.4500 |
+| `Q1_LowEducation` | -0.2500 |
+| `Q1_A_source` | 0.2000 |
+| `Q1_A_outcome` | 0.0800 |
+| `Q1_A_story` | 0.1800 |
+| `Q1_A_efficacy` | 0.0800 |
+| `Q1_A_multiple` | 0.0200 |
+| `Q1_QuitSE_A_efficacy` | -0.2500 |
+| `Q1_QuitMotiv_A_outcome` | 0.3200 |
+| `Q1_LowEducation_A_story` | -0.2000 |
+
 ## Evaluation Output
 
 - `evaluation_summary.csv` contains mean and standard deviation summaries by setting, sample size, method, and metric.

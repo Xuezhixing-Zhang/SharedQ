@@ -275,6 +275,33 @@ Q2_PQQuit=0.40
 Q2_PQQuit:A_FF=-0.08
 ```
 
+Accepted production/default calibrated true values for Setting IV after the 2026-06-02 synthetic-parametric calibration:
+
+| Parameter | Accepted true theta |
+| --- | ---: |
+| `Q2_intercept` | 0.1000 |
+| `Q2_PQQuit` | 0.4000 |
+| `Q2_PQSE` | 0.3560 |
+| `Q2_PQMotiv` | 0.2389 |
+| `Q2_LowEducation` | -0.0863 |
+| `Q2_A_FF` | 0.1200 |
+| `Q2_PQQuit_A_FF` | -0.0800 |
+| `Q2_PQSE_A_FF` | 0.1116 |
+| `Q2_PQMotiv_A_FF` | 0.1322 |
+| `Q2_LowEducation_A_FF` | 0.1745 |
+| `Q1_intercept` | 0.1000 |
+| `Q1_QuitSE` | 0.4235 |
+| `Q1_QuitMotiv` | 0.2320 |
+| `Q1_LowEducation` | -0.1149 |
+| `Q1_A_source` | 0.2000 |
+| `Q1_A_outcome` | 0.0800 |
+| `Q1_A_story` | 0.1800 |
+| `Q1_A_efficacy` | 0.0800 |
+| `Q1_A_multiple` | 0.0200 |
+| `Q1_QuitSE_A_efficacy` | 0.1229 |
+| `Q1_QuitMotiv_A_outcome` | 0.1601 |
+| `Q1_LowEducation_A_story` | 0.2000 |
+
 ## Supplementary Setting IV No Shared
 
 The supplementary no-shared Setting IV uses the same synthetic covariate, transition, treatment, outcome, and working Q-model structure as Setting IV. It changes only the target Q-parameter pattern: the Setting IV analogue groups are intentionally separated rather than shared.
@@ -286,6 +313,33 @@ The supplementary no-shared Setting IV uses the same synthetic covariate, transi
 | `pqff_separated_large` | 703 | `Q2_PQSE=0.75`, `Q1_QuitSE=-0.25`; `Q2_PQMotiv=-0.35`, `Q1_QuitMotiv=0.65`; `Q2_LowEducation=0.50`, `Q1_LowEducation=-0.45`; `Q2_PQSE:A_FF=0.65`, `Q1_QuitSE:A_efficacy=-0.45`; `Q2_PQMotiv:A_FF=-0.50`, `Q1_QuitMotiv:A_outcome=0.52`; `Q2_LowEducation:A_FF=0.72`, `Q1_LowEducation:A_story=-0.40` |
 
 The separated default uses the same unshared treatment/intermediate targets as Setting IV. The `pqff_separated_reversed` and `pqff_separated_large` rows are retained as sensitivity target designs only.
+
+Accepted production/default calibrated true values for Supplementary Setting IV No Shared after the 2026-06-02 synthetic-parametric calibration:
+
+| Parameter | Accepted true theta |
+| --- | ---: |
+| `Q2_intercept` | 0.1000 |
+| `Q2_PQQuit` | 0.4000 |
+| `Q2_PQSE` | 0.5500 |
+| `Q2_PQMotiv` | -0.1500 |
+| `Q2_LowEducation` | 0.3000 |
+| `Q2_A_FF` | 0.1200 |
+| `Q2_PQQuit_A_FF` | -0.0800 |
+| `Q2_PQSE_A_FF` | 0.4500 |
+| `Q2_PQMotiv_A_FF` | -0.3000 |
+| `Q2_LowEducation_A_FF` | 0.5000 |
+| `Q1_intercept` | 0.1000 |
+| `Q1_QuitSE` | -0.0500 |
+| `Q1_QuitMotiv` | 0.4500 |
+| `Q1_LowEducation` | -0.2500 |
+| `Q1_A_source` | 0.2000 |
+| `Q1_A_outcome` | 0.0800 |
+| `Q1_A_story` | 0.1800 |
+| `Q1_A_efficacy` | 0.0800 |
+| `Q1_A_multiple` | 0.0200 |
+| `Q1_QuitSE_A_efficacy` | -0.2500 |
+| `Q1_QuitMotiv_A_outcome` | 0.3200 |
+| `Q1_LowEducation_A_story` | -0.2000 |
 
 ## Superseded Files
 
